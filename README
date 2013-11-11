@@ -1,0 +1,16 @@
+This layer depends on:
+
+URI: git://github.com/openembedded/oe-core.git
+branch: master
+revision: HEAD
+
+URI: git://github.com/openembedded/meta-oe.git
+branch: master
+revision: HEAD
+
+And maybe some others. TBD.
+
+Send pull requests to philip@balister.org.
+
+Layer maintainer: Philip Balister <philip@balister.org>
+
