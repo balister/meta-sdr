@@ -7,8 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 DEPENDS = "gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native orc"
 
-DEFAULT_PREFERENCE = "-1"
-
 #Available PACKAGECONFIG options are qt grc uhd
 PACKAGECONFIG ??= "qtgui grc uhd"
 
