@@ -42,7 +42,6 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     iperf \
     openssh-sftp \
     openssh-sftp-server \
-    ctest \
     fftwf \
     "
 
