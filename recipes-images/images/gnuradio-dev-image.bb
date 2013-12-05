@@ -17,7 +17,33 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
     nativesdk-python-xml nativesdk-python-compile"
 
 CORE_IMAGE_EXTRA_INSTALL = "\
+    gnuradio-analog \
+    gnuradio-audio \
+    gnuradio-blocks \
+    gnuradio-channels \
+    gnuradio-digital \
+    gnuradio-fec \
+    gnuradio-fft \
+    gnuradio-filter \
+    gnuradio-gr \
+    gnuradio-grc \
+    gnuradio-gru \
+    gnuradio-gr-utils \
+    gnuradio-modtool \
+    gnuradio-noaa \
+    gnuradio-pmt \
+    gnuradio-qtgui \
+    gnuradio-runtime \
+    gnuradio-trellis \
+    gnuradio-uhd \
+    gnuradio-vocoder \
+    gnuradio-volk \
+    gnuradio-wavelet \
+    gnuradio-examples \
     gnuradio \
+    gnuradio-dev \
+    gr-osmosdr \
+    rtl-sdr \
     alsa-utils \
     i2c-tools \
     screen \
