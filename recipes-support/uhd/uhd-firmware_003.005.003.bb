@@ -1,4 +1,4 @@
-DESCRIPTION = "Universal Hardware Driver Firmware"
+SUMMARY = "Universal Hardware Driver Firmware"
 HOMEPAGE = "http://www.ettus.com"
 
 PE = "1"

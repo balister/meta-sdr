@@ -1,4 +1,4 @@
-DESCRIPTION = "Software to turn the RTL2832U into a SDR"
+SUMMARY = "Software to turn the RTL2832U into a SDR"
 HOMEPAGE = "http://sdr.osmocom.org/trac/wiki/rtl-sdr"
 
 LICENSE = "GPLv2"

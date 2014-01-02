@@ -1,7 +1,6 @@
-DESCRIPTION = "osmocomSDR gnuradio block set"
+SUMMARY = "OsmocomSDR gnuradio block set"
 HOMEPAGE = "http://sdr.osmocom.org/trac/wiki/GrOsmoSDR"
 LICENSE = "GPLv3"
-SECTION =  "apps"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "gnuradio uhd rtl-sdr"
