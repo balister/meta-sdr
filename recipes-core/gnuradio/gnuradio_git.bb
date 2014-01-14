@@ -38,7 +38,7 @@ do_configure_prepend() {
 }
 
 do_compile_prepend() {
-    cp ${S}/gr-vocoder/lib/codec2/defines.h ${OECMAKE_BUILDPATH}/gr-vocoder/lib/codec2
+    cp ${S}/gr-vocoder/lib/codec2/defines.h ${B}/gr-vocoder/lib/codec2
 }
 
 ALLOW_EMPTY_${PN} = "1"
@@ -170,12 +170,7 @@ GIT_BRANCH = "master"
 SRC_URI = "git://git.gnuradio.org/git/gnuradio.git;branch=${GIT_BRANCH};protocol=http \
 "
 
-#           file://0001-gr-trellis-Kill-docs-hard.patch 
-
 S="${WORKDIR}/git"
-
-OECMAKE_BUILDPATH = "${S}/build"
-OECMAKE_SOURCEPATH = "${S}"
 
 EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  -DENABLE_GR_FCD=OFF \
@@ -193,6 +188,4 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
 "
 
 inherit distutils-base cmake pkgconfig
-
-EXTRA_OEMAKE = "-C ${OECMAKE_BUILDPATH}"
 
