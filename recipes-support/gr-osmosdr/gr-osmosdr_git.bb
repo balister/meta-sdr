@@ -13,11 +13,6 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
 
-OECMAKE_BUILDPATH = "${S}/build"
-OECMAKE_SOURCEPATH = "${S}"
-
-EXTRA_OEMAKE = "-C ${OECMAKE_BUILDPATH}"
-
 PV = "0.1.0+git"
 
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
