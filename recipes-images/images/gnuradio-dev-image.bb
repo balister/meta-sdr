@@ -3,7 +3,7 @@ environment suitable for building GNURadio installed."
 
 IMAGE_FEATURES += "splash ssh-server-openssh tools-sdk \
                    tools-debug debug-tweaks \
-                   dev-pkgs dbg-pkgs \
+                   dev-pkgs \
                   "
 
 EXTRA_IMAGE_FEATURES += "package-management"
