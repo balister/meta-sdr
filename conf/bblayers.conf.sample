@@ -14,5 +14,7 @@ BBLAYERS ?= " \
   ##COREBASE##/../meta-oe/meta-networking \
   ##COREBASE##/../meta-oe/meta-filesystems \
   ##COREBASE##/../meta-sdr \
+  ##COREBASE##/../meta-fsl-arm \
+  ##COREBASE##/../meta-fsl-arm-extra \
   "
 
