@@ -49,6 +49,7 @@ DEFAULTTUNE_ettus-e100 = "armv7athf-neon"
 DEFAULTTUNE_zedboard-zynq7 = "armv7athf-neon"
 DEFAULTTUNE_odroid-xu = "armv7athf-neon"
 DEFAULTTUNE_nitrogen6x = "armv7athf-neon"
+DEFAULTTUNE_keystone-evm = "armv7athf-neon"
 
 #
 # Where to place downloads

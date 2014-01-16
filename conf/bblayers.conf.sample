@@ -16,5 +16,6 @@ BBLAYERS ?= " \
   ##COREBASE##/../meta-sdr \
   ##COREBASE##/../meta-fsl-arm \
   ##COREBASE##/../meta-fsl-arm-extra \
+  ##COREBASE##/../meta-ti \
   "
 
