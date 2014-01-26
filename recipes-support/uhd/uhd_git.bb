@@ -21,20 +21,15 @@ FILES_${PN}-dbg += "${libdir}/uhd/examples/.debug/* \
                     ${libdir}/uhd/usrp_e_utils/.debug/*"
 FILES_${PN}-examples = "${libdir}/uhd/examples/*"
 
-OECMAKE_BUILDPATH = "${S}/build"
-OECMAKE_SOURCEPATH = "${S}"
-
 PACKAGECONFIG ??= ""
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc"
 
 EXTRA_OECMAKE = "-DENABLE_E100=TRUE"
 
-#EXTRA_OEMAKE = "-C ${OECMAKE_BUILDPATH}"
-
-PV = "3.6.1+3.6.2-rc2"
+PV = "3.6.2"
 
 SRC_URI = "git://github.com/EttusResearch/uhd.git;branch=master \
           "
 S = "${WORKDIR}/git/host"
 
-SRCREV = "92b0b7ab6b8fcc795612054a07064351aa969e3a"
+SRCREV = "09bd61ccac69f7467092678b8e0a421403fff943"
