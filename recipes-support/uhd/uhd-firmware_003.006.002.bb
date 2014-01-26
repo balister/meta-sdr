@@ -20,6 +20,8 @@ do_install() {
     install -d ${D}${datadir}/uhd/images/winusb_driver
     install -d ${D}${datadir}/uhd/images/winusb_driver/amd64
     install -d ${D}${datadir}/uhd/images/winusb_driver/x86
+    install -m 0644 ${S}/share/uhd/images/bit/* ${D}${datadir}/uhd/images/bit
+    rm -rf ${S}/share/uhd/images/bit
     install -m 0644 ${S}/share/uhd/images/winusb_driver/amd64/* ${D}${datadir}/uhd/images/winusb_driver/amd64
     install -m 0644 ${S}/share/uhd/images/winusb_driver/x86/* ${D}${datadir}/uhd/images/winusb_driver/x86
     rm -rf ${S}/share/uhd/images/winusb_driver/amd64
