@@ -47,9 +47,18 @@ index 36af975..15c7c8e 100644
 \ No newline at end of file
 +	fi
 diff --git a/cpp/config/Make.rules b/cpp/config/Make.rules
-index c743143..7712ebd 100644
+index c743143..7363853 100644
 --- a/cpp/config/Make.rules
 +++ b/cpp/config/Make.rules
+@@ -17,7 +17,7 @@ prefix			?= /opt/Ice-$(VERSION)
+ # The "root directory" for runpath embedded in executables. Can be unset
+ # to avoid adding a runpath to Ice executables.
+ #
+-embedded_runpath_prefix ?= /opt/Ice-$(VERSION_MAJOR).$(VERSION_MINOR)
++#embedded_runpath_prefix ?= /opt/Ice-$(VERSION_MAJOR).$(VERSION_MINOR)
+ 
+ #
+ # Define create_runpath_symlink as yes if you would like 'make install'
 @@ -187,10 +187,10 @@ endif
  include	 $(top_srcdir)/config/Make.rules.$(UNAME)
  
@@ -151,6 +160,104 @@ index 51dab34..0aca831 100644
 -endif
 \ No newline at end of file
 +endif
+diff --git a/cpp/demo/Freeze/backup/Makefile b/cpp/demo/Freeze/backup/Makefile
+index 212e97e..3237f5a 100644
+--- a/cpp/demo/Freeze/backup/Makefile
++++ b/cpp/demo/Freeze/backup/Makefile
+@@ -32,7 +32,7 @@ $(CLIENT): $(OBJS) $(COBJS)
+ IntLongMap.h: IntLongMap.cpp
+ IntLongMap.cpp: $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f IntLongMap.h IntLongMap.cpp
+-	$(SLICE2FREEZE) -I$(slicedir) --dict IntLongMap,int,long IntLongMap
++	slice2freeze -I$(slicedir) --dict IntLongMap,int,long IntLongMap
+ 
+ clean::
+ 	-rm -f IntLongMap.h IntLongMap.cpp
+diff --git a/cpp/demo/Freeze/bench/Makefile b/cpp/demo/Freeze/bench/Makefile
+index f4a848e..7d0d24d 100644
+--- a/cpp/demo/Freeze/bench/Makefile
++++ b/cpp/demo/Freeze/bench/Makefile
+@@ -32,7 +32,7 @@ $(CLIENT): $(OBJS) $(COBJS)
+ BenchTypes.h: BenchTypes.cpp
+ BenchTypes.cpp: Test.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f BenchTypes.h BenchTypes.cpp
+-	$(SLICE2FREEZE) -I$(slicedir) --dict Demo::IntIntMap,int,int --dict Demo::Struct1Struct2Map,Demo::Struct1,Demo::Struct2 \
++	slice2freeze -I$(slicedir) --dict Demo::IntIntMap,int,int --dict Demo::Struct1Struct2Map,Demo::Struct1,Demo::Struct2 \
+ 	--dict Demo::Struct1Class1Map,Demo::Struct1,Demo::Class1 \
+ 	--dict Demo::Struct1ObjectMap,Demo::Struct1,Object \
+         --dict Demo::IndexedIntIntMap,int,int --dict-index Demo::IndexedIntIntMap \
+diff --git a/cpp/demo/Freeze/customEvictor/Makefile b/cpp/demo/Freeze/customEvictor/Makefile
+index 9ba07de..a055ffc 100644
+--- a/cpp/demo/Freeze/customEvictor/Makefile
++++ b/cpp/demo/Freeze/customEvictor/Makefile
+@@ -50,7 +50,7 @@ $(SERVER): $(OBJS) $(SOBJS)
+ Database.h: Database.cpp
+ Database.cpp: ItemInfo.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f Database.h Database.cpp
+-	$(SLICE2FREEZE) -I$(slicedir) --dict Database,string,Warehouse::ItemInfo Database ItemInfo.ice
++	slice2freeze -I$(slicedir) --dict Database,string,Warehouse::ItemInfo Database ItemInfo.ice
+ 
+ clean::
+ 	-rm -rf db/__* db/items db/log* db/__Freeze
+diff --git a/cpp/demo/Freeze/library/Makefile b/cpp/demo/Freeze/library/Makefile
+index 1940d65..2108187 100644
+--- a/cpp/demo/Freeze/library/Makefile
++++ b/cpp/demo/Freeze/library/Makefile
+@@ -66,7 +66,7 @@ $(COLLOCATED): $(OBJS) $(COLOBJS)
+ LibraryTypes.h: LibraryTypes.cpp
+ LibraryTypes.cpp: Library.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f LibraryTypes.h LibraryTypes.cpp
+-	$(SLICE2FREEZE) --ice -I$(slicedir) --dict StringIsbnSeqDict,string,Ice::StringSeq LibraryTypes $(slicedir)/Ice/BuiltinSequences.ice Library.ice
++	slice2freeze --ice -I$(slicedir) --dict StringIsbnSeqDict,string,Ice::StringSeq LibraryTypes $(slicedir)/Ice/BuiltinSequences.ice Library.ice
+ 
+ clean::
+ 	-rm -rf db/*
+diff --git a/cpp/demo/Freeze/phonebook/Makefile b/cpp/demo/Freeze/phonebook/Makefile
+index 47d78d0..499a262 100644
+--- a/cpp/demo/Freeze/phonebook/Makefile
++++ b/cpp/demo/Freeze/phonebook/Makefile
+@@ -66,7 +66,7 @@ $(COLLOCATED): $(OBJS) $(COLOBJS)
+ NameIndex.h: NameIndex.cpp
+ NameIndex.cpp: PhoneBook.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f NameIndex.h NameIndex.cpp
+-	$(SLICE2FREEZE) $(ICECPPFLAGS) --index NameIndex,Demo::Contact,name,case-insensitive NameIndex PhoneBook.ice
++	slice2freeze $(ICECPPFLAGS) --index NameIndex,Demo::Contact,name,case-insensitive NameIndex PhoneBook.ice
+ 
+ clean::
+ 	-rm -f NameIndex.h NameIndex.cpp
+diff --git a/cpp/demo/Freeze/transform/Makefile b/cpp/demo/Freeze/transform/Makefile
+index 3039c90..669c6fd 100644
+--- a/cpp/demo/Freeze/transform/Makefile
++++ b/cpp/demo/Freeze/transform/Makefile
+@@ -53,13 +53,13 @@ $(RECREATE): $(RECREATE_OBJS)
+ Contacts.h: Contacts.cpp
+ Contacts.cpp: ContactData.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f Contacts.h Contacts.cpp
+-	$(SLICE2FREEZE) -I$(slicedir) --dict Demo::Contacts,string,Demo::ContactData,sort \
++	slice2freeze -I$(slicedir) --dict Demo::Contacts,string,Demo::ContactData,sort \
+               --dict-index Demo::Contacts,phoneNumber,sort Contacts ContactData.ice
+ 
+ NewContacts.h: NewContacts.cpp
+ NewContacts.cpp: NewContactData.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f NewContacts.h NewContacts.cpp
+-	$(SLICE2FREEZE) -I$(slicedir) --dict Demo::NewContacts,string,Demo::ContactData,sort \
++	slice2freeze -I$(slicedir) --dict Demo::NewContacts,string,Demo::ContactData,sort \
+               --dict-index Demo::NewContacts,phoneNumber,sort NewContacts NewContactData.ice
+ 
+ cleandb::
+diff --git a/cpp/demo/book/map_filesystem/Makefile b/cpp/demo/book/map_filesystem/Makefile
+index 4be8ce8..26b5f70 100644
+--- a/cpp/demo/book/map_filesystem/Makefile
++++ b/cpp/demo/book/map_filesystem/Makefile
+@@ -49,7 +49,7 @@ $(SERVER): $(OBJS) $(SOBJS)
+ IdentityFileEntryMap.h: IdentityFileEntryMap.cpp
+ IdentityFileEntryMap.cpp: FilesystemDB.ice Filesystem.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f IdentityFileEntryMap.h IdentityFileEntryMap.cpp
+-	$(SLICE2FREEZE) -I$(slicedir) -I. --ice \
++	slice2freeze -I$(slicedir) -I. --ice \
+ 	    --dict FilesystemDB::IdentityFileEntryMap,Ice::Identity,FilesystemDB::FileEntry \
+ 	    IdentityFileEntryMap FilesystemDB.ice  $(slicedir)/Ice/Identity.ice
+ clean::
 diff --git a/cpp/src/Freeze/Makefile b/cpp/src/Freeze/Makefile
 index e7c1076..03e5e37 100644
 --- a/cpp/src/Freeze/Makefile
@@ -186,6 +293,56 @@ index 43aecd8..04e03e3 100644
  
  include $(top_srcdir)/config/Make.rules
  
+diff --git a/cpp/test/Freeze/complex/Makefile b/cpp/test/Freeze/complex/Makefile
+index 46ad111..33650f9 100644
+--- a/cpp/test/Freeze/complex/Makefile
++++ b/cpp/test/Freeze/complex/Makefile
+@@ -37,7 +37,7 @@ $(CLIENT): $(OBJS)
+ ComplexDict.h: ComplexDict.cpp
+ ComplexDict.cpp: Complex.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f ComplexDict.h ComplexDict.cpp
+-	$(SLICE2FREEZE) -I$(slicedir) --dict Complex::ComplexDict,Complex::Key,Complex::Node ComplexDict Complex.ice
++	slice2freeze -I$(slicedir) --dict Complex::ComplexDict,Complex::Key,Complex::Node ComplexDict Complex.ice
+ 
+ clean::
+ 	-rm -f ComplexDict.h ComplexDict.cpp
+diff --git a/cpp/test/Freeze/dbmap/Makefile b/cpp/test/Freeze/dbmap/Makefile
+index e0bcf91..bc83bd1 100644
+--- a/cpp/test/Freeze/dbmap/Makefile
++++ b/cpp/test/Freeze/dbmap/Makefile
+@@ -37,27 +37,27 @@ $(CLIENT): $(OBJS)
+ ByteIntMap.h: ByteIntMap.cpp
+ ByteIntMap.cpp: $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f ByteIntMap.h ByteIntMap.cpp
+-	$(SLICE2FREEZE) --dict Test::ByteIntMap,byte,int --dict-index "Test::ByteIntMap,sort" ByteIntMap
++	slice2freeze --dict Test::ByteIntMap,byte,int --dict-index "Test::ByteIntMap,sort" ByteIntMap
+ 
+ IntIdentityMap.h: IntIdentityMap.cpp
+ IntIdentityMap.cpp: $(slicedir)/Ice/Identity.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f IntIdentityMap.h IntIdentityMap.cpp
+-	$(SLICE2FREEZE) --ice $(SLICE2CPPFLAGS)  --dict Test::IntIdentityMap,int,Ice::Identity IntIdentityMap $(slicedir)/Ice/Identity.ice
++	slice2freeze --ice $(SLICE2CPPFLAGS)  --dict Test::IntIdentityMap,int,Ice::Identity IntIdentityMap $(slicedir)/Ice/Identity.ice
+ 
+ IntIdentityMapWithIndex.h: IntIdentityMapWithIndex.cpp
+ IntIdentityMapWithIndex.cpp: $(slicedir)/Ice/Identity.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f IntIdentityMapWithIndex.h IntIdentityMapWithIndex.cpp
+-	$(SLICE2FREEZE) --ice $(SLICE2CPPFLAGS) --dict Test::IntIdentityMapWithIndex,int,Ice::Identity --dict-index Test::IntIdentityMapWithIndex,category IntIdentityMapWithIndex $(slicedir)/Ice/Identity.ice
++	slice2freeze --ice $(SLICE2CPPFLAGS) --dict Test::IntIdentityMapWithIndex,int,Ice::Identity --dict-index Test::IntIdentityMapWithIndex,category IntIdentityMapWithIndex $(slicedir)/Ice/Identity.ice
+ 
+ SortedMap.h: SortedMap.cpp
+ SortedMap.cpp: $(slicedir)/Ice/Identity.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f SortedMap.h SortedMap.cpp
+-	$(SLICE2FREEZE)  --ice $(SLICE2CPPFLAGS) --dict Test::SortedMap,int,Ice::Identity,sort SortedMap --dict-index "Test::SortedMap,category,sort,std::greater<std::string>" $(slicedir)/Ice/Identity.ice
++	slice2freeze  --ice $(SLICE2CPPFLAGS) --dict Test::SortedMap,int,Ice::Identity,sort SortedMap --dict-index "Test::SortedMap,category,sort,std::greater<std::string>" $(slicedir)/Ice/Identity.ice
+ 
+ WstringWstringMap.h: WstringWstringMap.cpp
+ WstringWstringMap.cpp: $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f WstringWstringMap.h WstringWstringMap.cpp
+-	$(SLICE2FREEZE) --dict 'Test::WstringWstringMap,["cpp:type:wstring"]string,["cpp:type:wstring"]string' --dict-index Test::WstringWstringMap WstringWstringMap
++	slice2freeze --dict 'Test::WstringWstringMap,["cpp:type:wstring"]string,["cpp:type:wstring"]string' --dict-index Test::WstringWstringMap WstringWstringMap
+ 
+ clean::
+ 	-rm -f ByteIntMap.h ByteIntMap.cpp
 diff --git a/py/Makefile b/py/Makefile
 index 47c45fa..0a2c2c0 100644
 --- a/py/Makefile

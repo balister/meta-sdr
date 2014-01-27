@@ -12,22 +12,6 @@ SRC_URI = "http://www.zeroc.com/download/Ice/3.5/Ice-${PV}.tar.gz \
            file://cross-makefile.patch \
           "
 
-#	file://20-kfreebsd.patch 
-#	file://20-missing-monotonic.patch 
-#	file://30-bashisms-cs-makefile.patch 
-#	file://10-build-qt-sql.patch 
-#	file://05-lightweight-cpp-make.patch 
-#	file://10-debug-flags.patch 
-#	file://10-java-policy.patch 
-#	file://10-install-pylibdir.patch 
-#	file://10-install-rblibdir.patch 
-#	file://10-install-clibindir.patch 
-#	file://archs.patch 
-#	file://libdb5.1.patch 
-#	file://ptrdiff_t-gcc-4.6.patch 
-#	file://cpp-make-rules.patch 
-#	file://make-cross.patch" 
-
 SRC_URI[md5sum] = "a79d4fc17a6774fcf47950694fad99cb"
 SRC_URI[sha256sum] = "bbde6b5a87f5abc8d9105468731f1419829bc22b5d23b8fdef553967a2eebdb0"
 
