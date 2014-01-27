@@ -14,10 +14,18 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
     nativesdk-python-netserver nativesdk-python-pprint \
     nativesdk-python-pickle nativesdk-python-shell \
     nativesdk-orc nativesdk-swig nativesdk-python-distutils \
-    nativesdk-python-xml nativesdk-python-compile"
+    nativesdk-python-xml nativesdk-python-compile \
+    nativesdk-python-subprocess nativesdk-python-threading \
+    nativesdk-python-dev nativesdk-git nativesdk-mcpp \
+    nativesdk-db \
+    "
 
 CORE_IMAGE_EXTRA_INSTALL = "\
     gnuradio \
+    db-dev \
+    mcpp \
+    bzip2 \
+    openssl-dev \
     alsa-utils \
     i2c-tools \
     screen \
@@ -34,10 +42,12 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     python-argparse \
     python-distutils \
     python-numpy \
+    python-xml \
     htop \
     sshfs-fuse \
     glib-2.0 \
     orc \
+    orc-dev \
     libudev \
     iperf \
     openssh-sftp \

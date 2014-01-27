@@ -8,7 +8,8 @@ DEPENDS = "gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native orc"
 
 #Available PACKAGECONFIG options are qt grc uhd
-PACKAGECONFIG ??= "qtgui grc uhd"
+PACKAGECONFIG ??= ""
+#PACKAGECONFIG ??= "qtgui grc uhd"
 
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
