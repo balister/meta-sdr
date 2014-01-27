@@ -4,8 +4,6 @@ PR = "r0"
 
 LIC_FILES_CHKSUM = "file://ICE_LICENSE;md5=3dc3037023cc2ae6b2c5b995da529515"
 
-PARALLEL_MAKE = ""
-
 DEPENDS += "bzip2 mcpp expat openssl python zeroc-slice-native"
 
 SRC_URI = "http://www.zeroc.com/download/Ice/3.5/Ice-${PV}.tar.gz \

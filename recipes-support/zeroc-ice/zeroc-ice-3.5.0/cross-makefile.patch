@@ -95,7 +95,7 @@ index c743143..7363853 100644
  #%.h %.cpp: %.y
  #	rm -f $(*F).h $(*F).cpp
 diff --git a/cpp/config/Make.rules.Linux b/cpp/config/Make.rules.Linux
-index 51dab34..0aca831 100644
+index 51dab34..49f570e 100644
 --- a/cpp/config/Make.rules.Linux
 +++ b/cpp/config/Make.rules.Linux
 @@ -23,15 +23,6 @@ endif
@@ -131,7 +131,7 @@ index 51dab34..0aca831 100644
  
     ifneq ($(GENPIC),no)
        CXXFLAGS		+= -fPIC
-@@ -94,11 +77,11 @@ ifeq ($(CXX),g++)
+@@ -94,23 +77,22 @@ ifeq ($(CXX),g++)
     #
     # C++ run-time libraries, necessary for linking some shared libraries.
     #
@@ -145,7 +145,12 @@ index 51dab34..0aca831 100644
  
     rpathlink            = -Wl,-rpath-link,$(1) 
  
-@@ -110,7 +93,6 @@ ifeq ($(CXX),g++)
+    ifneq ($(embedded_runpath_prefix),)
+       LDPLATFORMFLAGS      = -Wl,--enable-new-dtags -Wl,-rpath,$(runpath_libdir)
+    else
+-      LDPLATFORMFLAGS      = -Wl,--enable-new-dtags
++      LDPLATFORMFLAGS      = -Wl,--enable-new-dtags -Wl,-rpath,../../../lib
+    endif
  
     LDPLATFORMFLAGS	+= -rdynamic
  
@@ -246,7 +251,7 @@ index 3039c90..669c6fd 100644
  
  cleandb::
 diff --git a/cpp/demo/book/map_filesystem/Makefile b/cpp/demo/book/map_filesystem/Makefile
-index 4be8ce8..26b5f70 100644
+index 4be8ce8..4be09ac 100644
 --- a/cpp/demo/book/map_filesystem/Makefile
 +++ b/cpp/demo/book/map_filesystem/Makefile
 @@ -49,7 +49,7 @@ $(SERVER): $(OBJS) $(SOBJS)
@@ -257,6 +262,15 @@ index 4be8ce8..26b5f70 100644
 +	slice2freeze -I$(slicedir) -I. --ice \
  	    --dict FilesystemDB::IdentityFileEntryMap,Ice::Identity,FilesystemDB::FileEntry \
  	    IdentityFileEntryMap FilesystemDB.ice  $(slicedir)/Ice/Identity.ice
+ clean::
+@@ -58,7 +58,7 @@ clean::
+ IdentityDirectoryEntryMap.h: IdentityDirectoryEntryMap.cpp
+ IdentityDirectoryEntryMap.cpp: FilesystemDB.ice Filesystem.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f IdentityDirectoryEntryMap.h IdentityDirectoryEntryMap.cpp
+-	$(SLICE2FREEZE) -I$(slicedir) -I. --ice \
++	slice2freeze -I$(slicedir) -I. --ice \
+ 	    --dict FilesystemDB::IdentityDirectoryEntryMap,Ice::Identity,FilesystemDB::DirectoryEntry \
+ 	    IdentityDirectoryEntryMap FilesystemDB.ice  $(slicedir)/Ice/Identity.ice
  clean::
 diff --git a/cpp/src/Freeze/Makefile b/cpp/src/Freeze/Makefile
 index e7c1076..03e5e37 100644
@@ -279,6 +293,19 @@ index e7c1076..03e5e37 100644
 +	slice2freeze $(SLICE2CPPFLAGS) --dict Freeze::CatalogIndexList,string,Ice::StringSeq \
  	CatalogIndexList ../../../slice/Ice/BuiltinSequences.ice
  	mv CatalogIndexList.h $(HDIR)/CatalogIndexList.h
+ 
+diff --git a/cpp/src/IceGrid/FreezeDB/Makefile b/cpp/src/IceGrid/FreezeDB/Makefile
+index f529c4f..050b5c2 100644
+--- a/cpp/src/IceGrid/FreezeDB/Makefile
++++ b/cpp/src/IceGrid/FreezeDB/Makefile
+@@ -30,7 +30,7 @@ SRCS		= $(OBJS:.o=.cpp)
+ HDIR		= $(headerdir)/IceGrid
+ SDIR		= $(slicedir)/IceGrid
+ 
+-SLICE2FREEZECMD = $(SLICE2FREEZE) --ice --include-dir IceGrid/FreezeDB $(ICECPPFLAGS)
++SLICE2FREEZECMD = slice2freeze --ice --include-dir IceGrid/FreezeDB $(ICECPPFLAGS)
+ 
+ include $(top_srcdir)/config/Make.rules
  
 diff --git a/cpp/src/IceStorm/FreezeDB/Makefile b/cpp/src/IceStorm/FreezeDB/Makefile
 index 43aecd8..04e03e3 100644
@@ -343,19 +370,19 @@ index e0bcf91..bc83bd1 100644
  
  clean::
  	-rm -f ByteIntMap.h ByteIntMap.cpp
-diff --git a/py/Makefile b/py/Makefile
-index 47c45fa..0a2c2c0 100644
---- a/py/Makefile
-+++ b/py/Makefile
-@@ -17,7 +17,7 @@ install:: install-common
- 	@if test ! -d $(install_pythondir) ; \
- 	then \
- 	    echo "Creating $(install_pythondir)..." ; \
--	    $(call mkdir,$(install_pythondir)) ; \
-+	    $(call mkdir,$(install_pythondir) -p) ; \
- 	fi
+diff --git a/cpp/test/FreezeScript/dbmap/Makefile b/cpp/test/FreezeScript/dbmap/Makefile
+index 50fd115..3c66b67 100644
+--- a/cpp/test/FreezeScript/dbmap/Makefile
++++ b/cpp/test/FreezeScript/dbmap/Makefile
+@@ -34,7 +34,7 @@ $(CLIENT): $(OBJS)
+ IntSMap.h: IntSMap.cpp
+ IntSMap.cpp: TestOld.ice $(SLICE2FREEZE) $(SLICEPARSERLIB)
+ 	rm -f IntSMap.h IntSMap.cpp
+-	$(SLICE2FREEZE) --dict IntSMap,int,::Test::S IntSMap TestOld.ice
++	slice2freeze --dict IntSMap,int,::Test::S IntSMap TestOld.ice
  
- $(EVERYTHING)::
+ clean::
+ 	-rm -f IntSMap.h IntSMap.cpp
 diff --git a/py/config/Make.rules b/py/config/Make.rules
 index 1512d48..71d31b7 100644
 --- a/py/config/Make.rules
