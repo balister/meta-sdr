@@ -172,6 +172,9 @@ SRC_URI = "git://git.gnuradio.org/git/gnuradio.git;branch=${GIT_BRANCH};protocol
 
 S="${WORKDIR}/git"
 
+OECMAKE_BUILDPATH = "${S}/build"
+OECMAKE_SOURCEPATH = "${S}"
+
 EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  -DENABLE_GR_FCD=OFF \
                  -DENABLE_GR_WXGUI=OFF \
