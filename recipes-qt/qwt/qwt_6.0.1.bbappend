@@ -1,0 +1,3 @@
+
+INHIBIT_PACKAGE_STRIP ="1"
+
