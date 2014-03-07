@@ -13,6 +13,7 @@ SRC_URI[md5sum] = "81be16f9195c553f55fc1f5fc0daaddb"
 SRC_URI[sha256sum] = "2e04a1ca577b207e1975ae31dce8bc541a0d08d0ca06ce17991e27da7a3a514c"
 
 S = "${WORKDIR}/uhd-images_${PV}-release"
+B = "${S}"
 
 do_install() {
     install -d ${D}${datadir}/uhd/images
