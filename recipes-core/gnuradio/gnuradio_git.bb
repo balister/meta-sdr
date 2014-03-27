@@ -167,7 +167,7 @@ SRCREV = "3fa56a46fb91dabbc4973f9d3983639a88c12d6c"
 # Make it easy to test against branches
 GIT_BRANCH = "master"
 
-SRC_URI = "git://git.gnuradio.org/git/gnuradio.git;branch=${GIT_BRANCH};protocol=http \
+SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
 "
 
 S="${WORKDIR}/git"
