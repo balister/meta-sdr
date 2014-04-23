@@ -7,12 +7,13 @@ DEPENDS = "gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native orc"
 
 #Available PACKAGECONFIG options are qt grc uhd
-PACKAGECONFIG ??= "qtgui grc uhd"
+PACKAGECONFIG ??= "qtgui grc uhd zeroc-ice"
 
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
 
 PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt, "
+PACKAGECONFIG[zeroc-ice] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,zeroc-ice, "
 
 
 inherit distutils-base cmake pkgconfig
