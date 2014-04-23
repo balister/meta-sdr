@@ -144,7 +144,7 @@ python populate_packages_prepend() {
                       allow_links=True)
 
     # Development packages (-dev)
-    do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)(?:|\-3\.7\.0)\.so$',
+    pkgs=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)(?:|\-3\.7\.0)\.so$',
                       output_pattern='lib%s-dev',
                       description='gnuradio %s development package',
                       extra_depends='${PN}-dev',
@@ -155,7 +155,8 @@ python populate_packages_prepend() {
                       description='gnuradio %s development package',
                       extra_depends='${PN}-dev',
                       prepend=True)
-
+    if pkgs:
+        d.appendVar('RDEPENDS_${PN}-dev', ' '+' '.join(pkgs))
 }
 
 PV = "3.7.2+git${SRCREV}"
@@ -167,7 +168,7 @@ SRCREV = "3fa56a46fb91dabbc4973f9d3983639a88c12d6c"
 # Make it easy to test against branches
 GIT_BRANCH = "master"
 
-SRC_URI = "git://git.gnuradio.org/git/gnuradio.git;branch=${GIT_BRANCH};protocol=http \
+SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
 "
 
 S="${WORKDIR}/git"
