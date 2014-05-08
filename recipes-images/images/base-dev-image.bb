@@ -1,5 +1,5 @@
 SUMMARY = "A console-only image with a development/debug \
-environment suitable for building GNURadio installed."
+environment suitable for building UHD installed."
 
 IMAGE_FEATURES += "splash ssh-server-openssh tools-sdk \
                    tools-debug debug-tweaks \
