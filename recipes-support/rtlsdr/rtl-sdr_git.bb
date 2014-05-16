@@ -19,5 +19,5 @@ EXTRA_OECONF = "--enable-driver-detach"
 
 do_install_append() {
 	install -d ${D}${sysconfdir}/udev/rules.d
-	install -m 0644 rtl-sdr.rules ${D}${sysconfdir}/udev/rules.d
+	install -m 0644 ${S}/rtl-sdr.rules ${D}${sysconfdir}/udev/rules.d
 }
