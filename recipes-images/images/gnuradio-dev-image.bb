@@ -70,6 +70,8 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     openssh-sftp-server \
     fftwf \
     ntpdate \
+    uhd \
+    uhd-examples \
     "
 
 inherit core-image
