@@ -43,6 +43,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     gnuradio \
     gnuradio-dev \
     gr-osmosdr \
+    gr-eventstream \
     rtl-sdr \
     alsa-utils \
     i2c-tools \
