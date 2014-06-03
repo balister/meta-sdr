@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.ettus.com"
 LICENSE = "GPLv3+"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=8255adf1069294c928e0e18b01a16282"
 
-DEPENDS = "git-native python-cheetah-native boost libusb1 uhd-firmware orc-native ncurses"
+DEPENDS = "git-native python-cheetah-native boost libusb1 uhd-firmware orc-native ncurses udev"
 RDEPENDS_${PN} += "uhd-firmware"
 
 inherit cmake pythonnative
