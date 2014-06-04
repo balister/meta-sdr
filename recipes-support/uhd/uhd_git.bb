@@ -29,7 +29,8 @@ EXTRA_OECMAKE = "-DENABLE_E100=TRUE"
 PV = "3.7.1"
 
 SRC_URI = "git://github.com/EttusResearch/uhd.git;branch=master \
-          "
+           file://0001-Do-not-set-the-mfloat-soft-flag-during-the-test-for-.patch;pnum=2 \
+"
 S = "${WORKDIR}/git/host"
 
 SRCREV = "8f46b048818ba107126910159c76453cfb2025e2"
