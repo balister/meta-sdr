@@ -19,6 +19,7 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
 CORE_IMAGE_EXTRA_INSTALL = "\
     alsa-utils \
     i2c-tools \
+    devmem2 \
     screen \
     vim \
     vim-vimrc \
