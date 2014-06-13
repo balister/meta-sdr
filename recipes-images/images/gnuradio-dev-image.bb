@@ -47,6 +47,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     rtl-sdr \
     alsa-utils \
     i2c-tools \
+    devmem2 \
     screen \
     vim \
     vim-vimrc \
