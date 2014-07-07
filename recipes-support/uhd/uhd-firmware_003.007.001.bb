@@ -13,7 +13,6 @@ SRC_URI[md5sum] = "03321be7b175a081b7da0c5b04cad67a"
 SRC_URI[sha256sum] = "6c513636380272252ab2e8b3aad8b2f8fab02079caabd7f5b33bb6b07429aae2"
 
 S = "${WORKDIR}/uhd-images_${PV}-release"
-B = "${S}"
 
 do_install() {
     install -d ${D}${datadir}/uhd/images
@@ -22,14 +21,17 @@ do_install() {
     install -d ${D}${datadir}/uhd/images/winusb_driver/amd64
     install -d ${D}${datadir}/uhd/images/winusb_driver/x86
     install -m 0644 ${S}/share/uhd/images/bit/* ${D}${datadir}/uhd/images/bit
-    rm -rf ${S}/share/uhd/images/bit
     install -m 0644 ${S}/share/uhd/images/winusb_driver/amd64/* ${D}${datadir}/uhd/images/winusb_driver/amd64
     install -m 0644 ${S}/share/uhd/images/winusb_driver/x86/* ${D}${datadir}/uhd/images/winusb_driver/x86
-    rm -rf ${S}/share/uhd/images/winusb_driver/amd64
-    rm -rf ${S}/share/uhd/images/winusb_driver/x86
-    install -m 0644 ${S}/share/uhd/images/winusb_driver/* ${D}${datadir}/uhd/images/winusb_driver
-    rm -rf ${S}/share/uhd/images/winusb_driver
-    install -m 0644 ${S}/share/uhd/images/* ${D}${datadir}/uhd/images
+    install -m 0644 ${S}/share/uhd/images/winusb_driver/*.inf ${D}${datadir}/uhd/images/winusb_driver
+    install -m 0644 ${S}/share/uhd/images/*.tag ${D}${datadir}/uhd/images
+    install -m 0644 ${S}/share/uhd/images/LICENSE ${D}${datadir}/uhd/images
+    install -m 0644 ${S}/share/uhd/images/*.hex ${D}${datadir}/uhd/images
+    install -m 0644 ${S}/share/uhd/images/*.rbf ${D}${datadir}/uhd/images
+    install -m 0644 ${S}/share/uhd/images/*.ihx ${D}${datadir}/uhd/images
+    install -m 0644 ${S}/share/uhd/images/*.bin ${D}${datadir}/uhd/images
+    install -m 0644 ${S}/share/uhd/images/*.bit ${D}${datadir}/uhd/images
+    install -m 0644 ${S}/share/uhd/images/*.lvbitx ${D}${datadir}/uhd/images
 }
 
 PACKAGES = "${PN}"
