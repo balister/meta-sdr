@@ -159,11 +159,12 @@ python populate_packages_prepend() {
         d.appendVar('RDEPENDS_${PN}-dev', ' '+' '.join(pkgs))
 }
 
-PV = "3.7.4+git${SRCPV}"
+#PV = "3.7.4+git${SRCPV}"
+PV = "3.7.4"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "ad799cfe7f8361b5eb415e296d0fde2ab77d6494"
+SRCREV = "908a699647f0e7a4d9b75ee844bc3ad3b41cc909"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
