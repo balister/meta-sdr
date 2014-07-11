@@ -44,6 +44,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     fftwf \
     ntpdate \
     procps \
+    tcpdump \
     "
 
 inherit core-image
