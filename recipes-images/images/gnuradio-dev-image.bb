@@ -74,6 +74,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     ntpdate \
     uhd \
     uhd-examples \
+    xauth \
     "
 
 inherit core-image
