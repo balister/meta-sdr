@@ -43,6 +43,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     openssh-sftp-server \
     fftwf \
     ntpdate \
+    procps \
     "
 
 inherit core-image
