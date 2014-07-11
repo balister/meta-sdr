@@ -77,6 +77,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     uhd \
     uhd-examples \
     zeroc-ice \
+    xauth \
     "
 
 inherit core-image
