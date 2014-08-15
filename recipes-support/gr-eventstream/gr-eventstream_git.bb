@@ -10,10 +10,10 @@ inherit distutils-base cmake pkgconfig
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
-
-PV = "0.1.0+git"
+PV = "0.1.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/osh/gr-eventstream;branch=master \
           "
