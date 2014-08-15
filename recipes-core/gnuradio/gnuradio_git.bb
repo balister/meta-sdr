@@ -7,14 +7,13 @@ DEPENDS = "gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native orc"
 
 #Available PACKAGECONFIG options are qt grc uhd
-PACKAGECONFIG ??= "qtgui grc uhd zeroc-ice"
+PACKAGECONFIG ??= "qtgui grc uhd"
 
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
 
 PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt, "
 PACKAGECONFIG[zeroc-ice] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,zeroc-ice, "
-
 
 inherit distutils-base cmake pkgconfig
 
@@ -160,12 +159,12 @@ python populate_packages_prepend() {
         d.appendVar('RDEPENDS_${PN}-dev', ' '+' '.join(pkgs))
 }
 
-#PV = "3.7.4+git${SRCPV}"
-PV = "3.7.4"
+PV = "3.7.4+git${SRCPV}"
+#PV = "3.7.4"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "908a699647f0e7a4d9b75ee844bc3ad3b41cc909"
+SRCREV = "842d8c9d9aac5f7a48a78a9d6babc865570b81c8"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
@@ -179,6 +178,7 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  -DENABLE_GR_FCD=OFF \
                  -DENABLE_GR_WXGUI=OFF \
                  -DENABLE_GR_VIDEO_SDL=OFF \
+                 -DENABLE_GR_DTV=OFF \
                  -DENABLE_SPHINX=OFF -DENABLE_DOXYGEN=OFF \
                  -DIMPORT_EXECUTABLES=${S}/gr-vocoder/lib/generate_codebook.txt \
                  -DQT_HEADERS_DIR=${STAGING_INCDIR}/qt4 \
