@@ -1,6 +1,8 @@
 SUMMARY = "A console-only image with a development/debug \
 environment suitable for building GNURadio out of tree blocks installed."
 
+require version-image.inc
+
 IMAGE_FEATURES += "splash ssh-server-openssh tools-sdk \
                    tools-debug debug-tweaks \
                    dev-pkgs \
