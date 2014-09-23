@@ -7,13 +7,14 @@ DEPENDS = "gnuradio gr-osmosdr"
 
 inherit qt4x11
 
-PV = "2.2.0+2.2.xgit"
+PV = "2.3.1"
 
 SRC_URI = "git://github.com/csete/gqrx.git;branch=master \
+           file://0001-Disable-pulseaudio.patch \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "d97bd72879939ebf314637068218335d5005f3fe"
+SRCREV = "3af6570cdedbe31416adac9dc3cee713bf03cb69"
 
 EXTRA_QMAKEVARS_PRE="PREFIX="${prefix}""
 
