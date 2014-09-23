@@ -1,0 +1,32 @@
+From 11635d41c0590593fd192993a324211499e662a0 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 23 Sep 2014 13:18:41 -0400
+Subject: [PATCH] Disable pulseaudio.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gqrx.pro | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/gqrx.pro b/gqrx.pro
+index b1e7687..f9f85ca 100644
+--- a/gqrx.pro
++++ b/gqrx.pro
+@@ -27,14 +27,6 @@ macx {
+ # enable pkg-config to find dependencies
+ CONFIG += link_pkgconfig
+ 
+-unix:!macx {
+-    packagesExist(libpulse libpulse-simple) {
+-        # Comment out to use gr-audio (not recommended with ALSA and Funcube Dongle Pro)
+-        AUDIO_BACKEND = pulse
+-        message("Gqrx configured with pulseaudio backend")
+-    }
+-}
+-
+ RESOURCES += icons.qrc \
+     textfiles.qrc
+ 
+-- 
+1.8.3.1
+
