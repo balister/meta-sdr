@@ -13,10 +13,10 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
 
-PV = "0.1.0+git"
+PV = "0.1.3"
 
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "05d51b5340496036b69ef4fbbce6a1983a4b81ba"
+SRCREV = "7a013ca84a08528c64fc742e7fa65bcdc1e12478"
