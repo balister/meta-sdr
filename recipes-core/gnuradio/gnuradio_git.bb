@@ -180,6 +180,7 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  -DENABLE_GR_VIDEO_SDL=OFF \
                  -DENABLE_GR_DTV=OFF \
                  -DENABLE_SPHINX=OFF -DENABLE_DOXYGEN=OFF \
+                 -DENABLE_ORC=OFF \
                  -DIMPORT_EXECUTABLES=${S}/gr-vocoder/lib/generate_codebook.txt \
                  -DQT_HEADERS_DIR=${STAGING_INCDIR}/qt4 \
                  -DQT_QTCORE_INCLUDE_DIR=${STAGING_INCDIR}/qt4/QtCore \
