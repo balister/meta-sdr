@@ -21,3 +21,6 @@ EXTRA_QMAKEVARS_PRE="PREFIX="${prefix}""
 do_install() {
 	oe_runmake INSTALL_ROOT=${D} install
 }
+
+RDEPENDS_${PN} = "qt4-plugin-imageformat-svg"
+
