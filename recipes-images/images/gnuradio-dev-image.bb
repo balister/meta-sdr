@@ -46,6 +46,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     gnuradio-examples \
     gnuradio \
     gnuradio-dev \
+    gnuradio-dbg \
     gr-osmosdr \
     gr-eventstream \
     rtl-sdr \
