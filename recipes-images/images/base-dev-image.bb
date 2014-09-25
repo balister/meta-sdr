@@ -47,6 +47,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     ntpdate \
     procps \
     tcpdump \
+    linux-firmware \
     "
 
 inherit core-image
