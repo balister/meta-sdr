@@ -7,4 +7,6 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     xinput-calibrator \
     xf86-video-modesetting \
     directfb-examples \
+    wpa-supplicant \
+    hostapd \
     "
