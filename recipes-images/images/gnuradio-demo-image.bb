@@ -8,7 +8,7 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     xf86-video-modesetting \
     directfb-examples \
     wpa-supplicant \
-    hostapd \
+    hostap-daemon \
     python-pyqt \
     gr-baz \
     "
