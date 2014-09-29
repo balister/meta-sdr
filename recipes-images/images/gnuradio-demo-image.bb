@@ -9,4 +9,5 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     directfb-examples \
     wpa-supplicant \
     hostapd \
+    python-pyqt \
     "
