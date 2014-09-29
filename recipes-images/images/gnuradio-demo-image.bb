@@ -10,4 +10,5 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     wpa-supplicant \
     hostapd \
     python-pyqt \
+    gr-baz \
     "
