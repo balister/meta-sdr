@@ -17,6 +17,7 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
     nativesdk-python-pickle nativesdk-python-shell \
     nativesdk-orc nativesdk-swig nativesdk-python-distutils \
     nativesdk-python-xml nativesdk-python-compile \
+    nativesdk-cmake \
     "
 #    nativesdk-zeroc-ice nativesdk-zeroc-ice-dev 
 
