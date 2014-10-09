@@ -81,6 +81,8 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     uhd \
     uhd-examples \
     xauth \
+    libbladerf \
+    libbladerf-bin \
     "
 
 #    zeroc-ice 
