@@ -1,0 +1,43 @@
+From 1419d2fc1b276fb0cda51d0cbe9f4aff96bde691 Mon Sep 17 00:00:00 2001
+From: Jon Szymaniak <jon.szymaniak@gmail.com>
+Date: Tue, 21 Oct 2014 02:31:04 -0400
+Subject: [PATCH 5/5] Removed `pwd` from LD_RUN_PATH definition
+
+When using a build-system such as Yocto, the `pwd` in the LD_RUN_PATH
+was resulting in a bad RPATH value, which would result in Yocto QA
+issues.
+---
+ Makefile.rules | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile.rules b/Makefile.rules
+index 0cf2316..8aefb23 100644
+--- a/Makefile.rules
++++ b/Makefile.rules
+@@ -54,19 +54,19 @@ libtecla.map.opt: $(srcdir)/libtecla.map
+ demos: $(DEMO_PROGS)
+ 
+ demo$(SUFFIX): $(OBJDIR)/demo.o $(TARGETS)
+-	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH:`pwd`" $(CC) $(CFLAGS) -o $@ \
++	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH" $(CC) $(CFLAGS) -o $@ \
+  $(OBJDIR)/demo.o -L. -ltecla$(SUFFIX) $(LIBS)
+ 
+ demo2$(SUFFIX): $(OBJDIR)/demo2.o $(TARGETS)
+-	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH:`pwd`" $(CC) $(CFLAGS) -o $@ \
++	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH" $(CC) $(CFLAGS) -o $@ \
+  $(OBJDIR)/demo2.o -L. -ltecla$(SUFFIX) $(LIBS)
+ 
+ demo3$(SUFFIX): $(OBJDIR)/demo3.o $(TARGETS)
+-	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH:`pwd`" $(CC) $(CFLAGS) -o $@ \
++	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH" $(CC) $(CFLAGS) -o $@ \
+  $(OBJDIR)/demo3.o -L. -ltecla$(SUFFIX) $(LIBS)
+ 
+ enhance$(SUFFIX): $(OBJDIR)/enhance.o $(TARGETS)
+-	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH:`pwd`" $(CC) $(CFLAGS) -o $@ \
++	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH" $(CC) $(CFLAGS) -o $@ \
+  $(OBJDIR)/enhance.o -L. -ltecla$(SUFFIX) $(LIBS)
+ 
+ #-----------------------------------------------------------------------
+-- 
+1.9.1
+

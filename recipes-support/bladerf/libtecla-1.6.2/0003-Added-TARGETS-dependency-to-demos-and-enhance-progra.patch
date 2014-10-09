@@ -1,0 +1,43 @@
+From dda2ca04555ca3f174ab41d7a67f247796acb1c7 Mon Sep 17 00:00:00 2001
+From: Jon Szymaniak <jon.szymaniak@gmail.com>
+Date: Fri, 17 Oct 2014 01:00:22 -0400
+Subject: [PATCH 3/4] Added TARGETS dependency to demos and enhance program
+
+Without this dependency, Make may attempt to build the demo programs and
+enhance program prior to the associated libraries being build when
+performing parallel builds (e.g., make -j8).
+---
+ Makefile.rules | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile.rules b/Makefile.rules
+index 2833f65..0cf2316 100644
+--- a/Makefile.rules
++++ b/Makefile.rules
+@@ -53,19 +53,19 @@ libtecla.map.opt: $(srcdir)/libtecla.map
+ 
+ demos: $(DEMO_PROGS)
+ 
+-demo$(SUFFIX): $(OBJDIR)/demo.o
++demo$(SUFFIX): $(OBJDIR)/demo.o $(TARGETS)
+ 	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH:`pwd`" $(CC) $(CFLAGS) -o $@ \
+  $(OBJDIR)/demo.o -L. -ltecla$(SUFFIX) $(LIBS)
+ 
+-demo2$(SUFFIX): $(OBJDIR)/demo2.o
++demo2$(SUFFIX): $(OBJDIR)/demo2.o $(TARGETS)
+ 	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH:`pwd`" $(CC) $(CFLAGS) -o $@ \
+  $(OBJDIR)/demo2.o -L. -ltecla$(SUFFIX) $(LIBS)
+ 
+-demo3$(SUFFIX): $(OBJDIR)/demo3.o
++demo3$(SUFFIX): $(OBJDIR)/demo3.o $(TARGETS)
+ 	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH:`pwd`" $(CC) $(CFLAGS) -o $@ \
+  $(OBJDIR)/demo3.o -L. -ltecla$(SUFFIX) $(LIBS)
+ 
+-enhance$(SUFFIX): $(OBJDIR)/enhance.o
++enhance$(SUFFIX): $(OBJDIR)/enhance.o $(TARGETS)
+ 	LD_RUN_PATH="$(LIBDIR):$$LD_RUN_PATH:`pwd`" $(CC) $(CFLAGS) -o $@ \
+  $(OBJDIR)/enhance.o -L. -ltecla$(SUFFIX) $(LIBS)
+ 
+-- 
+1.9.1
+

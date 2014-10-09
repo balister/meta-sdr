@@ -1,0 +1,27 @@
+From 5ef3f61ab30127e45b8b237db00627773cc4da97 Mon Sep 17 00:00:00 2001
+From: Jon Szymaniak <jon.szymaniak@gmail.com>
+Date: Thu, 16 Oct 2014 14:37:36 -0400
+Subject: [PATCH 1/4] Use $CC when populating LINK_SHARED
+
+When cross-compiling this line would cause LINK_SHARED to point to
+hosts's libgcc.a, rather than the cross-toolchain's.
+---
+ configure.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.in b/configure.in
+index 55dc878..9be9012 100644
+--- a/configure.in
++++ b/configure.in
+@@ -549,7 +549,7 @@ if test "$GCC"_ = "yes"_ && test "$LINK_SHARED"_ != "_" ; then
+     SHARED_CFLAGS=""
+     ;;
+   esac
+-  LINK_SHARED="$LINK_SHARED `gcc -print-libgcc-file-name`"
++  LINK_SHARED="$LINK_SHARED `$CC -print-libgcc-file-name`"
+ fi
+ 
+ dnl The following variable will list which types of libraries,
+-- 
+1.9.1
+

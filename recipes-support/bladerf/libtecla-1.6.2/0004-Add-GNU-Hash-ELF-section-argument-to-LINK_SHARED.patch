@@ -1,0 +1,25 @@
+From b1821a4c5b0a19275ee07045c2644e07ed396963 Mon Sep 17 00:00:00 2001
+From: Jon Szymaniak <jon.szymaniak@gmail.com>
+Date: Tue, 21 Oct 2014 02:17:33 -0400
+Subject: [PATCH 4/4] Add GNU Hash ELF section argument to LINK_SHARED
+
+---
+ configure.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.in b/configure.in
+index 9be9012..fe7ac06 100644
+--- a/configure.in
++++ b/configure.in
+@@ -549,7 +549,7 @@ if test "$GCC"_ = "yes"_ && test "$LINK_SHARED"_ != "_" ; then
+     SHARED_CFLAGS=""
+     ;;
+   esac
+-  LINK_SHARED="$LINK_SHARED `$CC -print-libgcc-file-name`"
++  LINK_SHARED="$LINK_SHARED `$CC -print-libgcc-file-name` --hash-style=gnu"
+ fi
+ 
+ dnl The following variable will list which types of libraries,
+-- 
+1.9.1
+
