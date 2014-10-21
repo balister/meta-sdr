@@ -12,6 +12,7 @@ From meta-openembedded, you need the following layers:
 meta-oe
 meta-filesystems
 meta-networking
+meta-python
 
 And maybe some others. TBD.
 
