@@ -1,12 +1,17 @@
 This layer depends on:
 
-URI: git://github.com/openembedded/oe-core.git
+URI: git://github.com/openembedded/openembedded-core.git
 branch: master
 revision: HEAD
 
-URI: git://github.com/openembedded/meta-oe.git
+URI: git://github.com/openembedded/meta-openembedded.git
 branch: master
 revision: HEAD
+
+From meta-openembedded, you need the following layers:
+meta-oe
+meta-filesystems
+meta-networking
 
 And maybe some others. TBD.
 
