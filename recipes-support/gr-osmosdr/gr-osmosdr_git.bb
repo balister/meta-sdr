@@ -3,7 +3,7 @@ HOMEPAGE = "http://sdr.osmocom.org/trac/wiki/GrOsmoSDR"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio uhd rtl-sdr"
+DEPENDS = "gnuradio uhd rtl-sdr libbladerf"
 
 inherit distutils-base cmake pkgconfig
 
