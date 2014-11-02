@@ -1,7 +1,5 @@
 require libtecla.inc
 
-PR = "${PR_INC}.1"
-
 SRC_URI[archive.md5sum] = "bc40fac0d1b882b9e523f07d33a044d1"
 SRC_URI[archive.sha256sum] = "8c61db528364f4e88e34e79eb3730adf54e43c594cf12faf712117a6d20eb7b8"
 

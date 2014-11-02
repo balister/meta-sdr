@@ -13,7 +13,6 @@ externally for optional use by programs."
 SECTION = "libs"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.TERMS;md5=36e990266b063a55483b4410333243d2"
-PR_INC = "r0"
 
 DEPENDS += "ncurses"
 

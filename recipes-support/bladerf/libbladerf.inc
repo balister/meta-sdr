@@ -16,7 +16,6 @@ DEPENDS = "libusb1 libtecla"
 RDEPENDS_${PN} += "bladerf-fpga"
 RDEPENDS_${PN}-bin += "libtecla"
 
-INC_PR = "r0"
 SRC_URI = "git://github.com/Nuand/bladeRF.git;protocol=git;branch=master"
 
 S = "${WORKDIR}/git"
