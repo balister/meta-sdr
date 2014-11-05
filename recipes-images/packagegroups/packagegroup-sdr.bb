@@ -1,0 +1,124 @@
+# packagegroup definitions to help the SDR community build images
+# they like.
+
+LICENSE = "MIT"
+
+inherit packagegroup
+
+PACKAGES = "\
+    packagegroup-sdr-base-extended \
+    packagegroup-sdr-debug \
+    packagegroup-sdr-devel \
+    packagegroup-sdr-python \
+    packagegroup-sdr-gnuradio \
+    packagegroup-sdr-hardware \
+    packagegroup-sdr-uhd \
+    packagegroup-sdr-rtlsdr \
+    packagegroup-sdr-bladerf \
+"
+
+PROVIDES = "${PACKAGES}"
+
+SUMMARY_packagegroup-sdr-base-extended = "Basic packages for an image with regular unix utilities."
+RDEPENDS_packagegroup-sdr-base-extended = "\
+    alsa-utils \
+    i2c-tools \
+    screen \
+    vim \
+    vim-vimrc \
+    htop \
+    sshfs-fuse \
+    libudev \
+    openssh-sftp \
+    openssh-sftp-server \
+    ntpdate \
+    linux-firmware \
+"
+
+SUMMARY_packagegroup-sdr-debug = "Debugging tools."
+RDEPENDS_packagegroup-sdr-debug = "\
+    devmem2 \
+    iperf \
+    tcpdump \
+    valgrind \
+"
+
+# Also set the image feature dev-pkgs, tools-sdk, and tools-debug
+# for a sane development image.
+SUMMARY_packagegroup-sdr-devel = "Development tools."
+RDEPENDS_packagegroup-sdr-devel = "\
+    git \
+    swig \
+    boost \
+    cmake \
+    orc \
+    libudev \
+    glib-2.0 \
+"
+
+SUMMARY_packagegroup-sdr-python = "Useful python packages."
+RDEPENDS_packagegroup-sdr-python = "\
+    python \
+    python-cheetah \
+    python-modules \
+    python-argparse \
+    python-distutils \
+    python-numpy \
+"
+
+SUMMARY_packagegroup-sdr-gnuradio = "All the GNU Radio stuff we know about."
+RDEPENDS_packagegroup-sdr-gnuradio = "\
+    gnuradio-analog \
+    gnuradio-audio \
+    gnuradio-blocks \
+    gnuradio-channels \
+    gnuradio-digital \
+    gnuradio-fec \
+    gnuradio-fft \
+    gnuradio-filter \
+    gnuradio-gr \
+    gnuradio-grc \
+    gnuradio-gru \
+    gnuradio-gr-utils \
+    gnuradio-modtool \
+    gnuradio-noaa \
+    gnuradio-pmt \
+    gnuradio-qtgui \
+    gnuradio-runtime \
+    gnuradio-trellis \
+    gnuradio-uhd \
+    gnuradio-vocoder \
+    gnuradio-volk \
+    gnuradio-wavelet \
+    gnuradio-examples \
+    gnuradio \
+    gnuradio-dev \
+    gnuradio-dbg \
+    gr-osmosdr \
+    gr-eventstream \
+"
+
+
+SUMMARY_packagegroup-sdr-uhd = "UHD packages."
+RDEPENDS_packagegroup-sdr-uhd = "\
+    uhd \
+    uhd-examples \
+"
+
+SUMMARY_packagegroup-sdr-rtlsdr = "RTLSDR packages."
+RDEPENDS_packagegroup-sdr-rtlsdr = "\
+    rtl-sdr \
+"
+
+SUMMARY_packagegroup-sdr-bladerf = "BladeRF packages."
+RDEPENDS_packagegroup-sdr-bladerf = "\
+    libbladerf \
+    libbladerf-bin \
+"
+
+SUMMARY_packagegroup-sdr-hardware = "All supported SDR hardware."
+RDEPENDS_packagegroup-sdr-hardware = "\
+    packagegroup-sdr-uhd \
+    packagegroup-sdr-rtlsdr \
+    packagegroup-sdr-bladerf \
+"
