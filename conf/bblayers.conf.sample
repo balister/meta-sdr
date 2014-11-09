@@ -8,11 +8,13 @@ BBFILES ?= ""
 BBLAYERS ?= " \
   ##COREBASE##/meta \
   ##COREBASE##/../meta-ettus/e100-bsp \
+  ##COREBASE##/../meta-ettus/e300-bsp \
   ##COREBASE##/../meta-ettus/common \
   ##COREBASE##/../meta-xilinx \
   ##COREBASE##/../meta-oe/meta-oe \
   ##COREBASE##/../meta-oe/meta-networking \
   ##COREBASE##/../meta-oe/meta-filesystems \
+  ##COREBASE##/../meta-oe/meta-python \
   ##COREBASE##/../meta-sdr \
   ##COREBASE##/../meta-fsl-arm \
   ##COREBASE##/../meta-fsl-arm-extra \
