@@ -47,6 +47,7 @@ MACHINE ??= "ettus-e300"
 DEFAULTTUNE_ettus-e300 = "armv7ahf-neon"
 DEFAULTTUNE_ettus-e100 = "armv7ahf-neon"
 DEFAULTTUNE_zedboard-zynq7 = "armv7ahf-neon"
+DEFAULTTUNE_zc702-zynq7 = "armv7ahf-neon"
 DEFAULTTUNE_odroid-xu = "armv7ahf-neon"
 DEFAULTTUNE_nitrogen6x = "armv7ahf-neon"
 DEFAULTTUNE_keystone-evm = "armv7ahf-neon"
@@ -156,6 +157,8 @@ IMAGE_FSTYPES = "tar.gz"
 # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
 USER_CLASSES ?= "buildstats image-mklibs image-prelink rm_work"
 
+RM_WORK_EXCLUDE = "base-dev-image uhd-dev-image gnuradio-dev-image \
+                   gnuradio-demo-image"
 
 #
 # Runtime testing of images
