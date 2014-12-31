@@ -6,14 +6,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 DEPENDS = "gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native"
 
-#Available PACKAGECONFIG options are qt grc uhd
-PACKAGECONFIG ??= "qtgui grc uhd"
+#Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
+PACKAGECONFIG ??= "qtgui grc uhd zeromq"
 
-PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
+PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
-
-PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt, "
-PACKAGECONFIG[zeroc-ice] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,zeroc-ice, "
+PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
+PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
+PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
+PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,zeroc-ice, "
+PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq, "
+PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
 inherit distutils-base cmake pkgconfig
 
@@ -27,6 +30,8 @@ RDEPENDS_${PN} = "python-core python-audio python-threading python-codecs \
                   python-pprint python-numpy  \
 "
 RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
+
+RDEPENDS_${PN}-qtgui = "python-pyqt" 
 
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
@@ -52,7 +57,8 @@ PACKAGES = "gnuradio-dbg gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-trellis gnuradio-uhd gnuradio-vocoder \
             gnuradio-volk gnuradio-volk-modtool gnuradio-wavelet \
             gnuradio-examples \
-            gnuradio-staticdev gnuradio-dev gnuradio-doc gnuradio"
+            gnuradio-staticdev gnuradio-dev gnuradio-doc gnuradio-zeromq \
+            gnuradio"
 
 FILES_${PN}-analog = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/analog \
                       ${datadir}/gnuradio/analog"
@@ -100,7 +106,7 @@ FILES_${PN}-pmt = "${datadir}/pmt \
                    ${PYTHON_SITEPACKAGES_DIR}/pmt"
 FILES_${PN}-qtgui = "${bindir}/gr_psd_plot* ${bindir}/gr_spectrogram_plot* \
                      ${bindir}/gr_time* ${bindir}/gr_constellation_plot \
-                     ${datadir}/gnuradio/qtgui \
+                     ${sysconfdir}/gnuradio/qtgui ${sysconfdir}/gnuradio/conf.d/gr-qtgui.conf \
                      ${PYTHON_SITEPACKAGES_DIR}/gnuradio/qtgui"
 FILES_${PN}-runtime = "${sysconfdir}/gnuradio/conf.d/gnuradio-runtime.conf \
                        ${bindir}/gnuradio-config-info \
@@ -116,7 +122,9 @@ FILES_${PN}-uhd = "${bindir}/uhd* \
                    ${PYTHON_SITEPACKAGES_DIR}/gnuradio/uhd"
 FILES_${PN}-vocoder = "${datadir}/gnuradio/vocoder \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/vocoder"
-FILES_${PN}-volk = "${bindir}/volk_profile"
+FILES_${PN}-zeromq = "${datadir}/gnuradio/zeromq \
+                       ${PYTHON_SITEPACKAGES_DIR}/gnuradio/zeromq"
+FILES_${PN}-volk = "${bindir}/volk_profile ${bindir}/volk-config-info"
 FILES_${PN}-volk-modtool = "${bindir}/volk_modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/volk_modtool"
 FILES_${PN}-wavelet = "${datadir}/gnuradio/wavelet \
