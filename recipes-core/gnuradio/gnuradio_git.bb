@@ -1,4 +1,4 @@
-SUMAMRY = "GNU Radio: A software defiend radio framework."
+SUMMARY = "GNU Radio: A software defined radio framework."
 URL = "http://gnuradio.org"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
@@ -31,7 +31,7 @@ RDEPENDS_${PN} = "python-core python-audio python-threading python-codecs \
 "
 RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
 
-RDEPENDS_${PN}-qtgui = "python-pyqt" 
+RDEPENDS_${PN}-qtgui = "python-pyqt"
 
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
@@ -82,9 +82,9 @@ FILES_${PN}-filter = "${bindir}/gr_filter_design \
 FILES_${PN}-gr = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gr \
                   ${datadir}/gnuradio/gr"
 FILES_${PN}-grc = "${bindir}/gnuradio-companion ${datadir}/gnuradio/grc \
-                   ${PYTHON_SITEPACKAGES_DIR}/gnuradio/grc \ 
+                   ${PYTHON_SITEPACKAGES_DIR}/gnuradio/grc \
                    ${PYTHON_SITEPACKAGES_DIR}/grc_gnuradio \
-                   ${sysconfdir}/gnuradio/conf.d/grc.conf" 
+                   ${sysconfdir}/gnuradio/conf.d/grc.conf"
 FILES_${PN}-gru = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gru \
                    ${datadir}/gnuradio/gru"
 FILES_${PN}-gr-utils = "${bindir}/gr_plot* ${bindir}/grcc \
@@ -102,7 +102,7 @@ FILES_${PN}-noaa = "${datadir}/gnuradio/noaa \
 FILES_${PN}-pager = "${bindir}/usrp_flex* \
                      ${datadir}/gnuradio/pager \
                      ${PYTHON_SITEPACKAGES_DIR}/gnuradio/pager"
-FILES_${PN}-pmt = "${datadir}/pmt \ 
+FILES_${PN}-pmt = "${datadir}/pmt \
                    ${PYTHON_SITEPACKAGES_DIR}/pmt"
 FILES_${PN}-qtgui = "${bindir}/gr_psd_plot* ${bindir}/gr_spectrogram_plot* \
                      ${bindir}/gr_time* ${bindir}/gr_constellation_plot \
