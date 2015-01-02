@@ -29,6 +29,8 @@ RDEPENDS_${PN} = "python-core python-audio python-threading python-codecs \
                   python-netclient python-difflib \
                   python-pprint python-numpy  \
 "
+RRECOMMENDS_${PN} = "${GR_PACKAGES}"
+
 RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
 
 RDEPENDS_${PN}-qtgui = "python-pyqt"
@@ -48,7 +50,7 @@ do_compile_prepend() {
 
 ALLOW_EMPTY_${PN} = "1"
 
-PACKAGES = "gnuradio-dbg gnuradio-analog gnuradio-audio gnuradio-blocks \
+GR_PACKAGES = "gnuradio-dbg gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-channels gnuradio-ctrlport gnuradio-digital gnuradio-fec gnuradio-fft \
             gnuradio-filter gnuradio-gr gnuradio-grc gnuradio-gru \
             gnuradio-gr-utils \
@@ -58,7 +60,8 @@ PACKAGES = "gnuradio-dbg gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-volk gnuradio-volk-modtool gnuradio-wavelet \
             gnuradio-examples \
             gnuradio-staticdev gnuradio-dev gnuradio-doc gnuradio-zeromq \
-            gnuradio"
+            "
+PACKAGES = "${GR_PACKAGES} gnuradio"
 
 FILES_${PN}-analog = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/analog \
                       ${datadir}/gnuradio/analog"
