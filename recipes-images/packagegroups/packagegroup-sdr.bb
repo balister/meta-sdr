@@ -68,31 +68,7 @@ RDEPENDS_packagegroup-sdr-python = "\
 
 SUMMARY_packagegroup-sdr-gnuradio = "All the GNU Radio stuff we know about."
 RDEPENDS_packagegroup-sdr-gnuradio = "\
-    gnuradio-analog \
-    gnuradio-audio \
-    gnuradio-blocks \
-    gnuradio-channels \
-    gnuradio-digital \
-    gnuradio-fec \
-    gnuradio-fft \
-    gnuradio-filter \
-    gnuradio-gr \
-    gnuradio-grc \
-    gnuradio-gru \
-    gnuradio-gr-utils \
-    gnuradio-modtool \
-    gnuradio-noaa \
-    gnuradio-pmt \
-    gnuradio-qtgui \
-    gnuradio-runtime \
-    gnuradio-trellis \
-    gnuradio-uhd \
-    gnuradio-vocoder \
-    gnuradio-volk \
-    gnuradio-wavelet \
-    gnuradio-examples \
     gnuradio \
-    gnuradio-dev \
     gnuradio-dbg \
     gr-osmosdr \
     gr-eventstream \
