@@ -33,6 +33,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     openssh-sftp-server \
     ntpdate \
     linux-firmware \
+    resolvconf \
 "
 
 SUMMARY_packagegroup-sdr-debug = "Debugging tools."
