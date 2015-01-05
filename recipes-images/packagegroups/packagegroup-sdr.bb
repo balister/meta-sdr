@@ -34,6 +34,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     ntpdate \
     linux-firmware \
     resolvconf \
+    wget \
 "
 
 SUMMARY_packagegroup-sdr-debug = "Debugging tools."
