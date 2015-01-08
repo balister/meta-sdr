@@ -19,4 +19,4 @@ SRC_URI = "git://github.com/balint256/gr-baz;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "13f9f714455ace971d30391d87e7d35e13ea83e6"
+SRCREV = "ce84fbdc32776f4f949a19ee56c4c7c9fc002885"
