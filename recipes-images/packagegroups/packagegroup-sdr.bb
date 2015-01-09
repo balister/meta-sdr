@@ -31,6 +31,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     libudev \
     openssh-sftp \
     openssh-sftp-server \
+    procps \
     ntpdate \
     linux-firmware \
     resolvconf \
@@ -40,6 +41,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
 
 SUMMARY_packagegroup-sdr-debug = "Debugging tools."
 RDEPENDS_packagegroup-sdr-debug = "\
+    evtest \
     devmem2 \
     iperf \
     tcpdump \
