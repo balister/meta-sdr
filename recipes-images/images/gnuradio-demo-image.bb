@@ -11,4 +11,6 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     hostapd \
     python-pyqt \
     gr-baz \
+    gr-ais \
+    gr-mac \
     "
