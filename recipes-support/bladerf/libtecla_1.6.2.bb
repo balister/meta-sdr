@@ -8,3 +8,5 @@ SRC_URI += "file://0002-Use-AR-in-Rules.make-rather-than-ar.patch"
 SRC_URI += "file://0003-Added-TARGETS-dependency-to-demos-and-enhance-progra.patch"
 SRC_URI += "file://0004-Add-GNU-Hash-ELF-section-argument-to-LINK_SHARED.patch"
 SRC_URI += "file://0005-Removed-pwd-from-LD_RUN_PATH-definition.patch"
+
+PARALLEL_MAKE = ""
