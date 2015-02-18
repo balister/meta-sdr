@@ -9,6 +9,11 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     directfb-examples \
     wpa-supplicant \
     hostapd \
+    dnsmasq \
+    lighttpd \
+    lighttpd-module-cgi \
+    php \
+    php-cgi \
     python-pyqt \
     gr-baz \
     gr-ais \
