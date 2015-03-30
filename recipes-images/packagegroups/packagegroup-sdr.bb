@@ -37,6 +37,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     resolvconf \
     wget \
     zip \
+    unzip \
 "
 
 SUMMARY_packagegroup-sdr-debug = "Debugging tools."
