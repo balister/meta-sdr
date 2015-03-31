@@ -31,7 +31,8 @@ RDEPENDS_${PN} = "python-core python-audio python-threading python-codecs \
 "
 RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
-RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
+RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver \
+                      python-sip"
 
 RDEPENDS_${PN}-qtgui = "python-pyqt"
 
