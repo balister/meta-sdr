@@ -54,6 +54,7 @@ RDEPENDS_packagegroup-sdr-debug = "\
 SUMMARY_packagegroup-sdr-devel = "Development tools."
 RDEPENDS_packagegroup-sdr-devel = "\
     git \
+    git-perltools \
     swig \
     boost \
     cmake \
