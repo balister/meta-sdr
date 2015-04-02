@@ -3,7 +3,7 @@ URL = "http://gnuradio.org"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gsl fftwf python alsa-lib boost cppunit \
+DEPENDS = "volk gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
@@ -172,11 +172,11 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.6.1"
+PV = "3.7.7"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "e15f2e7933abd3f4369396079b48713def56d123"
+SRCREV = "7fe6115297c9d5d1d9220dc23bab96aa88b2b72d"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
@@ -199,6 +199,7 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  -DQT_LIBRARY_DIR=${STAGING_LIBDIR} \
                  -DQT_QTCORE_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtCore.so \
                  -DQT_QTGUI_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtGui.so \
+                 -DENABLE_INTERNAL_VOLK=OFF \
                  ${@base_contains('TUNE_FEATURES', 'neon', \
                      '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
