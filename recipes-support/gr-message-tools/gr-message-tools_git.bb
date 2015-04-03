@@ -19,4 +19,4 @@ SRC_URI = "git://github.com/gr-vt/gr-message_tools;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "781bd57c878f005f8e0656878489bd707d90612a"
+SRCREV = "66fcab2e85114931967fb45e07ecc3045f0c2ccb"

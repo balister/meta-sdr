@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/gr-vt/gr-burst"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio volk"
+DEPENDS = "gnuradio volk python-bitarray gr-mapper"
 
 inherit setuptools cmake
 
@@ -19,4 +19,4 @@ SRC_URI = "git://github.com/gr-vt/gr-burst;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "2a6f865d35ae60c34527ca2032163264ef817b05"
+SRCREV = "06f36bde5e30c58e8c63e73721517e1f1ea8baf9"
