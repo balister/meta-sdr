@@ -31,10 +31,9 @@ RDEPENDS_${PN} = "python-core python-audio python-threading python-codecs \
 "
 RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
-RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver \
-                      python-sip"
+RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
 
-RDEPENDS_${PN}-qtgui = "python-pyqt"
+RDEPENDS_${PN}-qtgui = "python-pyqt python-sip"
 
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
@@ -176,7 +175,7 @@ PV = "3.7.7"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "7fe6115297c9d5d1d9220dc23bab96aa88b2b72d"
+SRCREV = "6ff4e45276c14e3c00710294ed6dd723b82be277"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
