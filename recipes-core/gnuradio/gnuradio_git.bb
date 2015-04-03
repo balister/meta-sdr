@@ -110,7 +110,8 @@ FILES_${PN}-pmt = "${datadir}/pmt \
 FILES_${PN}-qtgui = "${bindir}/gr_psd_plot* ${bindir}/gr_spectrogram_plot* \
                      ${bindir}/gr_time* ${bindir}/gr_constellation_plot \
                      ${sysconfdir}/gnuradio/qtgui ${sysconfdir}/gnuradio/conf.d/gr-qtgui.conf \
-                     ${PYTHON_SITEPACKAGES_DIR}/gnuradio/qtgui"
+                     ${PYTHON_SITEPACKAGES_DIR}/gnuradio/qtgui \
+                     ${datadir}/gnuradio/themes"
 FILES_${PN}-runtime = "${sysconfdir}/gnuradio/conf.d/gnuradio-runtime.conf \
                        ${bindir}/gnuradio-config-info \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/eng_* \
@@ -175,7 +176,7 @@ PV = "3.7.7"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "6ff4e45276c14e3c00710294ed6dd723b82be277"
+SRCREV = "6afc40e80f05a6cc2dbdebcc037ed40c5f5921f1"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
