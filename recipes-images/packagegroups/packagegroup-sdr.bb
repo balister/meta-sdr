@@ -35,6 +35,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     ntpdate \
     linux-firmware \
     resolvconf \
+    sqlite3 \
     wget \
     zip \
     unzip \
