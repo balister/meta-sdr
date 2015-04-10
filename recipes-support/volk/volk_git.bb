@@ -22,7 +22,7 @@ SRC_URI_append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "84ac7467a67c453471e6ab4348497745246908e9"
+SRCREV = "528caa1ec03281a3013e1655c8e2546b71bda8d5"
 
 PACKAGES += "${PN}-modtool"
 
