@@ -16,4 +16,6 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     opencv \
     yavta \
     vlc \
+    libv4l \
+    libavcodec54 \
     "
