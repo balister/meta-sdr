@@ -5,7 +5,7 @@ require version-image.inc
 
 IMAGE_FEATURES += "splash ssh-server-openssh tools-sdk \
                    tools-debug debug-tweaks \
-                   dev-pkgs \
+                   dev-pkgs dbg-pks \
                   "
 
 EXTRA_IMAGE_FEATURES += "package-management"
