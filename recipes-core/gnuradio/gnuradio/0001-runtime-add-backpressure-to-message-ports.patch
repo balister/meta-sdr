@@ -1,0 +1,58 @@
+From 771757808244d821dc922974825f92b5aafa070b Mon Sep 17 00:00:00 2001
+From: Nathan West <nathan.west@okstate.edu>
+Date: Fri, 3 Apr 2015 12:31:45 -0500
+Subject: [PATCH] runtime: add backpressure to message ports
+
+---
+ gnuradio-runtime/include/gnuradio/basic_block.h | 1 +
+ gnuradio-runtime/lib/basic_block.cc             | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/gnuradio-runtime/include/gnuradio/basic_block.h b/gnuradio-runtime/include/gnuradio/basic_block.h
+index b687a8f..e19ece0 100644
+--- a/gnuradio-runtime/include/gnuradio/basic_block.h
++++ b/gnuradio-runtime/include/gnuradio/basic_block.h
+@@ -71,6 +71,7 @@ namespace gr {
+     std::map<pmt::pmt_t, boost::shared_ptr<boost::condition_variable>, pmt::comparator> msg_queue_ready;
+ 
+     gr::thread::mutex mutex;          //< protects all vars
++    unsigned int max_messages;
+ 
+   protected:
+     friend class flowgraph;
+diff --git a/gnuradio-runtime/lib/basic_block.cc b/gnuradio-runtime/lib/basic_block.cc
+index 082d075..a7081a8 100644
+--- a/gnuradio-runtime/lib/basic_block.cc
++++ b/gnuradio-runtime/lib/basic_block.cc
+@@ -27,6 +27,7 @@
+ #include <gnuradio/basic_block.h>
+ #include <gnuradio/block_registry.h>
+ #include <gnuradio/logger.h>
++#include <gnuradio/prefs.h>
+ #include <stdexcept>
+ #include <sstream>
+ #include <iostream>
+@@ -56,6 +57,8 @@ namespace gr {
+       d_message_subscribers(pmt::make_dict())
+   {
+     s_ncurrently_allocated++;
++    prefs *p = prefs::singleton();
++    max_messages = (unsigned int) p->get_long("DEFAULT", "max_messages", 8192);
+   }
+ 
+   basic_block::~basic_block()
+@@ -205,6 +208,11 @@ namespace gr {
+       throw std::runtime_error("attempted to insert_tail on invalid queue!");
+     }
+ 
++    while(msg_queue[which_port].size() > max_messages) {
++      gr::thread::condition_variable queue_full;
++      queue_full.wait(guard);
++    }
++
+     msg_queue[which_port].push_back(msg);
+     msg_queue_ready[which_port]->notify_one();
+ 
+-- 
+2.3.5
+
