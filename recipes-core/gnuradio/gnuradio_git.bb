@@ -176,13 +176,14 @@ PV = "3.7.7"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "e2815ab62aa96ffe7a0c057c06cdd4a5490bdb76"
+SRCREV = "1f25ff924cdc8df87d57c20963c422ab5782ef9a"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
-"
+           file://0001-runtime-add-backpressure-to-message-ports.patch \
+          "
 
 S="${WORKDIR}/git"
 
