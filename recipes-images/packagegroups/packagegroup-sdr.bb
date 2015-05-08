@@ -29,6 +29,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     htop \
     sshfs-fuse \
     libudev \
+    nfs-utils-client \
     openssh-sftp \
     openssh-sftp-server \
     procps \
