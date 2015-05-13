@@ -1,0 +1,56 @@
+Return-Path: <moritz.fischer@ettus.com>
+Delivered-To: philip@opensdr.com
+Received: (qmail 19903 invoked by uid 1003); 12 May 2015 22:54:29 -0000
+Received: from unknown (HELO mail-pd0-f173.google.com) (209.85.192.173)
+  by mail.geekisp.com with (RC4-SHA encrypted) SMTP; 12 May 2015 22:54:29 -0000
+Received-SPF: none (mail.geekisp.com: domain at ettus.com does not designate permitted sender hosts)
+Received: by pdbnk13 with SMTP id nk13so29834967pdb.0
+        for <philip@opensdr.com>; Tue, 12 May 2015 15:54:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20130820;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=MmECGP5B3P8u3nVPvpFLJEVXuwH0QI/6PkW5j/zK4fo=;
+        b=ZN3boXCK1OhllmK++tMjuEdVpkU+SmoNJmtbWr6WDFohgmLU4SCgXPt/iXDpo6ADp7
+         NHIXd0293bEwfm5n5fJcOYKUf21FS7yz3ClymR40gkKqiqslgPTTSQ6tzGfOqD64ATx4
+         dYMJ422DTKmiGjL1ge6EKdqjr1FcGkzFu5w9iZIrTRPIfnPnB975xgGOwIfwSWS3iQM4
+         KuUJtZ1zBtp2UMM0E8hINw0Sdft/dKSok0skyTxvbl/NW+WVu8BGqlDhQhouE4sBsOOv
+         4NqBb0jB/MmJfpGOJRrXF4WEm69GT0+DAeHin3srtCXOaFqLCnGPQFlF8/I+Z6/6U29+
+         cqIA==
+X-Gm-Message-State: ALoCoQklM/K1CV1eYUx3Ve6ZMOQ+meXnf7CzWXjGZxbO0tRohnjWFZKJB8qzLGhbbz5/TSSccjHl
+X-Received: by 10.66.165.67 with SMTP id yw3mr32024549pab.95.1431471267809;
+        Tue, 12 May 2015 15:54:27 -0700 (PDT)
+Return-Path: <moritz.fischer@ettus.com>
+Received: from us-sjc-wireless-10-16-34-36.amer.corp.natinst.com (209-234-137-234.static.twtelecom.net. [209.234.137.234])
+        by mx.google.com with ESMTPSA id df7sm17274608pdb.32.2015.05.12.15.54.26
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 12 May 2015 15:54:26 -0700 (PDT)
+From: Moritz Fischer <moritz.fischer@ettus.com>
+To: philip@opensdr.com
+Cc: Moritz Fischer <moritz.fischer@ettus.com>
+Subject: [PATCH] fixup! e300: gps: If gps is detected, set device time to gps time on init.
+Date: Tue, 12 May 2015 15:54:22 -0700
+Message-Id: <1431471262-17632-1-git-send-email-moritz.fischer@ettus.com>
+X-Mailer: git-send-email 2.4.0
+
+Signed-off-by: Moritz Fischer <moritz.fischer@ettus.com>
+---
+ host/lib/usrp/e300/e300_impl.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/host/lib/usrp/e300/e300_impl.cpp b/host/lib/usrp/e300/e300_impl.cpp
+index b35bbab..693aa57 100644
+--- a/host/lib/usrp/e300/e300_impl.cpp
++++ b/host/lib/usrp/e300/e300_impl.cpp
+@@ -578,6 +578,9 @@ e300_impl::e300_impl(const uhd::device_addr_t &device_addr)
+     UHD_MSG(status) << "Initializing time to the internal GPSDO" << std::endl;
+     const time_t tp = time_t(_sensor_manager->get_sensor("gps_time").to_int()+1);
+     _tree->access<time_spec_t>(mb_path / "time" / "pps").set(time_spec_t(tp));
++
++    // wait for time to be actually set
++    boost::this_thread::sleep(boost::posix_time::seconds(1));
+ }
+ 
+ boost::uint8_t e300_impl::_get_internal_gpio(
+-- 
+1.9.3
+
