@@ -108,4 +108,10 @@ RDEPENDS_packagegroup-sdr-hardware = "\
     packagegroup-sdr-uhd \
     packagegroup-sdr-rtlsdr \
     packagegroup-sdr-bladerf \
+    gr-baz \
+    gr-burst \
+    gr-framers \
+    gr-mac \
+    gr-mapper \
+    gr-message-tools \
 "
