@@ -52,15 +52,18 @@ ALLOW_EMPTY_${PN} = "1"
 
 GR_PACKAGES = "gnuradio-dbg gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-channels gnuradio-ctrlport gnuradio-digital gnuradio-fec gnuradio-fft \
-            gnuradio-filter gnuradio-gr gnuradio-grc gnuradio-gru \
+            gnuradio-filter gnuradio-gr gnuradio-gru \
             gnuradio-gr-utils \
             gnuradio-modtool gnuradio-noaa gnuradio-pager gnuradio-pmt \
-            gnuradio-qtgui gnuradio-runtime \
+            gnuradio-runtime \
             gnuradio-trellis gnuradio-uhd gnuradio-vocoder \
             gnuradio-volk gnuradio-volk-modtool gnuradio-wavelet \
             gnuradio-examples \
             gnuradio-staticdev gnuradio-dev gnuradio-doc gnuradio-zeromq \
             "
+GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui', 'gnuradio-qtgui', '', d)}"
+GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
+
 PACKAGES = "${GR_PACKAGES} gnuradio"
 
 FILES_${PN}-analog = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/analog \
