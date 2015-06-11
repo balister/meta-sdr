@@ -46,7 +46,7 @@ volk_32fc_32f_dot_prod_32fc a_neonpipeline neon_unroll
   
 volk_32fc_magnitude_32f neon neon
 volk_32fc_magnitude_squared_32f neon neon
-volk_32fc_x2_multiply_32fc neonasm neonasm
+volk_32fc_x2_multiply_32fc neon neon
 volk_32fc_x2_multiply_conjugate_32fc neon neon
 volk_32fc_conjugate_32fc a_neon generic
 volk_32f_s32f_convert_16i generic generic
