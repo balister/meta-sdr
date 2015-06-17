@@ -2,12 +2,12 @@ require recipes-support/uhd/uhd.inc
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=8255adf1069294c928e0e18b01a16282"
 
-PV = "3.8.2.1"
+PV = "3.8.4.50"
 
-SRC_URI = "git://github.com/EttusResearch/uhd.git;branch=maint \
+SRC_URI = "git://github.com/EttusResearch/uhd.git;branch=rfnoc-devel \
           "
 
-SRCREV = "2fe319d9790c7ec0bcdb9582c4fea95f3fd809b9"
+SRCREV = "b15afd6085d2811d0417f13e6ff824fc6c7361e0"
 
 S = "${WORKDIR}/git/host"
 
