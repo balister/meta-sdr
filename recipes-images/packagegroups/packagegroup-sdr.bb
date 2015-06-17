@@ -83,6 +83,7 @@ SUMMARY_packagegroup-sdr-gnuradio = "All the GNU Radio stuff we know about."
 RDEPENDS_packagegroup-sdr-gnuradio = "\
     gnuradio \
     gnuradio-dbg \
+    gr-ettus \
     gr-osmosdr \
     gr-eventstream \
 "
