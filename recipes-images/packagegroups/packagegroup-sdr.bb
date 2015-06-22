@@ -34,6 +34,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     openssh-sftp-server \
     procps \
     ntpdate \
+    ntp-utils \
     linux-firmware \
     resolvconf \
     sqlite3 \
