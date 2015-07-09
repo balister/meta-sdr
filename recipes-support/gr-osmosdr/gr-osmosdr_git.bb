@@ -11,7 +11,7 @@ DEPENDS = "gnuradio"
 PACKAGECONFIG ??= "uhd rtl-sdr bladerf hackrf rfspace"
 
 PACKAGECONFIG[uhd] = "-DENABLE_UHD=ON,-DENABLE_UHD=OFF,uhd, "
-PACKAGECONFIG[rtl-dr] = "-DENABLE_RTL=ON -DENABLE_RTL_TCP=ON,\
+PACKAGECONFIG[rtl-sdr] = "-DENABLE_RTL=ON -DENABLE_RTL_TCP=ON,\
                          -DENABLE_RTL=OFF -DENABLE_RTL_TCP=OFF,rtl-sdr, "
 PACKAGECONFIG[bladerf] = "-DENABLE_BLADERF=ON,-DENABLE_BLADERF=OFF,libbladerf, "
 PACKAGECONFIG[hackrf] = "-DENABLE_HACKRF=ON,-DENABLE_HACKRF=OFF,libhackrf, "
@@ -25,10 +25,10 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
 
-PV = "0.1.3"
+PV = "0.1.4"
 
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "7a013ca84a08528c64fc742e7fa65bcdc1e12478"
+SRCREV = "a45968f3381f33b86ca344bb76bd62c131d98d93"

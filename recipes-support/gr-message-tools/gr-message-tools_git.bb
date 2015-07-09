@@ -13,10 +13,10 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
-PV = "0.0.1+git${SRCPV}"
+PV = "0.0.2+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-message_tools;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "66fcab2e85114931967fb45e07ecc3045f0c2ccb"
+SRCREV = "c4ed7e3c1e4ab7bf19e5c660682b11c22f28f261"

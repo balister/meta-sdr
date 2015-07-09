@@ -52,15 +52,18 @@ ALLOW_EMPTY_${PN} = "1"
 
 GR_PACKAGES = "gnuradio-dbg gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-channels gnuradio-ctrlport gnuradio-digital gnuradio-fec gnuradio-fft \
-            gnuradio-filter gnuradio-gr gnuradio-grc gnuradio-gru \
+            gnuradio-filter gnuradio-gr gnuradio-gru \
             gnuradio-gr-utils \
             gnuradio-modtool gnuradio-noaa gnuradio-pager gnuradio-pmt \
-            gnuradio-qtgui gnuradio-runtime \
+            gnuradio-runtime \
             gnuradio-trellis gnuradio-uhd gnuradio-vocoder \
             gnuradio-volk gnuradio-volk-modtool gnuradio-wavelet \
             gnuradio-examples \
             gnuradio-staticdev gnuradio-dev gnuradio-doc gnuradio-zeromq \
             "
+GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui', 'gnuradio-qtgui', '', d)}"
+GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
+
 PACKAGES = "${GR_PACKAGES} gnuradio"
 
 FILES_${PN}-analog = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/analog \
@@ -172,11 +175,11 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.7"
+PV = "3.7.7.1"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "0f738ac33bd6441cc9909d64d7ea4f688079d7b0"
+SRCREV = "608c13518e2d5e30b4eed633d7286eb1ebb60ad9"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"

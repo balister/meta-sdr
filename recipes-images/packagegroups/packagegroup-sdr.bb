@@ -29,10 +29,12 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     htop \
     sshfs-fuse \
     libudev \
+    nfs-utils-client \
     openssh-sftp \
     openssh-sftp-server \
     procps \
     ntpdate \
+    ntp-utils \
     linux-firmware \
     resolvconf \
     sqlite3 \
@@ -74,6 +76,8 @@ RDEPENDS_packagegroup-sdr-python = "\
     python-numpy \
     python-cython \
     python-pip \
+    python-twisted \
+    python-six \
 "
 
 SUMMARY_packagegroup-sdr-gnuradio = "All the GNU Radio stuff we know about."
@@ -107,4 +111,10 @@ RDEPENDS_packagegroup-sdr-hardware = "\
     packagegroup-sdr-uhd \
     packagegroup-sdr-rtlsdr \
     packagegroup-sdr-bladerf \
+    gr-baz \
+    gr-burst \
+    gr-framers \
+    gr-mac \
+    gr-mapper \
+    gr-message-tools \
 "
