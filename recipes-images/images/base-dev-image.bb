@@ -21,4 +21,4 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-sdr-python \
     "
 
-inherit core-image image-buildinfo
+inherit core-image
