@@ -77,6 +77,7 @@ RDEPENDS_packagegroup-sdr-python = "\
     python-cython \
     python-pip \
     python-twisted \
+    python-mako \
 "
 
 SUMMARY_packagegroup-sdr-gnuradio = "All the GNU Radio stuff we know about."

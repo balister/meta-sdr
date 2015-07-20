@@ -4,6 +4,6 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
     nativesdk-python-subprocess nativesdk-python-modules \
     nativesdk-orc nativesdk-swig nativesdk-python-distutils \
     nativesdk-python-xml nativesdk-python-compile \
-    nativesdk-cmake \
+    nativesdk-cmake nativesdk-python-mako \
     "
 
