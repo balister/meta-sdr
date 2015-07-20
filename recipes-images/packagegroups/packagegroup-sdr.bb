@@ -34,6 +34,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     openssh-sftp-server \
     procps \
     ntpdate \
+    ntp-utils \
     linux-firmware \
     resolvconf \
     sqlite3 \
@@ -77,6 +78,7 @@ RDEPENDS_packagegroup-sdr-python = "\
     python-pip \
     python-twisted \
     python-six \
+    python-mako \
 "
 
 SUMMARY_packagegroup-sdr-gnuradio = "All the GNU Radio stuff we know about."
