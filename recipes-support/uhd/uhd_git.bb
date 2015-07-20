@@ -7,7 +7,7 @@ PV = "3.8.4.50"
 SRC_URI = "git://github.com/EttusResearch/uhd.git;branch=rfnoc-devel \
           "
 
-SRCREV = "b15afd6085d2811d0417f13e6ff824fc6c7361e0"
+SRCREV = "4e013edefb2dd1799d55d722cb5d0d4e4f0d6425"
 
 S = "${WORKDIR}/git/host"
 
