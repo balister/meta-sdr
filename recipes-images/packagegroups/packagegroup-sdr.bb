@@ -49,7 +49,6 @@ RDEPENDS_packagegroup-sdr-debug = "\
     devmem2 \
     iperf \
     tcpdump \
-    valgrind \
 "
 
 # Also set the image feature dev-pkgs, tools-sdk, and tools-debug
