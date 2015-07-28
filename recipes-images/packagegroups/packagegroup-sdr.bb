@@ -27,6 +27,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     vim \
     vim-vimrc \
     htop \
+    iw \
     sshfs-fuse \
     libudev \
     nfs-utils-client \
