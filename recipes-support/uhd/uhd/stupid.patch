@@ -1,0 +1,72 @@
+Return-Path: <moritz.fischer@ettus.com>
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on backup01.geekisp.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.6 required=5.0 tests=RCVD_IN_DNSWL_LOW,RDNS_NONE
+	autolearn=disabled version=3.3.2
+Delivered-To: balister.org-philip@balister.org
+Received: (qmail 10974 invoked by uid 1003); 28 Jul 2015 02:17:25 -0000
+Received: from unknown (HELO mail-pa0-f54.google.com) (209.85.220.54)
+  by mail.geekisp.com with (RC4-SHA encrypted) SMTP; 28 Jul 2015 02:17:25 -0000
+Received: by padck2 with SMTP id ck2so61212741pad.0
+        for <philip@balister.org>; Mon, 27 Jul 2015 19:17:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20130820;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=E9jnzzCbVqOdqZlMXXIDt1w89p8SoJifNt9zSCn3738=;
+        b=VkAeS1C87mz6RMWo9vZeTIbRrj8muYbuM0pWQn58EqWArZmLFjEjcxy40H0xp+0uDf
+         vpSnUj7/4jvp8XORnieopqgKUxeL550u5aEBeQ/HylfBW8EPSBNJuZnfNq1hKx/bu8JF
+         iIJfEWa9CmRLbTI+XipJ4a1i8hjsgsmGyi+sUsc0zWiZ5faERLhfGuBGaY3xGeTIF8aH
+         IMVsRxZcM4NJsZfy44mRpRrxGmmiCiqDlnIY6Vr4Oii8jzBh+hVBvaEp8AcHNs0/+jQJ
+         CB0W49jNPgQe2QQuISaUGCWf2stmAmPgVs7Bl8x7PaC4DL74jx/b+Xe9hcA4nhK8UD8g
+         i0rw==
+X-Gm-Message-State: ALoCoQnkAzxNBPpYCvVjdTvQFYNFWjQjA6wEfHLk0zepfyhGGM7RuN7/OMPWc6shvypGI1AGJdgN
+X-Received: by 10.66.141.5 with SMTP id rk5mr76321518pab.16.1438049845161;
+        Mon, 27 Jul 2015 19:17:25 -0700 (PDT)
+Return-Path: <moritz.fischer@ettus.com>
+Received: from fenrir.amer.corp.natinst.com (209-234-137-234.static.twtelecom.net. [209.234.137.234])
+        by smtp.gmail.com with ESMTPSA id o8sm31840068pdp.70.2015.07.27.19.17.23
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 27 Jul 2015 19:17:24 -0700 (PDT)
+From: Moritz Fischer <moritz.fischer@ettus.com>
+To: philip@balister.org
+Cc: Moritz Fischer <moritz.fischer@ettus.com>
+Subject: [PATCH] e3xx: Make frame sizes configurable.
+Date: Mon, 27 Jul 2015 19:17:14 -0700
+Message-Id: <1438049834-27871-2-git-send-email-moritz.fischer@ettus.com>
+X-Mailer: git-send-email 2.4.3
+In-Reply-To: <1438049834-27871-1-git-send-email-moritz.fischer@ettus.com>
+References: <1438049834-27871-1-git-send-email-moritz.fischer@ettus.com>
+
+Signed-off-by: Moritz Fischer <moritz.fischer@ettus.com>
+---
+ host/lib/usrp/e300/e300_impl.cpp | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/host/lib/usrp/e300/e300_impl.cpp b/host/lib/usrp/e300/e300_impl.cpp
+index 515fccc..3e66192 100644
+--- a/host/lib/usrp/e300/e300_impl.cpp
++++ b/host/lib/usrp/e300/e300_impl.cpp
+@@ -325,10 +325,15 @@ e300_impl::e300_impl(const uhd::device_addr_t &device_addr)
+     _ctrl_xport_params.send_frame_size = e300::DEFAULT_CTRL_FRAME_SIZE;
+     _ctrl_xport_params.num_send_frames = e300::DEFAULT_CTRL_NUM_FRAMES;
+ 
+-    _data_xport_params.recv_frame_size = e300::DEFAULT_RX_DATA_FRAME_SIZE;
+-    _data_xport_params.num_recv_frames = e300::DEFAULT_RX_DATA_NUM_FRAMES;
+-    _data_xport_params.send_frame_size = e300::DEFAULT_TX_DATA_FRAME_SIZE;
+-    _data_xport_params.num_send_frames = e300::DEFAULT_TX_DATA_NUM_FRAMES;
++    _data_xport_params.recv_frame_size = device_addr.cast<size_t>("recv_frame_size",
++        e300::DEFAULT_RX_DATA_FRAME_SIZE);
++    _data_xport_params.num_recv_frames = device_addr.cast<size_t>("num_recv_frames",
++	e300::DEFAULT_RX_DATA_NUM_FRAMES);
++    _data_xport_params.send_frame_size = device_addr.cast<size_t>("send_frame_size",
++        e300::DEFAULT_TX_DATA_FRAME_SIZE);
++    _data_xport_params.num_send_frames = device_addr.cast<size_t>("num_send_frames",
++	e300::DEFAULT_TX_DATA_NUM_FRAMES);
++
+ 
+     // until we figure out why this goes wrong we'll keep this hack around
+     if (_xport_path == ETH) {
+-- 
+2.4.3
+
