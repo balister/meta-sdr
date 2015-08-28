@@ -15,7 +15,7 @@ PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
 PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,zeroc-ice, "
-PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq, "
+PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
 inherit distutils-base cmake pkgconfig
@@ -34,6 +34,8 @@ RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
 
 RDEPENDS_${PN}-qtgui = "python-pyqt python-sip"
+
+RDEPENDS_${PN}-zeromq = "python-pyzmq"
 
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
