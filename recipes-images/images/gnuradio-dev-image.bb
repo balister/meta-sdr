@@ -21,6 +21,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-sdr-python \
     packagegroup-sdr-gnuradio \
     packagegroup-sdr-hardware \
+    packagegroup-core-eclipse-debug \
     xauth \
     "
 
