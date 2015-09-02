@@ -3,8 +3,9 @@ HOMEPAGE = "http://www.ettus.com"
 LICENSE = "GPLv3+"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=8255adf1069294c928e0e18b01a16282"
 
-DEPENDS = "git-native python-cheetah-native boost libusb1 uhd-firmware orc-native ncurses udev"
-RDEPENDS_${PN} += "uhd-firmware"
+DEPENDS = "git-native python-mako-native boost libusb1 uhd-firmware \
+           ncurses udev gpsd python-requests"
+RDEPENDS_${PN} += "uhd-firmware python-requests"
 
 inherit cmake pythonnative
 
@@ -24,7 +25,7 @@ FILES_${PN}-dbg += "${libdir}/uhd/examples/.debug/* \
 FILES_${PN}-examples = "${libdir}/uhd/examples/*"
 
 PACKAGECONFIG ??= ""
-PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc"
+PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc orc-native"
 
 EXTRA_OECMAKE = "-DENABLE_E100=TRUE -DENABLE_E300=TRUE -DENABLE_UHD=TRUE"
 
