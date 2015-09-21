@@ -16,9 +16,9 @@ require recipes-images/images/native-sdk.inc
 
 CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-sdr-base-extended \
-    packagegroup-sdr-debug \
-    packagegroup-sdr-devel \
-    packagegroup-sdr-python \
+    packagegroup-sdr-base-debug \
+    packagegroup-sdr-base-devel \
+    packagegroup-sdr-base-python \
     "
 
 inherit core-image image-buildinfo
