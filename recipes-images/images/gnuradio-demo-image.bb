@@ -3,6 +3,7 @@ require gnuradio-dev-image.bb
 IMAGE_FEATURES += "x11-base qt4-pkgs"
 
 CORE_IMAGE_EXTRA_INSTALL += "\
+    packagegroup-sdr-gnuradio-extended \
     gqrx \
     xinput-calibrator \
     mesa \
@@ -17,7 +18,4 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     php \
     php-cgi \
     python-pyqt \
-    gr-baz \
-    gr-ais \
-    gr-mac \
     "

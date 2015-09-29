@@ -16,11 +16,13 @@ require recipes-images/images/native-sdk.inc
 
 CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-sdr-base-extended \
-    packagegroup-sdr-debug \
-    packagegroup-sdr-devel \
-    packagegroup-sdr-python \
-    packagegroup-sdr-gnuradio \
+    packagegroup-sdr-base-debug \
+    packagegroup-sdr-base-devel \
+    packagegroup-sdr-base-python \
+    packagegroup-sdr-python-extended \
+    packagegroup-sdr-gnuradio-base \
     packagegroup-sdr-hardware \
+    packagegroup-core-eclipse-debug \
     xauth \
     "
 

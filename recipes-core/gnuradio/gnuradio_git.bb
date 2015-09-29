@@ -15,7 +15,7 @@ PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
 PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,zeroc-ice, "
-PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq, "
+PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
 inherit distutils-base cmake pkgconfig
@@ -34,6 +34,8 @@ RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
 
 RDEPENDS_${PN}-qtgui = "python-pyqt python-sip"
+
+RDEPENDS_${PN}-zeromq = "python-pyzmq"
 
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
@@ -175,11 +177,11 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.7.1"
+PV = "3.7.8"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "608c13518e2d5e30b4eed633d7286eb1ebb60ad9"
+SRCREV = "22e2f1aed8afdfccce3884cf6bf3140c2b8e3f53"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"
