@@ -13,13 +13,13 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
 
-PV = "0.0.2+git${SRCPV}"
+PV = "0.0.3+git${SRCPV}"
 
 SRC_URI = "git://github.com/EttusResearch/gr-ettus.git;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "fc9f67660a146caf4ff37572056d12ba8920fbae"
+SRCREV = "ed969f9be22b23b0aacb2edd67e287e98db4ef8c"
 
 EXTRA_OECMAKE = " \
                  -DQT_HEADERS_DIR=${STAGING_INCDIR}/qt4 \
