@@ -14,7 +14,7 @@ PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheet
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
-PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,zeroc-ice, "
+PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thrift thrift-native, "
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
@@ -52,7 +52,7 @@ do_compile_prepend() {
 
 ALLOW_EMPTY_${PN} = "1"
 
-GR_PACKAGES = "gnuradio-dbg gnuradio-analog gnuradio-audio gnuradio-blocks \
+GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-channels gnuradio-ctrlport gnuradio-digital gnuradio-fec gnuradio-fft \
             gnuradio-filter gnuradio-gr gnuradio-gru \
             gnuradio-gr-utils \
@@ -66,7 +66,7 @@ GR_PACKAGES = "gnuradio-dbg gnuradio-analog gnuradio-audio gnuradio-blocks \
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
 
-PACKAGES = "${GR_PACKAGES} gnuradio"
+PACKAGES = "gnuradio-dbg ${GR_PACKAGES} gnuradio"
 
 FILES_${PN}-analog = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/analog \
                       ${datadir}/gnuradio/analog"
@@ -177,17 +177,18 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.8"
+PV = "3.7.9"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "22e2f1aed8afdfccce3884cf6bf3140c2b8e3f53"
+SRCREV = "fc515b5e5333e5fbdbdadda6cd626150de190ade"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-runtime-add-backpressure-to-message-ports.patch \
+           file://0001-Fix-64-bit-OpenEmbedded-builds.patch \
           "
 
 S="${WORKDIR}/git"

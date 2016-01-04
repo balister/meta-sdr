@@ -1,0 +1,66 @@
+From dec480ab3f0809677ba3ef2a3a64d402d742b5ec Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Mon, 28 Dec 2015 17:15:55 -0500
+Subject: [PATCH] Fix 64 bit OpenEmbedded builds.
+
+GNU Radio is looking at files on the build system to determine if it should
+use the lib64 directory. This doesn't work on cross builds. Do not set
+REDHAT, DEBIAN, or SLACKWARE if cross compiling.
+
+Also fix gr-newmod so modules do the right thing.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ cmake/Modules/GrPlatform.cmake                                   | 6 +++---
+ gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPlatform.cmake | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/cmake/Modules/GrPlatform.cmake b/cmake/Modules/GrPlatform.cmake
+index 5b7e886..fbbea5f 100644
+--- a/cmake/Modules/GrPlatform.cmake
++++ b/cmake/Modules/GrPlatform.cmake
+@@ -29,15 +29,15 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+     set(LINUX TRUE)
+ endif()
+ 
+-if(LINUX AND EXISTS "/etc/debian_version")
++if(NOT CMAKE_CROSSCOMPILING AND LINUX AND EXISTS "/etc/debian_version")
+     set(DEBIAN TRUE)
+ endif()
+ 
+-if(LINUX AND EXISTS "/etc/redhat-release")
++if(NOT CMAKE_CROSSCOMPILING AND LINUX AND EXISTS "/etc/redhat-release")
+     set(REDHAT TRUE)
+ endif()
+ 
+-if(LINUX AND EXISTS "/etc/slackware-version")
++if(NOT CMAKE_CROSSCOMPILING AND LINUX AND EXISTS "/etc/slackware-version")
+     set(SLACKWARE TRUE)
+ endif()
+ 
+diff --git a/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPlatform.cmake b/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPlatform.cmake
+index 5b7e886..fbbea5f 100644
+--- a/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPlatform.cmake
++++ b/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPlatform.cmake
+@@ -29,15 +29,15 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+     set(LINUX TRUE)
+ endif()
+ 
+-if(LINUX AND EXISTS "/etc/debian_version")
++if(NOT CMAKE_CROSSCOMPILING AND LINUX AND EXISTS "/etc/debian_version")
+     set(DEBIAN TRUE)
+ endif()
+ 
+-if(LINUX AND EXISTS "/etc/redhat-release")
++if(NOT CMAKE_CROSSCOMPILING AND LINUX AND EXISTS "/etc/redhat-release")
+     set(REDHAT TRUE)
+ endif()
+ 
+-if(LINUX AND EXISTS "/etc/slackware-version")
++if(NOT CMAKE_CROSSCOMPILING AND LINUX AND EXISTS "/etc/slackware-version")
+     set(SLACKWARE TRUE)
+ endif()
+ 
+-- 
+2.5.0
+
