@@ -16,6 +16,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 PV = "0.0.3+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-burst;branch=master \
+           file://cross-64.patch \
           "
 S = "${WORKDIR}/git"
 

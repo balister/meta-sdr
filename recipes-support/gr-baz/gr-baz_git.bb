@@ -16,6 +16,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 PV = "0.0.6+git${SRCPV}"
 
 SRC_URI = "git://github.com/balint256/gr-baz;branch=master \
+           file://cross-64.patch \
           "
 S = "${WORKDIR}/git"
 

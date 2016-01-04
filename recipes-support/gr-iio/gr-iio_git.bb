@@ -16,7 +16,6 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 PV = "0.0.1+git${SRCPV}"
 
 SRC_URI = "git://github.com/jmalsbury/gr-mac;branch=master \
-           file://cross-64.patch \
           "
 S = "${WORKDIR}/git"
 
