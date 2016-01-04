@@ -14,15 +14,15 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
-PV = "1.1.0"
+PV = "1.2.0"
 
-SRC_URI = "git://github.com/gnuradio/volk.git;branch=maint \
+SRC_URI = "git://github.com/gnuradio/volk.git;branch=master \
           "
 SRC_URI_append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "52f219294c2424b541739b28dd7296196067dba9"
+SRCREV = "c2c7f82aea2ed99df66fad2b91ed29791d7818a5"
 
 PACKAGES += "${PN}-modtool"
 
