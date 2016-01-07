@@ -46,4 +46,4 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     uhd-examples \
     "
 
-inherit core-image
+inherit core-image image-buildinfo
