@@ -141,7 +141,7 @@ PACKAGE_CLASSES ?= "package_ipk"
 # There are other application targets that can be used here too, see
 # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
 # We default to enabling the debugging tweaks.
-EXTRA_IMAGE_FEATURES = "debug-tweaks tools-profile"
+EXTRA_IMAGE_FEATURES = "debug-tweaks tools-profile dev-pkgs dbg-pkgs"
 EXTRA_IMAGE_FEATURES_remove_ettus-e1xx = "tools-profile"
 
 IMAGE_FSTYPES = "tar.gz"
