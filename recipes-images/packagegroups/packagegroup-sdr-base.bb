@@ -29,6 +29,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     openssh-sftp \
     openssh-sftp-server \
     procps \
+    ntp \
     ntpdate \
     ntp-utils \
     linux-firmware \
