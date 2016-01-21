@@ -1,6 +1,6 @@
 require gnuradio-dev-image.bb
 
-IMAGE_FEATURES += "x11-base qt4-pkgs"
+IMAGE_FEATURES += "x11-base "
 
 CORE_IMAGE_EXTRA_INSTALL += "\
     packagegroup-sdr-gnuradio-extended \
