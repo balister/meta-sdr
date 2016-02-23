@@ -1,0 +1,25 @@
+From db61c2ea6ddc0cf0ef04c79593e1a76174c93dd1 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Fri, 12 Feb 2016 13:06:33 -0500
+Subject: [PATCH] Do not store build system CFLAGS in the pkgconfig file.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ librtlsdr.pc.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/librtlsdr.pc.in b/librtlsdr.pc.in
+index 5e55049..c879f68 100644
+--- a/librtlsdr.pc.in
++++ b/librtlsdr.pc.in
+@@ -6,6 +6,6 @@ includedir=@includedir@
+ Name: RTL-SDR Library
+ Description: C Utility Library
+ Version: @VERSION@
+-Cflags: -I${includedir}/ @RTLSDR_PC_CFLAGS@
++Cflags: -I${includedir}/
+ Libs: -L${libdir} -lrtlsdr -lusb-1.0
+ Libs.private: @RTLSDR_PC_LIBS@
+-- 
+2.5.0
+

@@ -8,8 +8,10 @@ DEPENDS = "libusb1"
 
 PV = "0.5.3+git${SRCPV}"
 
-SRC_URI = "git://git.osmocom.org/rtl-sdr"
-SRCREV = "6ee557360645da158e3065111349c318894b497b"
+SRC_URI = "git://git.osmocom.org/rtl-sdr \
+           file://0001-Do-not-store-build-system-CFLAGS-in-the-pkgconfig-fi.patch \
+          "
+SRCREV = "e3c03f738f5aef4dc51e2b741fbdb542b9cc1bb1"
 
 S = "${WORKDIR}/git"
 
