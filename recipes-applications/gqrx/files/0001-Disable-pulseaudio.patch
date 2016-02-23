@@ -1,4 +1,4 @@
-From 11635d41c0590593fd192993a324211499e662a0 Mon Sep 17 00:00:00 2001
+From 6d443533a040e392d77774986f2fb6e7d51ba3d0 Mon Sep 17 00:00:00 2001
 From: Philip Balister <philip@balister.org>
 Date: Tue, 23 Sep 2014 13:18:41 -0400
 Subject: [PATCH] Disable pulseaudio.
@@ -9,7 +9,7 @@ Signed-off-by: Philip Balister <philip@balister.org>
  1 file changed, 8 deletions(-)
 
 diff --git a/gqrx.pro b/gqrx.pro
-index b1e7687..f9f85ca 100644
+index cd983b3..7a39177 100644
 --- a/gqrx.pro
 +++ b/gqrx.pro
 @@ -27,14 +27,6 @@ macx {
@@ -24,9 +24,9 @@ index b1e7687..f9f85ca 100644
 -    }
 -}
 -
- RESOURCES += icons.qrc \
-     textfiles.qrc
- 
+ RESOURCES += \
+     resources/icons.qrc \
+     resources/textfiles.qrc
 -- 
-1.8.3.1
+2.5.0
 
