@@ -177,18 +177,17 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.9"
+PV = "3.7.9.1"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "fc515b5e5333e5fbdbdadda6cd626150de190ade"
+SRCREV = "d01c4cc596ed06b901fef0af927da349135c82f8"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-runtime-add-backpressure-to-message-ports.patch \
-           file://0001-Fix-64-bit-OpenEmbedded-builds.patch \
           "
 
 S="${WORKDIR}/git"
