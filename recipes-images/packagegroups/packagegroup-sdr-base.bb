@@ -33,7 +33,6 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     ntpdate \
     ntp-utils \
     linux-firmware \
-    libsodium \
     resolvconf \
     sqlite3 \
     tar \
