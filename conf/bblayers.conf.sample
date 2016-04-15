@@ -7,9 +7,7 @@ BBFILES ?= ""
 
 BBLAYERS ?= " \
   ##COREBASE##/meta \
-  ##COREBASE##/../meta-ettus/e100-bsp \
-  ##COREBASE##/../meta-ettus/e300-bsp \
-  ##COREBASE##/../meta-ettus/common \
+  ##COREBASE##/../meta-ettus \
   ##COREBASE##/../meta-xilinx \
   ##COREBASE##/../meta-oe/meta-oe \
   ##COREBASE##/../meta-oe/meta-networking \

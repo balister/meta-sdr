@@ -10,7 +10,7 @@ DEPENDS = "volk gsl fftwf python alsa-lib boost cppunit \
 PACKAGECONFIG ??= "qtgui grc uhd zeromq"
 
 PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
-PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
+PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-cheetah, "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
@@ -31,7 +31,7 @@ RDEPENDS_${PN} = "python-core python-audio python-threading python-codecs \
 "
 RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
-RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
+RDEPENDS_${PN}-grc = "python-lxml python-cheetah python-netserver"
 
 RDEPENDS_${PN}-qtgui = "python-pyqt python-sip"
 
@@ -177,11 +177,11 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.9.1"
+PV = "3.7.9.2"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "d01c4cc596ed06b901fef0af927da349135c82f8"
+SRCREV = "b7da9af4f229a213a225318656734e22dc068b02"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"
