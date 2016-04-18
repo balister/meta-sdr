@@ -9,6 +9,7 @@ inherit pythonnative cmake pkgconfig
 
 PACKAGECONFIG ??= ""
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
+PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
