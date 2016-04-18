@@ -7,7 +7,7 @@ DEPENDS = "volk gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
-PACKAGECONFIG ??= "qtgui grc uhd zeromq"
+PACKAGECONFIG ??= "uhd zeromq"
 
 PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
@@ -211,4 +211,3 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
 "
 
 inherit distutils-base cmake pkgconfig
-
