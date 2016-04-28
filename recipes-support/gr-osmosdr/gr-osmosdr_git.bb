@@ -28,6 +28,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
 PV = "0.1.4"
 
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
+           file://0001-staticlibs.patch \
            file://cross-64.patch \
           "
 S = "${WORKDIR}/git"
