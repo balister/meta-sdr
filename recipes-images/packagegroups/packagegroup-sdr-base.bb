@@ -25,6 +25,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     iw \
     sshfs-fuse \
     libudev \
+    nano \
     nfs-utils-client \
     openssh-sftp \
     openssh-sftp-server \
