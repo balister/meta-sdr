@@ -19,5 +19,4 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     php-cgi \
     python-pyqt \
     python-txws \
-    python-pyephem \
     "
