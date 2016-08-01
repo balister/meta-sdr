@@ -13,11 +13,11 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
-PV = "0.0.3+git${SRCPV}"
+PV = "0.0.4+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-burst;branch=master \
            file://cross-64.patch \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "f0f6c99563e82226b83bfc99d152b1036174ceec"
+SRCREV = "157347b7637371cbb7bab7b28e78929e1b3f75c6"
