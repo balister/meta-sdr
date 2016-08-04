@@ -16,6 +16,7 @@ export STAGING_LIBDIR
 
 PV = "1.2.2"
 SRC_URI = "git://github.com/gnuradio/volk.git;branch=master \
+           file://0001-Check-for-lib64-verus-lib-and-set-LIB_SUFFIX-accordi.patch \
           "
 SRC_URI_append_ettus-e300 = "file://volk_config"
 
