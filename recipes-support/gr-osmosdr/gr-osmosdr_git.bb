@@ -30,6 +30,7 @@ PV = "0.1.4"
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
            file://0001-staticlibs.patch \
            file://cross-64.patch \
+           file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "
 S = "${WORKDIR}/git"
 
