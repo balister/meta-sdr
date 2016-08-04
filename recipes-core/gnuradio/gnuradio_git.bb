@@ -188,6 +188,7 @@ GIT_BRANCH = "maint"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-runtime-add-backpressure-to-message-ports.patch \
+           file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "
 
 S="${WORKDIR}/git"
