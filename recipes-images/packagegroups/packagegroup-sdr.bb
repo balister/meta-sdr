@@ -60,7 +60,6 @@ RDEPENDS_packagegroup-sdr-hardware = "\
 
 SUMMARY_packagegroup-sdr-gnuradio-extended = "All GNU Radio OOT modules."
 RDEPENDS_packagegroup-sdr-gnuradio-extended = "\
-    gr-baz \
     gr-framers \
     gr-mac \
     gr-mapper \
