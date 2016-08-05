@@ -17,6 +17,7 @@ PV = "0.0.1+git${SRCPV}"
 
 SRC_URI = "git://github.com/jmalsbury/gr-mac;branch=master \
            file://cross-64.patch \
+           file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "
 S = "${WORKDIR}/git"
 
