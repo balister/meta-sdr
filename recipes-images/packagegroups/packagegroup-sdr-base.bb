@@ -25,10 +25,12 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     iw \
     sshfs-fuse \
     libudev \
+    nano \
     nfs-utils-client \
     openssh-sftp \
     openssh-sftp-server \
     procps \
+    protobuf \
     ntp \
     ntpdate \
     ntp-utils \
@@ -72,4 +74,3 @@ RDEPENDS_packagegroup-sdr-base-python = "\
     python-pip \
     python-mako \
 "
-

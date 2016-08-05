@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://share/uhd/images/LICENSE;md5=8255adf1069294c928e0e18b
 inherit allarch
 
 SRC_URI = "http://files.ettus.com/binaries/images/uhd-images_${PV}-release.zip"
-SRC_URI[md5sum] = "07b9d06a068cf591fcd0e460552ed02d"
-SRC_URI[sha256sum] = "67edead4afcb562cbd8316c928d32601f9353396ee37b9fab541978d2d66d802"
+SRC_URI[md5sum] = "c33b36a74d82198c8cfede64d8775c46"
+SRC_URI[sha256sum] = "8669d578780135cd88bd0105288a6ddbd4113701822fab9537d269d147d90891"
 
 S = "${WORKDIR}/uhd-images_${PV}-release"
 

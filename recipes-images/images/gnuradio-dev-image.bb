@@ -24,6 +24,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-sdr-hardware \
     packagegroup-core-eclipse-debug \
     xauth \
+    e2fsprogs-resize2fs \
     "
 
 #    zeroc-ice 
