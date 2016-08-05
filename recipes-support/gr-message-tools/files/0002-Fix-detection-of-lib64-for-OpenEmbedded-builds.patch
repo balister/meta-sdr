@@ -1,0 +1,45 @@
+From 551711d6902bc2db8005a16c51318f31c6e1b232 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Fri, 5 Aug 2016 13:14:33 -0400
+Subject: [PATCH 2/2] Fix detection of lib64 for OpenEmbedded builds.
+
+Use CMAKE_INSTAL_LIBDIR to dtermine if target is using lib64 or lib.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ CMakeLists.txt                 | 2 +-
+ cmake/Modules/GrPlatform.cmake | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2042b13..a9ed8d1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -147,5 +147,5 @@ add_subdirectory(docs)
+ # Install cmake search helper for this library
+ ########################################################################
+ install(FILES cmake/Modules/message_toolsConfig.cmake        
+-    DESTINATION lib/cmake/message_tools
++    DESTINATION lib${LIB_SUFFIX}/cmake/message_tools
+ )
+diff --git a/cmake/Modules/GrPlatform.cmake b/cmake/Modules/GrPlatform.cmake
+index 0e9891a..96c2bbf 100644
+--- a/cmake/Modules/GrPlatform.cmake
++++ b/cmake/Modules/GrPlatform.cmake
+@@ -38,6 +38,13 @@ if(NOT CMAKE_CROSSCOMPILING AND LINUX AND EXISTS "/etc/redhat-release")
+ endif()
+ 
+ ########################################################################
++# Detect /lib versus /lib64
++########################################################################
++if (CMAKE_INSTALL_LIBDIR MATCHES lib64)
++    set(LIB_SUFFIX 64)
++endif()
++
++########################################################################
+ # when the library suffix should be 64 (applies to redhat linux family)
+ ########################################################################
+ if(NOT DEFINED LIB_SUFFIX AND REDHAT AND CMAKE_SYSTEM_PROCESSOR MATCHES "64$")
+-- 
+2.5.5
+
