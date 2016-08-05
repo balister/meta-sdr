@@ -16,8 +16,8 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 PV = "0.0.1+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-framers;branch=master \
-           file://cross-64.patch \
-           file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
+           file://0001-Fix-lib64-detection-for-cross-compiling.patch \
+           file://0002-Fix-OpenEmbedded-builds-for-targets-that-use-lib64.patch \
           "
 S = "${WORKDIR}/git"
 
