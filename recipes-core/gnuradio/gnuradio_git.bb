@@ -7,7 +7,7 @@ DEPENDS = "volk gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
-PACKAGECONFIG ??= "qtgui grc uhd zeromq"
+PACKAGECONFIG ??= "qtgui grc uhd zeromq logging"
 
 PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
@@ -177,11 +177,11 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.9.2"
+PV = "3.7.10"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "b7da9af4f229a213a225318656734e22dc068b02"
+SRCREV = "cc58cdd730b7e680ded447ee8f8cff305c83ecbb"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"
