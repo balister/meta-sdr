@@ -1,0 +1,62 @@
+From 1ca1883e1f821a5a531bc391fdc29f3639cd5b65 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Fri, 5 Aug 2016 12:10:21 -0400
+Subject: [PATCH] Use CMAKE_INSTALL_LIBDIR to set LIB_SUFFIX.
+
+OpenEmbedded sets this variable for builds, so use it to figure out if
+the build should install into the lib64 directories.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ CMakeLists.txt                 | 4 ++--
+ cmake/Modules/GrPlatform.cmake | 7 +++++++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9b04f34..0a37785 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -68,6 +68,7 @@ endif()
+ # Setup the package config file
+ ########################################################################
+ #set variables found in the pc.in file
++include(GrPlatform) #define LIB_SUFFIX
+ set(prefix ${CMAKE_INSTALL_PREFIX})
+ set(exec_prefix "\${prefix}")
+ set(libdir "\${exec_prefix}/lib${LIB_SUFFIX}")
+@@ -92,7 +93,6 @@ install(
+ ########################################################################
+ # Install directories
+ ########################################################################
+-include(GrPlatform) #define LIB_SUFFIX
+ set(GR_RUNTIME_DIR      bin)
+ set(GR_LIBRARY_DIR      lib${LIB_SUFFIX})
+ set(GR_INCLUDE_DIR      include/mapper)
+@@ -178,5 +178,5 @@ add_subdirectory(docs)
+ # Install cmake search helper for this library
+ ########################################################################
+ install(FILES cmake/Modules/mapperConfig.cmake        
+-    DESTINATION lib/cmake/mapper
++    DESTINATION lib${LIB_SUFFIX}/cmake/mapper
+ )
+diff --git a/cmake/Modules/GrPlatform.cmake b/cmake/Modules/GrPlatform.cmake
+index 0e9891a..96c2bbf 100644
+--- a/cmake/Modules/GrPlatform.cmake
++++ b/cmake/Modules/GrPlatform.cmake
+@@ -38,6 +38,13 @@ if(NOT CMAKE_CROSSCOMPILING AND LINUX AND EXISTS "/etc/redhat-release")
+ endif()
+ 
+ ########################################################################
++# Detect /lib versus /lib64
++########################################################################
++if (CMAKE_INSTALL_LIBDIR MATCHES lib64)
++    set(LIB_SUFFIX 64)
++endif()
++
++########################################################################
+ # when the library suffix should be 64 (applies to redhat linux family)
+ ########################################################################
+ if(NOT DEFINED LIB_SUFFIX AND REDHAT AND CMAKE_SYSTEM_PROCESSOR MATCHES "64$")
+-- 
+2.5.5
+

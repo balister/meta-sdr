@@ -7,7 +7,7 @@ DEPENDS = "volk gsl fftwf python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
-PACKAGECONFIG ??= "qtgui grc uhd zeromq"
+PACKAGECONFIG ??= "qtgui grc uhd zeromq logging"
 
 PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
@@ -61,12 +61,12 @@ GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-trellis gnuradio-uhd gnuradio-vocoder \
             gnuradio-volk gnuradio-volk-modtool gnuradio-wavelet \
             gnuradio-examples \
-            gnuradio-staticdev gnuradio-dev gnuradio-doc gnuradio-zeromq \
+            gnuradio-doc gnuradio-zeromq \
             "
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
 
-PACKAGES = "gnuradio-dbg ${GR_PACKAGES} gnuradio"
+PACKAGES = "gnuradio-dbg gnuradio-staticdev gnuradio-dev ${GR_PACKAGES} gnuradio"
 
 FILES_${PN}-analog = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/analog \
                       ${datadir}/gnuradio/analog"
@@ -177,17 +177,18 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.9.2"
+PV = "3.7.10"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "b7da9af4f229a213a225318656734e22dc068b02"
+SRCREV = "cc58cdd730b7e680ded447ee8f8cff305c83ecbb"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-runtime-add-backpressure-to-message-ports.patch \
+           file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "
 
 S="${WORKDIR}/git"

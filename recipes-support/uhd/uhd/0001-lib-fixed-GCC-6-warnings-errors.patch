@@ -1,0 +1,73 @@
+From f28a52b652d4234aa88db7c2df80f8b4a6ce6535 Mon Sep 17 00:00:00 2001
+From: Nicholas Corgan <nick.corgan@ettus.com>
+Date: Tue, 21 Jun 2016 09:10:06 -0700
+Subject: [PATCH] lib: fixed GCC 6 warnings/errors
+
+* gpsd_iface: fixed ambiguity in boost::assign::list_of usage
+* b100/clock_ctrl: fixed "misleading indentation" warning
+---
+ host/lib/usrp/b100/clock_ctrl.cpp | 16 +++++++++++++---
+ host/lib/usrp/gpsd_iface.cpp      |  6 +++---
+ 2 files changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/host/lib/usrp/b100/clock_ctrl.cpp b/host/lib/usrp/b100/clock_ctrl.cpp
+index 53a35df..85f3184 100644
+--- a/host/lib/usrp/b100/clock_ctrl.cpp
++++ b/host/lib/usrp/b100/clock_ctrl.cpp
+@@ -1,5 +1,5 @@
+ //
+-// Copyright 2011,2014 Ettus Research LLC
++// Copyright 2011,2014,2016 Ettus Research LLC
+ //
+ // This program is free software: you can redistribute it and/or modify
+ // it under the terms of the GNU General Public License as published by
+@@ -89,12 +89,22 @@ struct clock_settings_type{
+ 
+ //! gives the greatest divisor of num between 1 and max inclusive
+ template<typename T> static inline T greatest_divisor(T num, T max){
+-    for (T i = max; i > 1; i--) if (num%i == 0) return i; return 1;
++    for (T i = max; i > 1; i--){
++        if (num%i == 0){
++            return i;
++        }
++    }
++    return 1;
+ }
+ 
+ //! gives the least divisor of num between min and num exclusive
+ template<typename T> static inline T least_divisor(T num, T min){
+-    for (T i = min; i < num; i++) if (num%i == 0) return i; return 1;
++    for (T i = min; i < num; i++){
++        if (num%i == 0){
++            return i;
++        }
++    }
++    return 1;
+ }
+ 
+ static clock_settings_type get_clock_settings(double rate){
+diff --git a/host/lib/usrp/gpsd_iface.cpp b/host/lib/usrp/gpsd_iface.cpp
+index e0a1dea..cd7e560 100644
+--- a/host/lib/usrp/gpsd_iface.cpp
++++ b/host/lib/usrp/gpsd_iface.cpp
+@@ -1,5 +1,5 @@
+ //
+-// Copyright 2015 Ettus Research LLC
++// Copyright 2015-2016 Ettus Research LLC
+ //
+ // This program is free software: you can redistribute it and/or modify
+ // it under the terms of the GNU General Public License as published by
+@@ -65,8 +65,8 @@ public:
+         _bthread.swap(t);
+ 
+ 
+-        _sensors = boost::assign::list_of("gps_locked")("gps_time") \
+-            ("gps_position")("gps_gpgga")("gps_gprmc");
++        _sensors = boost::assign::list_of<std::string>("gps_locked")("gps_time") \
++            ("gps_position")("gps_gpgga")("gps_gprmc").to_container(_sensors);
+     }
+ 
+     virtual ~gpsd_iface_impl(void)
+-- 
+2.5.5
+
