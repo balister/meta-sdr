@@ -16,6 +16,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 PV = "0.0.3+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-mapper;branch=master \
+           file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "
 S = "${WORKDIR}/git"
 

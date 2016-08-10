@@ -1,3 +1,15 @@
+From c57f44a4f705fe6ffc62021c059ca83908fa884a Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Fri, 5 Aug 2016 13:02:32 -0400
+Subject: [PATCH 1/2] Fix lib64 detection for cross builds.
+
+Can't use build achine info for cross builds.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ cmake/Modules/GrPlatform.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
 diff --git a/cmake/Modules/GrPlatform.cmake b/cmake/Modules/GrPlatform.cmake
 index a2e4f3b..0e9891a 100644
 --- a/cmake/Modules/GrPlatform.cmake
@@ -16,3 +28,6 @@ index a2e4f3b..0e9891a 100644
      set(REDHAT TRUE)
  endif()
  
+-- 
+2.5.5
+

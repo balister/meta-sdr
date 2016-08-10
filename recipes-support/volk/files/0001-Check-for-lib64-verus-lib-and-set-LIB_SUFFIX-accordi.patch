@@ -1,0 +1,34 @@
+From 627bedaf6361786f42697036ea1f6fd2b3b2586d Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Wed, 3 Aug 2016 16:52:31 -0400
+Subject: [PATCH] Check for lib64 verus lib and set LIB_SUFFIX accordingly.
+
+OE passes CMAKE_INSTALL_LIBDIR to the build. Use this variable to set
+LIB_SUFFIX. It is very possible we could rewrite cmake to use this directly.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ CMakeLists.txt | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0d0b647..e9bef19 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -125,6 +125,13 @@ if(DOXYGEN_FOUND)
+ endif(DOXYGEN_FOUND)
+ 
+ ########################################################################
++# Detect /lib versus /lib64
++########################################################################
++if (CMAKE_INSTALL_LIBDIR MATCHES lib64)
++    set(LIB_SUFFIX 64)
++endif()
++
++########################################################################
+ # Setup the package config file
+ ########################################################################
+ #set variables found in the pc.in file
+-- 
+2.5.5
+

@@ -16,7 +16,8 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 PV = "0.0.2+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-message_tools;branch=master \
-           file://cross-64.patch \
+           file://0001-Fix-lib64-detection-for-cross-builds.patch \
+           file://0002-Fix-detection-of-lib64-for-OpenEmbedded-builds.patch \
           "
 S = "${WORKDIR}/git"
 
