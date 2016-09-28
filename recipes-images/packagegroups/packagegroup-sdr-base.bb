@@ -42,6 +42,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     wget \
     zip \
     unzip \
+    rsync \
 "
 
 SUMMARY_packagegroup-sdr-base-debug = "Debugging tools."
@@ -73,4 +74,5 @@ RDEPENDS_packagegroup-sdr-base-python = "\
     python-distutils \
     python-pip \
     python-mako \
+    python-pyyaml \
 "
