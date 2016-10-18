@@ -10,7 +10,7 @@ DEPENDS = "volk gsl fftwf python alsa-lib boost cppunit \
 PACKAGECONFIG ??= "qtgui grc uhd zeromq logging"
 
 PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
-PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-pygtk python-cheetah, "
+PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, python-cheetah, "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
@@ -31,7 +31,7 @@ RDEPENDS_${PN} = "python-core python-audio python-threading python-codecs \
 "
 RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
-RDEPENDS_${PN}-grc = "python-pygtk python-lxml python-cheetah python-netserver"
+RDEPENDS_${PN}-grc = "python-lxml python-cheetah python-netserver"
 
 RDEPENDS_${PN}-qtgui = "python-pyqt python-sip"
 
