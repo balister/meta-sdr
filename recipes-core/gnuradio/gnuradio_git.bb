@@ -3,7 +3,7 @@ URL = "http://gnuradio.org"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "volk gsl fftwf python alsa-lib boost cppunit \
+DEPENDS = "volk gsl fftw python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
