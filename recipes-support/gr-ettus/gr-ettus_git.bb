@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/EttusResearch/gr-ettus"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio uhd"
+DEPENDS = "gnuradio uhd qt4-x11-free"
 
 inherit setuptools cmake
 
@@ -11,15 +11,17 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
+FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* \
+                ${prefix}/etc"
 
-PV = "0.0.3+git${SRCPV}"
+PV = "0.0.4+git${SRCPV}"
 
 SRC_URI = "git://github.com/EttusResearch/gr-ettus.git;branch=master \
+           file://0001-GrPlatform.cmake-Do-not-use-build-machine-files-duri.patch \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "ed969f9be22b23b0aacb2edd67e287e98db4ef8c"
+SRCREV = "525b6f22850a00cc762bc094224b0e5573fe60a2"
 
 EXTRA_OECMAKE = " \
                  -DQT_HEADERS_DIR=${STAGING_INCDIR}/qt4 \
