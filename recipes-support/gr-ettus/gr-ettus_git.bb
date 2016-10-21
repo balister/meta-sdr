@@ -3,9 +3,13 @@ HOMEPAGE = "https://github.com/EttusResearch/gr-ettus"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio uhd qt4-x11-free"
+DEPENDS = "gnuradio uhd"
 
 inherit setuptools cmake
+
+PACKAGECONFIG ??= "qt4"
+
+PACKAGECONFIG[qt4] = "-DENABLE_QT=ON,-DENABLE_QT=OFF,qt4-x11-free , "
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
