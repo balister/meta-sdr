@@ -14,11 +14,11 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;beginline=6;endline=22;md5=
 SRC_URI = "http://www.nuand.com/fpga/v${PV}/hostedx40.rbf;name=x40 \
            http://www.nuand.com/fpga/v${PV}/hostedx115.rbf;name=x115 "
 
-SRC_URI[x40.md5sum] = "af8ea27b4f545113db3d9b6d986f6525"
-SRC_URI[x40.sha256sum] = "179c8a09486415030431b05f537ae78b6388cbbf9e2c2e007aec1a0925912f3d"
+SRC_URI[x40.md5sum] = "29a65d08e3a98f16dd26dee5bc9200a1"
+SRC_URI[x40.sha256sum] = "4d3a2f8adb459b67391aa0a6225461df2fbb8e3fb2ae7589b9dd22c8c1b0041b"
 
-SRC_URI[x115.md5sum] = "8af6607afdcf9b00ddae8fbd2cf2eafa"
-SRC_URI[x115.sha256sum] = "2df44642c5d27a9934a61649e8795988ceb1a96c38cc2ee5849206cf26d43ea4"
+SRC_URI[x115.md5sum] = "326dc7f8e87b6f38716470b43de8b4e2"
+SRC_URI[x115.sha256sum] = "57d57f11e85c9727f699ef35a3956e9e4006665d5891fd599d1fa765894a5323"
 
 S = "${WORKDIR}"
 

@@ -3,7 +3,7 @@ URL = "http://gnuradio.org"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "volk gsl fftwf python alsa-lib boost cppunit \
+DEPENDS = "volk gsl fftw python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
@@ -177,11 +177,11 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.10"
+PV = "3.7.10.1"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "cc58cdd730b7e680ded447ee8f8cff305c83ecbb"
+SRCREV = "59daaff0d9d04373d3a6b14ea7b46e080bad7a1e"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"
