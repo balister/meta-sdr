@@ -13,11 +13,11 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
-PV = "0.0.4+git${SRCPV}"
+PV = "0.0.5+git${SRCPV}"
 
 SRC_URI = "git://github.com/osh/gr-eventstream;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "e94afa2d6c87e0fa43585135629670979f1d711f"
+SRCREV = "cb02220b7b28048565196f782ee81045e4d366c0"
 
