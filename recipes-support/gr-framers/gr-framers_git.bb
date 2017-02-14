@@ -13,12 +13,10 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
-PV = "0.0.1+git${SRCPV}"
+PV = "0.0.2+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-framers;branch=master \
-           file://0001-Fix-lib64-detection-for-cross-compiling.patch \
-           file://0002-Fix-OpenEmbedded-builds-for-targets-that-use-lib64.patch \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "eff609888426d6257ea2756aec9d704bb3fbc54f"
+SRCREV = "09e93cd10caf004f4a2820c93a63c0a390181dac"

@@ -13,11 +13,11 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
-PV = "0.0.6+git${SRCPV}"
+PV = "0.0.7+git${SRCPV}"
 
 SRC_URI = "git://github.com/balint256/gr-baz;branch=master \
            file://cross-64.patch \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "4bd160a757511c639f81cac3e005f9da6b9048b2"
+SRCREV = "77b143e2eeed530656e396f5d63e15128e560ecb"

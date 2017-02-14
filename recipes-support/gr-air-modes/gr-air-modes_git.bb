@@ -10,13 +10,12 @@ inherit setuptools cmake
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
-FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.2+git${SRCPV}"
 
-SRC_URI = "git://github.com/balister/gr-air-modes;branch=e310-updates \
+SRC_URI = "git://github.com/bistromath/gr-air-modes \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "e82cf9d4de2467a92429a5a2ed1e9c3a56884905"
+SRCREV = "719d52b6dd6a88a809245ea26a759263426548d4"

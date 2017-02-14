@@ -202,12 +202,13 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  -DENABLE_ORC=OFF \
                  -DIMPORT_EXECUTABLES=${S}/gr-vocoder/lib/generate_codebook.txt \
                  -DQT_HEADERS_DIR=${STAGING_INCDIR}/qt4 \
+                 -DQT_BINARY_DIR=${STAGING_BINDIR_NATIVE} \
                  -DQT_QTCORE_INCLUDE_DIR=${STAGING_INCDIR}/qt4/QtCore \
                  -DQT_LIBRARY_DIR=${STAGING_LIBDIR} \
                  -DQT_QTCORE_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtCore.so \
                  -DQT_QTGUI_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtGui.so \
                  -DENABLE_INTERNAL_VOLK=OFF \
-                 ${@base_contains('TUNE_FEATURES', 'neon', \
+                 ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
                      '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
 

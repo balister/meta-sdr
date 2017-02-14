@@ -13,11 +13,10 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
-PV = "0.0.3+git${SRCPV}"
+PV = "0.0.4+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-mapper;branch=master \
-           file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "db0686fbdf57688ef9ed445820cbec5297c36dc4"
+SRCREV = "39ebd611406a53ac2f4c0e7dcbbf74cf68ba1cb5"
