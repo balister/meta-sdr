@@ -49,7 +49,7 @@ SUMMARY_packagegroup-sdr-base-debug = "Debugging tools."
 RDEPENDS_packagegroup-sdr-base-debug = "\
     evtest \
     devmem2 \
-    iperf \
+    iperf3 \
     tcpdump \
 "
 
