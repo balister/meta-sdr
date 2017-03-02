@@ -177,18 +177,16 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.7.4+git${SRCPV}"
-PV = "3.7.10.1"
+PV = "3.7.10.2"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "59daaff0d9d04373d3a6b14ea7b46e080bad7a1e"
+SRCREV = "0b582f0fd90a0c4e0bb14a01303797ab3d4f8f55"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
-           file://0001-runtime-add-backpressure-to-message-ports.patch \
-           file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "
 
 S="${WORKDIR}/git"
