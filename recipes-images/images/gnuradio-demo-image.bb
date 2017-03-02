@@ -15,8 +15,6 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     dnsmasq \
     lighttpd \
     lighttpd-module-cgi \
-    php \
-    php-cgi \
     python-pyqt \
     python-txws \
     python-pyephem \
