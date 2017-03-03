@@ -27,6 +27,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     libudev \
     nano \
     nfs-utils-client \
+    cifs-utils \
     openssh-sftp \
     openssh-sftp-server \
     procps \
