@@ -10,6 +10,7 @@ inherit qt4x11
 PV = "2.5.3"
 
 SRC_URI = "git://github.com/csete/gqrx.git;branch=master \
+           file://0001-Disable-pulseaudio.patch \
           "
 S = "${WORKDIR}/git"
 
