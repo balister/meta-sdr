@@ -12,7 +12,6 @@ PACKAGES = "\
     packagegroup-sdr-hardware \
     packagegroup-sdr-uhd \
     packagegroup-sdr-rtlsdr \
-    packagegroup-sdr-bladerf \
 "
 
 PROVIDES = "${PACKAGES}"
@@ -45,17 +44,10 @@ RDEPENDS_packagegroup-sdr-rtlsdr = "\
     rtl-sdr \
 "
 
-SUMMARY_packagegroup-sdr-bladerf = "BladeRF packages."
-RDEPENDS_packagegroup-sdr-bladerf = "\
-    libbladerf \
-    libbladerf-bin \
-"
-
 SUMMARY_packagegroup-sdr-hardware = "All supported SDR hardware."
 RDEPENDS_packagegroup-sdr-hardware = "\
     packagegroup-sdr-uhd \
     packagegroup-sdr-rtlsdr \
-    packagegroup-sdr-bladerf \
 "
 
 SUMMARY_packagegroup-sdr-gnuradio-extended = "All GNU Radio OOT modules."

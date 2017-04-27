@@ -10,3 +10,5 @@ SRC_URI += "file://0004-Add-GNU-Hash-ELF-section-argument-to-LINK_SHARED.patch"
 SRC_URI += "file://0005-Removed-pwd-from-LD_RUN_PATH-definition.patch"
 
 PARALLEL_MAKE = ""
+
+#PNBLACKLIST[libtecla] ?= "Stopped building around April 2017"
