@@ -13,10 +13,10 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
-PV = "0.0.2+git${SRCPV}"
+PV = "0.0.3+git${SRCPV}"
 
 SRC_URI = "git://github.com/gr-vt/gr-framers;branch=master \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "09e93cd10caf004f4a2820c93a63c0a390181dac"
+SRCREV = "40f3a46328a76a6df424733b132dc9e8bf6409e8"
