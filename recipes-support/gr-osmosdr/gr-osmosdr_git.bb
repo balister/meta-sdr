@@ -25,12 +25,13 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
 
-PV = "0.1.4"
+PV = "0.1.4.1"
 
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
            file://0001-staticlibs.patch \
            file://cross-64.patch \
            file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
+           file://0001-allow-both-3.7.-and-git-version-of-GnuRadio.patch \
           "
 S = "${WORKDIR}/git"
 
