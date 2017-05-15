@@ -4,7 +4,8 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "volk gsl fftw python alsa-lib boost cppunit \
-           swig-native python-numpy python-cheetah-native log4cpp"
+           swig-native python-numpy python-cheetah-native log4cpp \
+           python-mako-native git-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
 PACKAGECONFIG ??= "qtgui5 grc uhd zeromq"
@@ -208,7 +209,6 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  -DENABLE_SPHINX=OFF -DENABLE_DOXYGEN=OFF \
                  -DENABLE_ORC=OFF \
                  -DENABLE_GR_VOCODER=OFF \
-                 -DIMPORT_EXECUTABLES=${S}/gr-vocoder/lib/generate_codebook.txt \
                  -DENABLE_INTERNAL_VOLK=OFF \
                  ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
                      '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
