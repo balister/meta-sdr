@@ -22,6 +22,9 @@ inherit autotools-brokensep pkgconfig
 
 SRC_URI = "http://www.astro.caltech.edu/~mcs/tecla/libtecla-${PV}.tar.gz;name=archive"
 
+INSANE_SKIP_${PN} = "ldflags"
+INSANE_SKIP_${PN}-dev = "ldflags"
+    
 LIBTECLA_MAJOR_VER ?= "1"
 
 FILES_${PN}${LIBTECLA_MAJOR_VER} += "${libdir}"
