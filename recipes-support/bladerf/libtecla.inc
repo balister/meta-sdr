@@ -21,7 +21,7 @@ S = "${WORKDIR}/libtecla/"
 inherit autotools-brokensep pkgconfig
 
 SRC_URI = "http://www.astro.caltech.edu/~mcs/tecla/libtecla-${PV}.tar.gz;name=archive"
-
+   
 LIBTECLA_MAJOR_VER ?= "1"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
