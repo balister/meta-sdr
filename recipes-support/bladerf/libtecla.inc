@@ -24,6 +24,8 @@ SRC_URI = "http://www.astro.caltech.edu/~mcs/tecla/libtecla-${PV}.tar.gz;name=ar
 
 LIBTECLA_MAJOR_VER ?= "1"
 
+TARGET_CC_ARCH += "${LDFLAGS}"
+
 FILES_${PN}${LIBTECLA_MAJOR_VER} += "${libdir}"
 FILES_${PN}-bin += "${bindir}"
 FILES_${PN}-dev += "${includedir}"
