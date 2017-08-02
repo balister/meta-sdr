@@ -8,13 +8,15 @@ URI: git://github.com/openembedded/meta-openembedded.git
 branch: master
 revision: HEAD
 
+URI: git://git.yoctoproject.org/meta-qt4
+branch: master
+revision: HEAD
+
 From meta-openembedded, you need the following layers:
 meta-oe
 meta-filesystems
 meta-networking
 meta-python
-
-And maybe some others. TBD.
 
 Send pull requests to philip@balister.org.
 
