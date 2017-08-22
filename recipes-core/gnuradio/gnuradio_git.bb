@@ -27,7 +27,7 @@ RDEPENDS_${PN} = "python-core python-audio python-threading python-codecs \
                   python-lang python-textutils python-shell python-pickle \
                   python-compiler python-pkgutil python-pydoc python-mmap \
                   python-netclient python-difflib \
-                  python-pprint python-numpy  \
+                  python-pprint python-numpy python-json  \
 "
 RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
