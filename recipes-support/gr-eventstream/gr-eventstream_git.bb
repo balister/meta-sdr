@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/osh/gr-eventstream"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://README;md5=94b072ac07d7c0f9b55acc17dc656824"
 
-DEPENDS = "gnuradio log4cpp"
+DEPENDS = "gnuradio log4cpp swig-native"
 
 inherit distutils-base cmake pkgconfig
 
