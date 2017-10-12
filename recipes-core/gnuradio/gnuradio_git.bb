@@ -153,25 +153,53 @@ python populate_packages_prepend() {
     gnuradio_pkgconfig = d.expand('${libdir}/pkgconfig')
 
     # Runtime package
-    do_split_packages(d, gnuradio_libdir, '^lib(.*)\.so\..*',
+#     do_split_packages(d, gnuradio_libdir, '^lib(.*)\.so',
+#                       output_pattern='lib%s',
+#                       description='gnuradio %s library',
+#                       extra_depends='',
+#                       prepend=True,
+#                       allow_links=True)
+# 
+#     # Development packages (-dev)
+#     pkgs=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)(?:|\-3\.7\.10\.2)\.so$',
+#                       output_pattern='lib%s-dev',
+#                       description='gnuradio %s development package',
+#                       extra_depends='${PN}-dev',
+#                       prepend=True,
+#                       allow_links=True)
+#     do_split_packages(d, gnuradio_libdir, '^lib(.*)\.so',
+#                       output_pattern='lib%s',
+#                       description='gnuradio %s library',
+#                       extra_depends='',
+#                       prepend=True,
+#                       allow_links=True)
+
+    #Runtime package
+    do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)\-.*\.so\.0.*',
                       output_pattern='lib%s',
                       description='gnuradio %s library',
                       extra_depends='',
                       prepend=True,
                       allow_links=True)
-
-    # Development packages (-dev)
-    pkgs=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)(?:|\-3\.7\.0)\.so$',
+    #Development packages (-dev)
+    pkgs=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*).*\.so$',
                       output_pattern='lib%s-dev',
                       description='gnuradio %s development package',
                       extra_depends='${PN}-dev',
                       prepend=True,
                       allow_links=True)
-    do_split_packages(d, gnuradio_pkgconfig, '^lib(.*)\.pc$',
+    pkgs=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)\.so$',
                       output_pattern='lib%s-dev',
                       description='gnuradio %s development package',
                       extra_depends='${PN}-dev',
-                      prepend=True)
+                      prepend=True,
+                      allow_links=True)
+                      
+    #do_split_packages(d, gnuradio_pkgconfig, '^lib(.*)\.pc$',
+    #                  output_pattern='lib%s-dev',
+    #                  description='gnuradio %s development package',
+     #                 extra_depends='${PN}-dev',
+     #                 prepend=True)
     if pkgs:
         d.appendVar('RDEPENDS_${PN}-dev', ' '+' '.join(pkgs))
 }
