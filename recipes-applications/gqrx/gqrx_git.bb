@@ -5,22 +5,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "gnuradio gr-osmosdr"
 
-inherit qt4x11
+inherit cmake_qt5
 
-PV = "2.5.3"
+PV = "2.6.1+"
 
-SRC_URI = "git://github.com/csete/gqrx.git;branch=master \
-           file://0001-Disable-pulseaudio.patch \
+SRC_URI = "git://github.com/csete/gqrx.git \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "8bbe051d7983187fe8958c63e1e2cc6f483427e7"
+SRCREV = "09f89e4c384bb39258b52c286febc51d8e75e2eb"
 
-EXTRA_QMAKEVARS_PRE="PREFIX="${prefix}""
+EXTRA_OECMAKE = "-DLINUX_AUDIO_BACKEND=Gr-audio"
 
-do_install() {
-	oe_runmake INSTALL_ROOT=${D} install
-}
-
-RDEPENDS_${PN} = "qt4-plugin-imageformat-svg"
+#RDEPENDS_${PN} = "qt4-plugin-imageformat-svg"
 
