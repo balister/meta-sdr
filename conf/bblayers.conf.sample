@@ -2,20 +2,16 @@
 # changes incompatibly
 LCONF_VERSION = "5"
 
-BBPATH = "${TOPDIR}"
+BBPATH = "${TOPDIR}:${HOME}/.oe:"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
   ##COREBASE##/meta \
-  ##COREBASE##/../meta-ettus \
-  ##COREBASE##/../meta-xilinx \
-  ##COREBASE##/../meta-oe/meta-oe \
-  ##COREBASE##/../meta-oe/meta-networking \
-  ##COREBASE##/../meta-oe/meta-filesystems \
-  ##COREBASE##/../meta-oe/meta-python \
+  ##COREBASE##/../meta-openembedded/meta-oe \
+  ##COREBASE##/../meta-openembedded/meta-networking \
+  ##COREBASE##/../meta-openembedded/meta-filesystems \
+  ##COREBASE##/../meta-openemebdded/meta-python \
   ##COREBASE##/../meta-sdr \
-  ##COREBASE##/../meta-fsl-arm \
-  ##COREBASE##/../meta-fsl-arm-extra \
-  ##COREBASE##/../meta-ti \
+  ##COREBASE##/../meta-qt5 \
   "
 

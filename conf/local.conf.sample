@@ -44,7 +44,7 @@ DISTRO_FEATURES_append = " opengl x11"
 #MACHINE ?= "qemux86-64"
 #
 # This sets the default machine to be qemux86 if no other machine is selected:
-MACHINE ??= "ettus-e3xx-sg1"
+MACHINE ??= "qemux86-64"
 
 DEFAULTTUNE_ettus-e3xx-sg1 = "armv7ahf-neon"
 DEFAULTTUNE_ettus-e3xx-sg3 = "armv7ahf-neon"
@@ -142,7 +142,7 @@ PACKAGE_CLASSES ?= "package_ipk"
 # There are other application targets that can be used here too, see
 # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
 # We default to enabling the debugging tweaks.
-EXTRA_IMAGE_FEATURES = "debug-tweaks tools-profile tools-sdk dev-pkgs dbg-pkgs"
+EXTRA_IMAGE_FEATURES = "debug-tweaks "
 EXTRA_IMAGE_FEATURES_remove_ettus-e1xx = "tools-profile"
 
 IMAGE_FSTYPES = "tar.gz"
@@ -159,7 +159,7 @@ IMAGE_FSTYPES = "tar.gz"
 #   - 'image-swab' to perform host system intrusion detection
 # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
 # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
-USER_CLASSES ?= "buildstats image-mklibs rm_work"
+USER_CLASSES ?= "buildhistory buildstats image-buildinfo image-mklibs rm_work"
 
 RM_WORK_EXCLUDE = "base-dev-image uhd-dev-image gnuradio-dev-image \
                    gnuradio-demo-image gnuradio-video-demo-image"
