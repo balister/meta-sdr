@@ -2,7 +2,7 @@
 # changes incompatibly
 LCONF_VERSION = "5"
 
-BBPATH = "${TOPDIR}:${HOME}/.oe:"
+BBPATH = "${TOPDIR}:${HOME}/.oe"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
