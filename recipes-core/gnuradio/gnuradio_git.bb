@@ -7,16 +7,9 @@ DEPENDS = "volk gsl fftw python alsa-lib boost cppunit \
            swig-native python-numpy python-cheetah-native log4cpp \
            python-mako-native git-native"
 
-#Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
+#Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs
 PACKAGECONFIG ??= "qtgui5 grc uhd zeromq"
 
-PACKAGECONFIG[qtgui4] = "-DENABLE_GR_QTGUI=ON -DDESIRED_QT_VERSION=4 \
-                 -DQT_HEADERS_DIR=${STAGING_INCDIR}/qt4 \
-                 -DQT_QTCORE_INCLUDE_DIR=${STAGING_INCDIR}/qt4/QtCore \
-                 -DQT_LIBRARY_DIR=${STAGING_LIBDIR} \
-                 -DQT_QTCORE_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtCore.so \
-                 -DQT_QTGUI_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtGui.so \
-                 ,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
 PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
                  ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python-pyqt5, "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-cheetah, "
@@ -27,7 +20,8 @@ PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thri
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
-inherit distutils-base cmake pkgconfig cmake_qt5
+inherit distutils-base cmake pkgconfig
+inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
