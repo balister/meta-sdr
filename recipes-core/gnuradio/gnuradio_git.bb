@@ -8,7 +8,7 @@ DEPENDS = "volk gsl fftw python alsa-lib boost cppunit \
            python-mako-native git-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
-PACKAGECONFIG ??= "qtgui5 grc uhd zeromq"
+PACKAGECONFIG ??= "grc uhd zeromq"
 
 PACKAGECONFIG[qtgui4] = "-DENABLE_GR_QTGUI=ON -DDESIRED_QT_VERSION=4 \
                  -DQT_HEADERS_DIR=${STAGING_INCDIR}/qt4 \
@@ -17,8 +17,6 @@ PACKAGECONFIG[qtgui4] = "-DENABLE_GR_QTGUI=ON -DDESIRED_QT_VERSION=4 \
                  -DQT_QTCORE_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtCore.so \
                  -DQT_QTGUI_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtGui.so \
                  ,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
-PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
-                 ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python-pyqt5, "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-cheetah, "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
@@ -27,7 +25,7 @@ PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thri
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
-inherit distutils-base cmake pkgconfig cmake_qt5
+inherit distutils-base cmake pkgconfig
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
@@ -42,7 +40,7 @@ RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
 RDEPENDS_${PN}-grc = "python-lxml python-cheetah python-netserver"
 
-RDEPENDS_${PN}-qtgui = "python-pyqt5 python-sip"
+RDEPENDS_${PN}-qtgui = "python-pyqt python-sip"
 
 RDEPENDS_${PN}-zeromq = "python-pyzmq"
 
@@ -73,7 +71,6 @@ GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-doc gnuradio-zeromq \
             "
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui4', 'gnuradio-qtgui', '', d)}"
-GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui5', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
 
 PACKAGES = "gnuradio-dbg gnuradio-staticdev gnuradio-dev ${GR_PACKAGES} gnuradio"
@@ -214,14 +211,14 @@ python populate_packages_prepend() {
         d.appendVar('RDEPENDS_${PN}-dev', ' '+' '.join(pkgs))
 }
 
-PV = "3.8.0+git${SRCPV}"
+PV = "3.7.12.0"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "3c63f7334d6de70d655aa97fcccbfb950645f4d4"
+SRCREV = "e4acf4f2f0623fa3ef25dae234b22293d94cd89a"
 
 # Make it easy to test against branches
-GIT_BRANCH = "next"
+GIT_BRANCH = "master"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
           "
