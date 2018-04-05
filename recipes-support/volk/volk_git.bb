@@ -3,7 +3,7 @@ HOMEPAGE = "http://libvolk.org"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "boost python-cheetah-native"
+DEPENDS = "boost python-mako-native python-six-native"
 
 inherit pythonnative cmake pkgconfig
 
@@ -15,7 +15,7 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
-PV = "1.3.0"
+PV = "1.4.0"
 SRC_URI = "git://github.com/gnuradio/volk.git;branch=master \
            file://0001-Check-for-lib64-verus-lib-and-set-LIB_SUFFIX-accordi.patch \
           "
@@ -23,7 +23,7 @@ SRC_URI_append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "4465f9b26354e555e583a7d654710cb63cf914ce"
+SRCREV = "17277ed3130e9b2592da06c681657e63b5590c56"
 
 PACKAGES += "${PN}-modtool"
 
