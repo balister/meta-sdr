@@ -13,6 +13,9 @@
 
 DISTRO_FEATURES_append = " opengl x11"
 
+BBMASK = "rtimulib gqrx"
+MACHINE_EXTRA_RRECOMMENDS_remove_ettus-e300 = "rtimulib rtimulib-conf"
+
 #
 # Parallelism Options
 #
