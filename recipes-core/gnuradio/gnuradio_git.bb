@@ -218,6 +218,7 @@ SRCREV ="d78f7fcd0dadd362fcdc99194da5343a506eb519"
 GIT_BRANCH = "next"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+           file://0001-Boost-1.67-compatibility.patch \
           "
 
 S="${WORKDIR}/git"
@@ -231,6 +232,7 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  -DENABLE_ORC=OFF \
                  -DENABLE_GR_VOCODER=OFF \
                  -DENABLE_INTERNAL_VOLK=OFF \
+                 -DENABLE_TESTING=OFF \
                  ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
                      '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
