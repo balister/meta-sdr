@@ -13,6 +13,13 @@
 
 DISTRO_FEATURES_append = " opengl x11"
 
+PACKAGECONFIG_pn-gnuradio = "qtgui5 grc zeromq logging"
+PACKAGECONFIG_pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
+
+INHERIT += "blacklist"
+PNBLACKLIST[uhd] = "BROKEN: Build fails with newer boost"
+
+
 #
 # Parallelism Options
 #
