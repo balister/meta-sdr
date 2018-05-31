@@ -9,8 +9,6 @@ PACKAGES = "\
     packagegroup-sdr-python-extended \
     packagegroup-sdr-gnuradio-base \
     packagegroup-sdr-gnuradio-extended \
-    packagegroup-sdr-hardware \
-    packagegroup-sdr-uhd \
     packagegroup-sdr-rtlsdr \
 "
 
@@ -33,21 +31,9 @@ RDEPENDS_packagegroup-sdr-gnuradio-base = "\
 "
 
 
-SUMMARY_packagegroup-sdr-uhd = "UHD packages."
-RDEPENDS_packagegroup-sdr-uhd = "\
-    uhd \
-    uhd-examples \
-"
-
 SUMMARY_packagegroup-sdr-rtlsdr = "RTLSDR packages."
 RDEPENDS_packagegroup-sdr-rtlsdr = "\
     rtl-sdr \
-"
-
-SUMMARY_packagegroup-sdr-hardware = "All supported SDR hardware."
-RDEPENDS_packagegroup-sdr-hardware = "\
-    packagegroup-sdr-uhd \
-    packagegroup-sdr-rtlsdr \
 "
 
 SUMMARY_packagegroup-sdr-gnuradio-extended = "All GNU Radio OOT modules."
