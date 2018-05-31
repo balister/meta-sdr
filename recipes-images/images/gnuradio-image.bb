@@ -19,7 +19,6 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-sdr-python-extended \
     packagegroup-sdr-gnuradio-base \
     packagegroup-core-eclipse-debug \
-    uhd-examples \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xauth', '', d)} \
     e2fsprogs-resize2fs \
     "
