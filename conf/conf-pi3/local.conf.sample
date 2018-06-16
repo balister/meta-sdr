@@ -151,8 +151,6 @@ PACKAGE_CLASSES ?= "package_ipk"
 EXTRA_IMAGE_FEATURES = "debug-tweaks "
 EXTRA_IMAGE_FEATURES_remove_ettus-e1xx = "tools-profile"
 
-IMAGE_FSTYPES = "tar.gz"
-
 #
 # Additional image features
 #
