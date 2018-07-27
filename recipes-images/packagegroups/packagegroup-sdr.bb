@@ -16,12 +16,11 @@ PROVIDES = "${PACKAGES}"
 
 SUMMARY_packagegroup-sdr-python-extended = "Useful python packages."
 RDEPENDS_packagegroup-sdr-python-extended = "\
-    python-argparse \
-    python-cython \
-    python-numpy \
-    python-modules \
-    python-six \
-    python-twisted \
+    python3-cython \
+    python3-numpy \
+    python3-modules \
+    python3-six \
+    python3-twisted \
 "
 
 SUMMARY_packagegroup-sdr-gnuradio-base = "Basic GNU Radio install."

@@ -70,10 +70,9 @@ RDEPENDS_packagegroup-sdr-base-devel = "\
 
 SUMMARY_packagegroup-sdr-base-python = "Basic python packages."
 RDEPENDS_packagegroup-sdr-base-python = "\
-    python \
-    python-cheetah \
-    python-distutils \
-    python-pip \
-    python-mako \
-    python-pyyaml \
+    python3 \
+    python3-distutils \
+    python3-pip \
+    python3-mako \
+    python3-pyyaml \
 "
