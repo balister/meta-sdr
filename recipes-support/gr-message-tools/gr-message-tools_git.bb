@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/gr-vt/gr-message_tools"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio"
+DEPENDS = "gnuradio cppunit"
 
 inherit setuptools cmake
 

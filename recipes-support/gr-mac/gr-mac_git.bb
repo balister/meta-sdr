@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/jmalsbury/gr-mac"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://CMakeLists.txt;md5=e84f563988fbb5a8798ffd8f9d28febf"
 
-DEPENDS = "gnuradio"
+DEPENDS = "gnuradio cppunit"
 
 inherit setuptools cmake
 
