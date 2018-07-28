@@ -13,7 +13,7 @@
 
 DISTRO_FEATURES_append = " opengl x11"
 
-PACKAGECONFIG_pn-gnuradio = "qtgui5 grc zeromq logging"
+PACKAGECONFIG_pn-gnuradio = "grc zeromq logging"
 PACKAGECONFIG_pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 
 INHERIT += "blacklist"
