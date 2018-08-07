@@ -211,14 +211,14 @@ python populate_packages_prepend() {
         d.appendVar('RDEPENDS_${PN}-dev', ' '+' '.join(pkgs))
 }
 
-PV = "3.7.12.0"
+PV = "3.7.13.4"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV = "e4acf4f2f0623fa3ef25dae234b22293d94cd89a"
+SRCREV = "14d2bfac73193bf36c32d5ae009b31786b1ed510"
 
 # Make it easy to test against branches
-GIT_BRANCH = "master"
+GIT_BRANCH = "maint-3.7"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
           "
