@@ -8,7 +8,7 @@ DEPENDS = "volk gsl fftw python alsa-lib boost cppunit \
            python-mako-native git-native"
 
 #Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
-PACKAGECONFIG ??= "qtgui uhd zeromq"
+PACKAGECONFIG ??= "uhd zeromq"
 
 PACKAGECONFIG[qtgui4] = "-DENABLE_GR_QTGUI=ON -DDESIRED_QT_VERSION=4 \
                  -DQT_HEADERS_DIR=${STAGING_INCDIR}/qt4 \
