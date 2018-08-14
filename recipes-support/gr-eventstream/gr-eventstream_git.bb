@@ -4,6 +4,7 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://README;md5=9800ab3d0fd4ec2809f2a71e4251e377"
 
 DEPENDS = "gnuradio log4cpp swig swig-native"
+RDEPENDS_${PN} = "python"
 
 inherit distutils-base cmake pkgconfig
 
@@ -20,4 +21,3 @@ SRC_URI = "git://github.com/osh/gr-eventstream;branch=master \
 S = "${WORKDIR}/git"
 
 SRCREV = "cb02220b7b28048565196f782ee81045e4d366c0"
-
