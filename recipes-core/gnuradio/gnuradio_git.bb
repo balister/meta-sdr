@@ -16,7 +16,7 @@ PACKAGECONFIG[qtgui4] = "-DENABLE_GR_QTGUI=ON -DDESIRED_QT_VERSION=4 \
                  -DQT_LIBRARY_DIR=${STAGING_LIBDIR} \
                  -DQT_QTCORE_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtCore.so \
                  -DQT_QTGUI_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtGui.so \
-                 ,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
+                 ,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt qt4-native nativesdk-qt4-tools, "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-cheetah, "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
@@ -52,6 +52,10 @@ C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 #    echo "SET_PROPERTY(TARGET generate_codebook APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)" >>${S}/gr-vocoder/lib/generate_codebook.txt
 #    echo 'SET_TARGET_PROPERTIES(generate_codebook PROPERTIES IMPORTED_LOCATION_RELEASE "${S}/gr-vocoder/lib/generate_codebook")' >>${S}/gr-vocoder/lib/generate_codebook.txt
 #}
+
+do_configure_prepend() {
+    sed -i -e 's,@WORKDIR@,${WORKDIR},g' ${WORKDIR}/qt.conf
+}
 
 #do_compile_prepend() {
 #    cp ${S}/gr-vocoder/lib/codec2/defines.h ${B}/gr-vocoder/lib/codec2
@@ -221,6 +225,7 @@ SRCREV = "14d2bfac73193bf36c32d5ae009b31786b1ed510"
 GIT_BRANCH = "maint-3.7"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+           file://qt.conf \
           "
 
 S="${WORKDIR}/git"
