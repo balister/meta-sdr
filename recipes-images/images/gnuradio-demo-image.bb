@@ -13,6 +13,5 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     lighttpd \
     lighttpd-module-cgi \
     python-pyqt5 \
-    python-txws \
     python-pyephem \
     "
