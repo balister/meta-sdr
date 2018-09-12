@@ -3,7 +3,8 @@ HOMEPAGE = "http://wiki.spench.net/wiki/gr-baz"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio"
+DEPENDS = "gnuradio swig-native"
+RDEPENDS_${PN} = "python"
 
 inherit setuptools cmake pkgconfig
 
