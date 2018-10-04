@@ -3,9 +3,9 @@ HOMEPAGE = "http://libvolk.org"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "boost python-mako-native python-six-native"
+DEPENDS = "boost python3-mako-native python3-six-native"
 
-inherit pythonnative cmake pkgconfig
+inherit python3native cmake pkgconfig
 
 PACKAGECONFIG ??= ""
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
