@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
            swig-native python3-numpy  log4cpp \
-           python3-mako-native git-native"
+           python3-mako-native git-native gmp"
 
 #Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs
 PACKAGECONFIG ??= "qtgui5 grc uhd zeromq"
@@ -36,7 +36,7 @@ RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
 RDEPENDS_${PN}-grc = "python3-lxml python3-mako python3-netserver"
 
-RDEPENDS_${PN}-qtgui = "python3-pyqt5 python3-sip"
+RDEPENDS_${PN}-qtgui = "python3-pyqt5 python3-sip3"
 
 RDEPENDS_${PN}-zeromq = "python3-pyzmq"
 
@@ -96,7 +96,8 @@ FILES_${PN}-gr = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gr \
 FILES_${PN}-grc = "${bindir}/gnuradio-companion ${datadir}/gnuradio/grc \
                    ${PYTHON_SITEPACKAGES_DIR}/gnuradio/grc \
                    ${PYTHON_SITEPACKAGES_DIR}/grc_gnuradio \
-                   ${sysconfdir}/gnuradio/conf.d/grc.conf"
+                   ${sysconfdir}/gnuradio/conf.d/grc.conf \
+                   ${datadir}/icons ${datadir}/mime"
 FILES_${PN}-gru = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gru \
                    ${datadir}/gnuradio/gru"
 FILES_${PN}-gr-utils = "${bindir}/gr_plot* ${bindir}/grcc \
@@ -212,10 +213,10 @@ PV = "3.8.0+git${SRCPV}"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="201afd9a330adda44fcde41a36efce20f5a0b46d"
+SRCREV ="007923c64d2505b37dffb8e11cb1e3ecf4e489eb"
 
 # Make it easy to test against branches
-GIT_BRANCH = "next"
+GIT_BRANCH = "master"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
           "
