@@ -1,0 +1,37 @@
+From f85cb729b942c652f155a84ba1fd216ba0bff3fc Mon Sep 17 00:00:00 2001
+From: Andrej Rode <mail@andrejro.de>
+Date: Tue, 16 Oct 2018 14:02:04 +0200
+Subject: [PATCH 1/2] runtime: use GMP C library to circumvent long long <->
+ uint64_t problems on 32-bin architectures
+
+---
+ gnuradio-runtime/lib/block_executor.cc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/gnuradio-runtime/lib/block_executor.cc b/gnuradio-runtime/lib/block_executor.cc
+index 6152ff676..5f9552415 100644
+--- a/gnuradio-runtime/lib/block_executor.cc
++++ b/gnuradio-runtime/lib/block_executor.cc
+@@ -146,7 +146,8 @@ namespace gr {
+           mpz_class offset;
+           for(t = rtags.begin(); t != rtags.end(); t++) {
+             tag_t new_tag = *t;
+-            offset = new_tag.offset * mp_rrate + one_half;
++            mpz_import(offset.get_mpz_t(), 1, 1, sizeof(new_tag.offset), 0, 0, &new_tag.offset);
++            offset *= mp_rrate + one_half;
+             new_tag.offset = offset.get_ui();
+             for(int o = 0; o < d->noutputs(); o++)
+               out_buf[o]->add_item_tag(new_tag);
+@@ -188,7 +189,8 @@ namespace gr {
+             mpz_class offset;
+             for(t = rtags.begin(); t != rtags.end(); t++) {
+               tag_t new_tag = *t;
+-              offset = new_tag.offset * mp_rrate + one_half;
++              mpz_import(offset.get_mpz_t(), 1, 1, sizeof(new_tag.offset), 0, 0, &new_tag.offset);
++              offset *= mp_rrate + one_half;
+               new_tag.offset = offset.get_ui();
+               out_buf->add_item_tag(new_tag);
+             }
+-- 
+2.14.4
+

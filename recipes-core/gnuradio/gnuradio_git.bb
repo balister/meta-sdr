@@ -219,6 +219,8 @@ SRCREV ="007923c64d2505b37dffb8e11cb1e3ecf4e489eb"
 GIT_BRANCH = "master"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+           file://0001-runtime-use-GMP-C-library-to-circumvent-long-long-ui.patch \
+           file://0002-fix.patch \
           "
 
 S="${WORKDIR}/git"
