@@ -213,14 +213,12 @@ PV = "3.8.0+git${SRCPV}"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="007923c64d2505b37dffb8e11cb1e3ecf4e489eb"
+SRCREV ="523e4ab0f549eefd6cf219105c6d8200a1450082"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
-           file://0001-runtime-use-GMP-C-library-to-circumvent-long-long-ui.patch \
-           file://0002-fix.patch \
           "
 
 S="${WORKDIR}/git"
