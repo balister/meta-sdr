@@ -18,12 +18,13 @@ export STAGING_LIBDIR
 PV = "1.5.0"
 SRC_URI = "git://github.com/gnuradio/volk.git;branch=master \
            file://0001-Check-for-lib64-verus-lib-and-set-LIB_SUFFIX-accordi.patch \
+           file://0001-Force-thumb-mode.patch \
           "
 SRC_URI_append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "3f3c91ee3ce51a31d8c23398124df74d3aa42955"
+SRCREV = "b459c6fb2ba1b3190dce9805035632ba176e0fab"
 
 PACKAGES += "${PN}-modtool"
 

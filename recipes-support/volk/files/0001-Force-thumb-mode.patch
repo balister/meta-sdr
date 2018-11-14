@@ -1,0 +1,29 @@
+From 409b50fa46133d3bd2fede773fffbde1f004792f Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Fri, 12 Oct 2018 13:58:18 -0400
+Subject: [PATCH] Force thumb mode.
+
+Apparently OE isn't managing to set thumb anymore when building asm
+see if this resolves a compile problem.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ lib/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index f0397c6..982aaf0 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -448,7 +448,7 @@ if(${CMAKE_VERSION} VERSION_GREATER "2.8.9")
+       message(STATUS "---- Adding ASM files") # we always use ATT syntax
+       message(STATUS "-- Detected neon architecture; enabling ASM")
+       # setup architecture specific assembler flags
+-      set(ARCH_ASM_FLAGS "-mfpu=neon -g")
++      set(ARCH_ASM_FLAGS "-march=armv7-a -mfpu=neon -g -mthumb")
+       # then add the files
+       include_directories(${PROJECT_SOURCE_DIR}/kernels/volk/asm/neon)
+       file(GLOB asm_files ${PROJECT_SOURCE_DIR}/kernels/volk/asm/neon/*.s)
+-- 
+2.14.4
+
