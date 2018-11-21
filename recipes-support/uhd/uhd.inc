@@ -4,7 +4,10 @@ LICENSE = "GPLv3+"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=8255adf1069294c928e0e18b01a16282"
 
 DEPENDS = "git-native python3-mako-native boost uhd-firmware \
-           ncurses udev python3-requests"
+           ncurses udev python3-requests-native python3-numpy-native \
+           python3-urllib3-native python3-chardet-native python3-certifi-native \
+           python3-idna-native \
+"
 RDEPENDS_${PN} += "uhd-firmware python3-requests"
 
 inherit cmake python3native
@@ -36,4 +39,6 @@ PACKAGECONFIG[usrp1] = "-DENABLE_USRP1=ON,-DENABLE_USRP1=OFF, libusb1"
 PACKAGECONFIG[usrp2] = "-DENABLE_USRP2=ON,-DENABLE_USRP2=OFF, "
 PACKAGECONFIG[x300] = "-DENABLE_X300=ON,-DENABLE_X300=OFF, "
 
-EXTRA_OECMAKE = "-DENABLE_LIBUHD=TRUE"
+EXTRA_OECMAKE = "-DENABLE_LIBUHD=TRUE \
+                 -DENABLE_PYTHON3=TRUE \
+                 -DPYTHON_EXECUTABLE=${PYTHON}"
