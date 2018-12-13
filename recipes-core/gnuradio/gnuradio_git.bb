@@ -20,7 +20,7 @@ PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thri
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python3-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
-inherit distutils-base cmake pkgconfig python3native
+inherit distutils3-base cmake pkgconfig python3native
 inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 
 export BUILD_SYS
@@ -213,7 +213,7 @@ PV = "3.8.0+git${SRCPV}"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="523e4ab0f549eefd6cf219105c6d8200a1450082"
+SRCREV ="3359d67e02158199d24756155fb58ab43b7b66ef"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
@@ -223,7 +223,9 @@ SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=
 
 S="${WORKDIR}/git"
 
-EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
+EXTRA_OECMAKE = "\
+                 -DGR_PYTHON_DIR=${PYTHON_SITEPACKAGES_DIR} \
+                 -DENABLE_GR_ATSC=FALSE \
                  -DENABLE_GR_FCD=OFF \
                  -DENABLE_GR_WXGUI=OFF \
                  -DENABLE_GR_VIDEO_SDL=OFF \
@@ -236,6 +238,4 @@ EXTRA_OECMAKE = "-DENABLE_GR_ATSC=FALSE \
                  ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
                      '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
-
-inherit distutils-base cmake pkgconfig
 
