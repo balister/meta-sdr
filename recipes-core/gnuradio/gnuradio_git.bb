@@ -187,13 +187,14 @@ python populate_packages_prepend() {
                       prepend=True,
                       allow_links=True)
     #Development packages (-dev)
-    pkgs=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*).*\.so$',
+    pkgs=[]
+    pkgs+=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*).*\.so$',
                       output_pattern='lib%s-dev',
                       description='gnuradio %s development package',
                       extra_depends='${PN}-dev',
                       prepend=True,
                       allow_links=True)
-    pkgs=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)\.so$',
+    pkgs+=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)\.so$',
                       output_pattern='lib%s-dev',
                       description='gnuradio %s development package',
                       extra_depends='${PN}-dev',
@@ -205,8 +206,9 @@ python populate_packages_prepend() {
     #                  description='gnuradio %s development package',
      #                 extra_depends='${PN}-dev',
      #                 prepend=True)
+    pn = d.getVar('PN')
     if pkgs:
-        d.appendVar('RDEPENDS_${PN}-dev', ' '+' '.join(pkgs))
+        d.appendVar('RDEPENDS_'+pn+'-dev', ' '+' '.join(pkgs))
 }
 
 PV = "3.8.0+git${SRCPV}"
