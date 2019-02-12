@@ -8,11 +8,12 @@ DEPENDS = "gnuradio"
 # Use PACKAGECONFIG_pn-gr-osmosdr = "uhd hackrf"
 # to build gr-osmosdr for uhd and hackrf. This variable goes in
 # local.conf or other suitable distro conf file.
-PACKAGECONFIG ??= "uhd rtl-sdr hackrf rfspace"
+PACKAGECONFIG ??= "uhd rtl-sdr airspy hackrf rfspace"
 
 PACKAGECONFIG[uhd] = "-DENABLE_UHD=ON,-DENABLE_UHD=OFF,uhd, "
 PACKAGECONFIG[rtl-sdr] = "-DENABLE_RTL=ON -DENABLE_RTL_TCP=ON,\
                          -DENABLE_RTL=OFF -DENABLE_RTL_TCP=OFF,rtl-sdr, "
+PACKAGECONFIG[airspy] = "-DENABLE_AIRSPY=ON,-DENABLE_AIRSPY=OFF,libairspy, "
 PACKAGECONFIG[bladerf] = "-DENABLE_BLADERF=ON,-DENABLE_BLADERF=OFF,libbladerf, "
 PACKAGECONFIG[hackrf] = "-DENABLE_HACKRF=ON,-DENABLE_HACKRF=OFF,libhackrf, "
 PACKAGECONFIG[rfspace] = "-DENABLE_RFSPACE=ON,-DENABLE_RFSPACE=OFF, , "
