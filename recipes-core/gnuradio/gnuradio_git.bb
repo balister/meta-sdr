@@ -12,7 +12,10 @@ PACKAGECONFIG ??= "qtgui5 grc uhd zeromq"
 
 PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
                  ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5, "
-PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python3-mako, "
+PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, \
+    python3-mako python3-pyyaml python3-pygobject gtk+3 cairo , \
+    python3-mako python3-pyyaml python3-pygobject"
+
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
@@ -34,7 +37,7 @@ RDEPENDS_${PN} = "python3-core python3-audio python3-threading python3-codecs \
 "
 RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
-RDEPENDS_${PN}-grc = "python3-lxml python3-mako python3-netserver"
+RDEPENDS_${PN}-grc = "python3-mako python3-netserver"
 
 RDEPENDS_${PN}-qtgui = "python3-pyqt5 python3-sip3"
 
@@ -215,12 +218,13 @@ PV = "3.8.0+git${SRCPV}"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="3359d67e02158199d24756155fb58ab43b7b66ef"
+SRCREV ="72aa97daab609f907ba10b6f56b25e124945ba5a"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
+GITHUB_USER = "gnuradio"
 
-SRC_URI = "git://github.com/gnuradio/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
           "
 
 S="${WORKDIR}/git"
