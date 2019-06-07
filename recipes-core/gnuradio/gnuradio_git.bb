@@ -16,7 +16,10 @@ PACKAGECONFIG[qtgui4] = "-DENABLE_GR_QTGUI=ON -DDESIRED_QT_VERSION=4 \
                  -DQT_LIBRARY_DIR=${STAGING_LIBDIR} \
                  -DQT_QTCORE_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtCore.so \
                  -DQT_QTGUI_LIBRARY_RELEASE=${STAGING_LIBDIR}/libQtGui.so \
-                 ,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qwt python-pyqt, "
+                 -DQT_MOC_EXECUTABLE=${WORKDIR}/recipe-sysroot-native/usr/bin/moc \
+                 -DQT_RCC_EXECUTABLE=${WORKDIR}/recipe-sysroot-native/usr/bin/rcc \
+                 -DQT_UIC_EXECUTABLE=${WORKDIR}/recipe-sysroot-native/usr/bin/uic \
+                 ,-DENABLE_GR_QTGUI=OFF,qt4-x11-free qt4-native qwt python-pyqt, "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF,python-cheetah, "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
@@ -40,7 +43,7 @@ RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
 RDEPENDS_${PN}-grc = "python-lxml python-cheetah python-netserver"
 
-RDEPENDS_${PN}-qtgui = "python-pyqt python-sip"
+RDEPENDS_${PN}-qtgui4 = "python-pyqt python-sip"
 
 RDEPENDS_${PN}-zeromq = "python-pyzmq"
 
