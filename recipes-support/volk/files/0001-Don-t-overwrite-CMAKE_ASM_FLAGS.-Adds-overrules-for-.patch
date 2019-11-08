@@ -1,0 +1,38 @@
+From f79d5761706a48dcd99762d97a22b958420b33d5 Mon Sep 17 00:00:00 2001
+From: Albin Stigo <albin.stigo@gmail.com>
+Date: Sat, 29 Dec 2018 11:11:54 +0100
+Subject: [PATCH] Don't overwrite CMAKE_ASM_FLAGS. Adds overrules for avx512f
+ and avx512cd.
+
+Cmake would overwrite ```CMAKE_ASM_FLAGS``` making passing custom flags for cross compilation etc impossible.
+
+Also adds overrules for avx512f and avx512cd that were missing.
+---
+ lib/CMakeLists.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index f0397c6..be4f5ae 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -247,6 +247,8 @@ if(NOT CPU_IS_x86)
+     OVERRULE_ARCH(sse4_1 "Architecture is not x86 or x86_64")
+     OVERRULE_ARCH(sse4_2 "Architecture is not x86 or x86_64")
+     OVERRULE_ARCH(avx "Architecture is not x86 or x86_64")
++    OVERRULE_ARCH(avx512f "Architecture is not x86 or x86_64")
++    OVERRULE_ARCH(avx512cd "Architecture is not x86 or x86_64")
+ endif(NOT CPU_IS_x86)
+ 
+ ########################################################################
+@@ -458,7 +460,7 @@ if(${CMAKE_VERSION} VERSION_GREATER "2.8.9")
+       endforeach(asm_file)
+     endif()
+     enable_language(ASM)
+-    set(CMAKE_ASM_FLAGS ${ARCH_ASM_FLAGS})
++    set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} ${ARCH_ASM_FLAGS}")
+     message(STATUS "c flags: ${FULL_C_FLAGS}")
+     message(STATUS "asm flags: ${CMAKE_ASM_FLAGS}")
+   endforeach(ARCH)
+-- 
+2.20.1
+

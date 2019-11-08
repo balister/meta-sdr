@@ -18,6 +18,7 @@ export STAGING_LIBDIR
 PV = "1.4.0"
 SRC_URI = "git://github.com/gnuradio/volk.git;branch=master \
            file://0001-Check-for-lib64-verus-lib-and-set-LIB_SUFFIX-accordi.patch \
+           file://0001-Don-t-overwrite-CMAKE_ASM_FLAGS.-Adds-overrules-for-.patch \
           "
 SRC_URI_append_ettus-e300 = "file://volk_config"
 
