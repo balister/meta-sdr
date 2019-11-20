@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/bistromath/gr-ais"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://CMakeLists.txt;md5=0ad29e89f2e64b6025da4cf91d2055fb"
 
-DEPENDS = "gnuradio"
+DEPENDS = "gnuradio swig-native"
 
 inherit setuptools cmake
 

@@ -3,7 +3,7 @@ HOMEPAGE = "http://sdr.osmocom.org/trac/wiki/GrOsmoSDR"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio"
+DEPENDS = "gnuradio swig-native"
 
 # Use PACKAGECONFIG_pn-gr-osmosdr = "uhd hackrf"
 # to build gr-osmosdr for uhd and hackrf. This variable goes in
