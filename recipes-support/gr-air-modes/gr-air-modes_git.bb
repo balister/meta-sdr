@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/bistromath/gr-ais"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio sqlite3 gr-osmosdr"
+DEPENDS = "gnuradio sqlite3 gr-osmosdr swig-native"
 
 inherit setuptools cmake
 
