@@ -15,7 +15,7 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
-PV = "2.0.0"
+PV = "2.1.0"
 SRC_URI = "git://github.com/gnuradio/volk.git;branch=master \
            file://0001-Check-for-lib64-verus-lib-and-set-LIB_SUFFIX-accordi.patch \
           "
@@ -23,7 +23,7 @@ SRC_URI_append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "1299d72c396a88fd2679adfd7a919ac00d2cf678"
+SRCREV = "7a60cd66d74b0c5206e2e1cb9ea5198e2153af83"
 
 PACKAGES += "${PN}-modtool"
 
