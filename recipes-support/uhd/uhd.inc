@@ -8,7 +8,7 @@ DEPENDS = "git-native python3-mako-native boost uhd-firmware \
            python3-urllib3-native python3-chardet-native python3-certifi-native \
            python3-idna-native \
 "
-RDEPENDS_${PN} += "uhd-firmware python3-requests"
+RDEPENDS_${PN} += "uhd-firmware python-core python3-core python3-requests"
 
 inherit cmake python3native
 
