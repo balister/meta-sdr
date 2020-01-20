@@ -218,13 +218,14 @@ PV = "3.8.0+git${SRCPV}"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="cb19102d3854e1acb40f16839d9bd78a8b086d7b"
+SRCREV ="cdbe702b484aa9a88613aef11d23cfc9aea21416"
 
 # Make it easy to test against branches
-GIT_BRANCH = "master"
+GIT_BRANCH = "maint-3.8"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+           file://0001-Use-relative-python-path-so-OOT-s-can-find-python-fi.patch \
           "
 
 S="${WORKDIR}/git"

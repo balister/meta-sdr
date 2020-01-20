@@ -1,0 +1,30 @@
+From 34f1a11b377e0299ca6fbe4da44218abe78bac7d Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 14 Jan 2020 17:15:42 -0500
+Subject: [PATCH] Look for GNURadio 3.8 or higher.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ CMakeLists.txt | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f803388..afc9175 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -42,7 +42,11 @@ set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
+ list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
+ 
+ # Find GNURadio (pmt and runtime are core, always included)
+-find_package(Gnuradio "3.8" REQUIRED COMPONENTS blocks fft filter)
++set(MIN_GR_VERSION "3.8.0")
++find_package(Gnuradio REQUIRED COMPONENTS blocks fft filter)
++if("${Gnuradio_VERSION}" VERSION_LESS MIN_GR_VERSION)
++    MESSAGE(FATAL_ERROR "GnuRadio version required: >=\"" ${MIN_GR_VERSION} "\" found: \"" ${Gnuradio_VERSION} "\"")
++endif()
+ 
+ # Set the version information here
+ set(VERSION_MAJOR 0)
+-- 
+2.20.1
+
