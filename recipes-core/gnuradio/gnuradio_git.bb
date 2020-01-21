@@ -214,18 +214,19 @@ python populate_packages_prepend() {
         d.appendVar('RDEPENDS_'+pn+'-dev', ' '+' '.join(pkgs))
 }
 
-PV = "3.8.0+git${SRCPV}"
+#PV = "3.8.0+git${SRCPV}"
+PV = "3.8.0.0"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="cdbe702b484aa9a88613aef11d23cfc9aea21416"
+SRCREV ="4cc4c74c10411235fb36de58be09022c5573dbd8"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.8"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
-           file://0001-Use-relative-python-path-so-OOT-s-can-find-python-fi.patch \
+           file://0001-Use-python-relative-path-for-swig-so-we-can-find-mod.patch \
           "
 
 S="${WORKDIR}/git"

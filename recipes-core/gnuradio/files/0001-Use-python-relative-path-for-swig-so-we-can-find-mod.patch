@@ -1,26 +1,30 @@
-From 9a681d226754ee1abef82675bdd443569d684250 Mon Sep 17 00:00:00 2001
+From 38d8bf57c111bba1cbe22980720b4c4aed6490b6 Mon Sep 17 00:00:00 2001
 From: Philip Balister <philip@balister.org>
-Date: Wed, 15 Jan 2020 14:37:09 -0500
-Subject: [PATCH] Use relative python path so OOT's can find python files.
+Date: Tue, 21 Jan 2020 10:54:10 -0500
+Subject: [PATCH] Use python relative path for swig so we can find modules when
+ cross compiling.
+
+ * Needed for OOT modules.
 
 Signed-off-by: Philip Balister <philip@balister.org>
+Signed-off-by: Toby Flynn <tflynn@redwiretechnology.com>
 ---
  gnuradio-runtime/swig/CMakeLists.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/gnuradio-runtime/swig/CMakeLists.txt b/gnuradio-runtime/swig/CMakeLists.txt
-index e39693e4c..e1a6cfee1 100644
+index bade4beea..7cd2bc4fd 100644
 --- a/gnuradio-runtime/swig/CMakeLists.txt
 +++ b/gnuradio-runtime/swig/CMakeLists.txt
-@@ -67,7 +67,7 @@ install(
- 
- include(GrPython)
- GR_PYTHON_INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/runtime_swig.py
+@@ -62,7 +62,7 @@ GR_SWIG_MAKE(runtime_swig runtime_swig.i)
+ install(
+   TARGETS runtime_swig
+   EXPORT runtime_swig-export
 -  DESTINATION ${GR_PYTHON_DIR}/gnuradio/gr
 +  DESTINATION ${GR_PYTHON_RELATIVE}/gnuradio/gr
-   DEPENDS runtime_swig
- )
+   )
  
+ include(GrPython)
 -- 
 2.20.1
 
