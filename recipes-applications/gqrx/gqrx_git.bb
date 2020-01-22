@@ -7,15 +7,16 @@ DEPENDS = "gnuradio gr-osmosdr"
 
 inherit cmake_qt5
 
-PV = "2.6.1+"
+PV = "2.11.5+"
 
 SRC_URI = "git://github.com/csete/gqrx.git \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "09f89e4c384bb39258b52c286febc51d8e75e2eb"
+SRCREV = "34333e78b2e565745b6d62bf0efcc57cc3b1988f"
 
-EXTRA_OECMAKE = "-DLINUX_AUDIO_BACKEND=Gr-audio"
+EXTRA_OECMAKE = "-DLINUX_AUDIO_BACKEND=Gr-audio \
+                "
 
 #RDEPENDS_${PN} = "qt4-plugin-imageformat-svg"
 
