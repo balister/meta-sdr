@@ -31,4 +31,4 @@ SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=gr3.8 \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "46698a67e7e06419eefaf45c95129c0c12669045"
+SRCREV = "964af80938981abe204bcdacaf973aa22989a408"
