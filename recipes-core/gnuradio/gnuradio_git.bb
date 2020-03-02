@@ -13,7 +13,7 @@ PACKAGECONFIG ??= "qtgui5 grc zeromq"
 PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
                  ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, \
-    python3-mako python3-pyyaml python3-pygobject gtk+3 cairo , \
+    python3-mako python3-pyyaml python3-pygobject gtk+3 cairo adwaita-icon-theme, \
     python3-mako python3-pyyaml python3-pygobject"
 
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
