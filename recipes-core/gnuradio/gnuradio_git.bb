@@ -12,10 +12,7 @@ PACKAGECONFIG ??= "qtgui5 grc zeromq"
 
 PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
                  ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 "
-PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, \
-    python3-mako python3-pyyaml python3-pygobject gtk+3 cairo adwaita-icon-theme, \
-    python3-mako python3-pyyaml python3-pygobject"
-
+PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, , "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
@@ -37,7 +34,7 @@ RDEPENDS_${PN} = "python3-core python3-audio python3-threading python3-codecs \
 "
 RRECOMMENDS_${PN} = "${GR_PACKAGES}"
 
-RDEPENDS_${PN}-grc = "python3-mako python3-netserver"
+RDEPENDS_${PN}-grc = "python3-mako python3-pyyaml python3-pygobject gtk+3 cairo adwaita-icon-theme"
 
 RDEPENDS_${PN}-qtgui = "python3-pyqt5 python3-sip3"
 
@@ -167,7 +164,7 @@ python populate_packages_prepend() {
 #                       extra_depends='',
 #                       prepend=True,
 #                       allow_links=True)
-# 
+#
 #     # Development packages (-dev)
 #     pkgs=do_split_packages(d, gnuradio_libdir, '^lib([a-z]*\-[a-z]*)(?:|\-3\.7\.10\.2)\.so$',
 #                       output_pattern='lib%s-dev',
@@ -203,7 +200,7 @@ python populate_packages_prepend() {
                       extra_depends='${PN}-dev',
                       prepend=True,
                       allow_links=True)
-                      
+
     #do_split_packages(d, gnuradio_pkgconfig, '^lib(.*)\.pc$',
     #                  output_pattern='lib%s-dev',
     #                  description='gnuradio %s development package',
@@ -246,4 +243,3 @@ EXTRA_OECMAKE = "\
                  ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
                      '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
-
