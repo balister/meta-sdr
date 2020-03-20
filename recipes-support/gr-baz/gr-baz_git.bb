@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "gnuradio swig-native"
 
-inherit setuptools cmake pkgconfig
+inherit setuptools3 cmake pkgconfig
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"

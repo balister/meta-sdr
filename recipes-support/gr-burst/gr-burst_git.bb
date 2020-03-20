@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "gnuradio volk python-bitarray gr-eventstream gr-mapper swig-native"
 
-inherit setuptools cmake
+inherit setuptools3 cmake
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
