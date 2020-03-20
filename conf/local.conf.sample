@@ -19,6 +19,8 @@ PACKAGECONFIG_pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 INHERIT += "blacklist"
 PNBLACKLIST[uhd] = "BROKEN: Build fails with newer boost"
 
+ERROR_QA_remove = "version-going-backward"
+WARN_QA_append = " version-going-backward"
 
 #
 # Parallelism Options
