@@ -25,7 +25,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     iw \
     sshfs-fuse \
     libudev \
-    nano \
+    ${@bb.utils.contains('ENABLE_WIDEC', 'false', '', 'nano', d)}  \
     nfs-utils-client \
     openssh-sftp \
     openssh-sftp-server \
