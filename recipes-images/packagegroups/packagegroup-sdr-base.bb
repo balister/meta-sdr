@@ -27,8 +27,8 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     libudev \
     ${@bb.utils.contains('ENABLE_WIDEC', 'false', '', 'nano', d)}  \
     nfs-utils-client \
-    openssh-sftp \
-    openssh-sftp-server \
+    cifs-utils \
+    ${@bb.utils.contains('IMAGE_FEATURES', 'ssh-server-openssh', 'openssh-sftp openssh-sftp-server', '', d)} \
     procps \
     protobuf \
     ntp \
