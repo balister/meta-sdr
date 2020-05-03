@@ -4,7 +4,7 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
-           swig-native python3-numpy  log4cpp \
+           swig-native python3-numpy python3-numpy-native log4cpp \
            python3-mako-native git-native gmp"
 
 #Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs
@@ -211,15 +211,15 @@ python populate_packages_prepend() {
         d.appendVar('RDEPENDS_'+pn+'-dev', ' '+' '.join(pkgs))
 }
 
-#PV = "3.8.0+git${SRCPV}"
-PV = "3.8.0.0"
+PV = "3.8.0+git${SRCPV}"
+#PV = "3.8.0.0"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="cdbe702b484aa9a88613aef11d23cfc9aea21416"
+SRCREV ="aa8f15d6408b0a2b70b6a012c53b8cf0bd955b9c"
 
 # Make it easy to test against branches
-GIT_BRANCH = "maint-3.8"
+GIT_BRANCH = "master"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
