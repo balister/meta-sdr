@@ -25,4 +25,6 @@ CORE_IMAGE_EXTRA_INSTALL = "\
 
 #    zeroc-ice 
 
+SDK_NAME = "${BPN}-${MACHINE}"
+
 inherit core-image image-buildinfo
