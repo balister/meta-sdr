@@ -26,6 +26,7 @@ RDEPENDS_packagegroup-sdr-python-extended = "\
 SUMMARY_packagegroup-sdr-gnuradio-base = "Basic GNU Radio install."
 RDEPENDS_packagegroup-sdr-gnuradio-base = "\
     gnuradio \
+    gr-osmosdr \
 "
 
 
