@@ -171,7 +171,7 @@ IMAGE_FSTYPES = "tar.gz"
 USER_CLASSES ?= "buildhistory buildstats image-buildinfo image-mklibs rm_work"
 
 RM_WORK_EXCLUDE = "base-dev-image uhd-dev-image gnuradio-dev-image \
-                   gnuradio-demo-image gnuradio-video-demo-image"
+                   gnuradio-demo-image gnuradio-video-demo-image gnuradio"
 
 #
 # Runtime testing of images
