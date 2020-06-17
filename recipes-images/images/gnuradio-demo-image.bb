@@ -12,5 +12,4 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     dnsmasq \
     lighttpd \
     lighttpd-module-cgi \
-    python3-pyephem \
     "
