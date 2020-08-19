@@ -13,9 +13,6 @@
 
 DISTRO_FEATURES_append = " opengl x11"
 
-BBMASK = "rtimulib gqrx"
-MACHINE_EXTRA_RRECOMMENDS_remove_ettus-e300 = "rtimulib rtimulib-conf"
-
 #
 # Parallelism Options
 #
@@ -47,16 +44,12 @@ MACHINE_EXTRA_RRECOMMENDS_remove_ettus-e300 = "rtimulib rtimulib-conf"
 #MACHINE ?= "qemux86-64"
 #
 # This sets the default machine to be qemux86 if no other machine is selected:
-MACHINE ??= "ettus-e3xx-sg1"
+MACHINE ??= "ni-e31x-sg3"
 
-DEFAULTTUNE_ettus-e3xx-sg1 = "armv7ahf-neon"
-DEFAULTTUNE_ettus-e3xx-sg3 = "armv7ahf-neon"
-DEFAULTTUNE_ettus-e1xx = "armv7ahf-neon"
-DEFAULTTUNE_zedboard-zynq7 = "armv7ahf-neon"
-DEFAULTTUNE_zc702-zynq7 = "armv7ahf-neon"
-DEFAULTTUNE_odroid-xu = "armv7ahf-neon"
-DEFAULTTUNE_nitrogen6x = "armv7ahf-neon"
-DEFAULTTUNE_keystone-evm = "armv7ahf-neon"
+DISTRO ??= "Alchemy"
+
+WKS_FILE="sdimage-8G.wks"
+IMAGE_FSTYPES += "wic"
 
 #
 # Where to place downloads
