@@ -28,6 +28,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
 PV = "0.2.0"
 
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
+           file://0001-Fixes-for-boost-endian.hpp-removal.patch \
           "
 S = "${WORKDIR}/git"
 
