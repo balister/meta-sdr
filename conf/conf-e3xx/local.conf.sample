@@ -48,8 +48,10 @@ MACHINE ??= "ni-e31x-sg3"
 
 DISTRO ??= "Alchemy"
 
+CORE_IMAGE_EXTRA_INSTALL_append = " uhd-examples"
+
 WKS_FILE="sdimage-8G.wks"
-IMAGE_FSTYPES += "wic"
+IMAGE_FSTYPES += "wic.gz wic.bmap"
 
 #
 # Where to place downloads
@@ -140,8 +142,6 @@ PACKAGE_CLASSES ?= "package_ipk"
 # We default to enabling the debugging tweaks.
 EXTRA_IMAGE_FEATURES = "debug-tweaks "
 EXTRA_IMAGE_FEATURES_remove_ettus-e1xx = "tools-profile"
-
-IMAGE_FSTYPES = "tar.gz"
 
 #
 # Additional image features
