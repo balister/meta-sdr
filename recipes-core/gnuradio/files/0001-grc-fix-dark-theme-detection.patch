@@ -1,0 +1,26 @@
+From 28d1ad5698c78010bdba89fc54c522e5b3976455 Mon Sep 17 00:00:00 2001
+From: Sebastian Koslowski <sebastian.koslowski@gmail.com>
+Date: Sat, 16 May 2020 22:01:02 +0200
+Subject: [PATCH] grc: fix dark theme detection
+
+...for systems with no theme set.
+---
+ grc/gui/ParamWidgets.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/grc/gui/ParamWidgets.py b/grc/gui/ParamWidgets.py
+index 1b44f3bbd..e6f29fb37 100644
+--- a/grc/gui/ParamWidgets.py
++++ b/grc/gui/ParamWidgets.py
+@@ -35,7 +35,7 @@ def have_dark_theme():
+         """
+         Check if a theme is dark based on its name.
+         """
+-        return theme_name in Constants.GTK_DARK_THEMES or "dark" in theme_name.lower()
++        return theme_name and (theme_name in Constants.GTK_DARK_THEMES or "dark" in theme_name.lower())
+     # GoGoGo
+     config = configparser.ConfigParser()
+     config.read(os.path.expanduser(Constants.GTK_SETTINGS_INI_PATH))
+-- 
+2.25.4
+

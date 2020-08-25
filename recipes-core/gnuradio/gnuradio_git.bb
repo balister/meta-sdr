@@ -224,7 +224,9 @@ GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-Use-python-relative-path-for-swig-so-we-can-find-mod.patch \
-           file://0002-boost_qualify_placeholders_with_their_full_namespace.patch \
+           file://0001-grc-fix-dark-theme-detection.patch \
+           file://0001-grc-try-except-around-gsettings-for-when-those-setti.patch \
+           file://0001-For-crossompiling-assume-we-are-using-python3.patch \
           "
 
 S="${WORKDIR}/git"

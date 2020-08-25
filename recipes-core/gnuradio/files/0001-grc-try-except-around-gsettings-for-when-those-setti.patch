@@ -1,0 +1,33 @@
+From b0619899b4469ca815a5b06d6dcf7c5e6f469054 Mon Sep 17 00:00:00 2001
+From: Michael Dickens <michael.dickens@ettus.com>
+Date: Mon, 24 Aug 2020 09:37:33 -0400
+Subject: [PATCH] grc: try-except around "gsettings" for when those settings do
+ not exist
+
+---
+ grc/gui/ParamWidgets.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/grc/gui/ParamWidgets.py b/grc/gui/ParamWidgets.py
+index e6f29fb37..12e9803bf 100644
+--- a/grc/gui/ParamWidgets.py
++++ b/grc/gui/ParamWidgets.py
+@@ -45,9 +45,12 @@ def have_dark_theme():
+         theme_name = config.get(
+             'Settings', Constants.GTK_INI_THEME_NAME_KEY, fallback=None)
+         return is_dark_theme(theme_name)
+-    theme = subprocess.check_output(
+-        ["gsettings", "get", "org.gnome.desktop.interface", "gtk-theme"]
+-    ).decode('utf-8').strip().replace("'", "")
++    try:
++        theme = subprocess.check_output(
++            ["gsettings", "get", "org.gnome.desktop.interface", "gtk-theme"]
++        ).decode('utf-8').strip().replace("'", "")
++    except:
++        return False
+     return is_dark_theme(theme)
+ 
+ def add_style_provider():
+-- 
+2.25.4
+
