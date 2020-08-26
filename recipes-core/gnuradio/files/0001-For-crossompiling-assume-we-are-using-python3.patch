@@ -1,0 +1,37 @@
+From 0d7ed0db16f7f1122f0650de5468db0172e37afb Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Mon, 24 Aug 2020 14:45:47 -0400
+Subject: [PATCH] For crossompiling, assume we are using python3.
+
+ * Can't depend on python being installed.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ cmake/Modules/GrPython.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/Modules/GrPython.cmake b/cmake/Modules/GrPython.cmake
+index fd9b7583a..5de2c89f4 100644
+--- a/cmake/Modules/GrPython.cmake
++++ b/cmake/Modules/GrPython.cmake
+@@ -44,7 +44,7 @@ endif ()
+ find_package(PythonLibs ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR} EXACT)
+ 
+ if (CMAKE_CROSSCOMPILING)
+-    set(QA_PYTHON_EXECUTABLE "/usr/bin/python")
++    set(QA_PYTHON_EXECUTABLE "/usr/bin/python3")
+ else (CMAKE_CROSSCOMPILING)
+     set(QA_PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE})
+ endif(CMAKE_CROSSCOMPILING)
+@@ -293,7 +293,7 @@ function(GR_PYTHON_INSTALL)
+         file(TO_NATIVE_PATH ${PYTHON_EXECUTABLE} pyexe_native)
+ 
+         if (CMAKE_CROSSCOMPILING)
+-           set(pyexe_native "/usr/bin/env python")
++           set(pyexe_native "/usr/bin/env python3")
+         endif()
+ 
+         foreach(pyfile ${GR_PYTHON_INSTALL_PROGRAMS})
+-- 
+2.25.4
+

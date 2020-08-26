@@ -212,11 +212,11 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.8.1+git${SRCPV}"
-PV = "3.8.1.0"
+PV = "3.8.2.0"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="867b0ab9191ff6c6d5d8f49b5b95fdd884e92a07"
+SRCREV ="67d8415f4d635c186fdf03a7a1d18b84d666a0c5"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.8"
@@ -224,6 +224,9 @@ GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-Use-python-relative-path-for-swig-so-we-can-find-mod.patch \
+           file://0001-grc-fix-dark-theme-detection.patch \
+           file://0001-grc-try-except-around-gsettings-for-when-those-setti.patch \
+           file://0001-For-crossompiling-assume-we-are-using-python3.patch \
           "
 
 S="${WORKDIR}/git"
