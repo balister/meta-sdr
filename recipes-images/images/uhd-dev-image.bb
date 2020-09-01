@@ -26,12 +26,12 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     boost \
     cmake \
     gsl \
-    python \
-    python-cheetah \
-    python-modules \
-    python-argparse \
-    python-distutils \
-    python-numpy \
+    python3 \
+    python3-cheetah \
+    python3-modules \
+    python3-configargparse \
+    python3-distutils \
+    python3-numpy \
     htop \
     sshfs-fuse \
     glib-2.0 \
