@@ -3,7 +3,7 @@ HOMEPAGE = "http://gqrx.dk/"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio gr-osmosdr"
+DEPENDS = "gnuradio gr-osmosdr qtsvg"
 
 inherit cmake_qt5
 
