@@ -12,7 +12,7 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     dnsmasq \
     lighttpd \
     lighttpd-module-cgi \
-    python-pyephem \
+    python3-pyephem \
     gqrx \
     liberation-fonts \
     "
