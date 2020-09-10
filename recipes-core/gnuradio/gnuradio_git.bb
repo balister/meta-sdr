@@ -227,6 +227,10 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://0001-grc-fix-dark-theme-detection.patch \
            file://0001-grc-try-except-around-gsettings-for-when-those-setti.patch \
            file://0001-For-crossompiling-assume-we-are-using-python3.patch \
+           file://0001-msg_handler-Use-lambdas-to-set-msg-handlers.patch \
+           file://0002-msg_handler-Use-lambdas-in-most-components.patch \
+           file://0003-msg_handler-Use-lambdas-in-gr-qtgui.patch \
+           file://0004-msg_handler-Use-lambdas-in-gr-uhd.patch \
           "
 
 S="${WORKDIR}/git"
