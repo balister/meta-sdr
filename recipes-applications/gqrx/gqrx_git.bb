@@ -7,13 +7,13 @@ DEPENDS = "gnuradio gr-osmosdr qtsvg"
 
 inherit cmake_qt5
 
-PV = "2.11.5+"
+PV = "2.12.1"
 
 SRC_URI = "git://github.com/csete/gqrx.git \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "34333e78b2e565745b6d62bf0efcc57cc3b1988f"
+SRCREV = "9718d60c003b31a328b4457b400308c603e1518e"
 
 EXTRA_OECMAKE = "-DLINUX_AUDIO_BACKEND=Gr-audio \
                 "
