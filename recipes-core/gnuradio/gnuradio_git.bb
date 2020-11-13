@@ -246,7 +246,4 @@ EXTRA_OECMAKE = "\
                  -DENABLE_ORC=OFF \
                  -DENABLE_GR_VOCODER=OFF \
                  -DENABLE_INTERNAL_VOLK=OFF \
-                 -DENABLE_TESTING=OFF \
-                 ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
-                     '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
