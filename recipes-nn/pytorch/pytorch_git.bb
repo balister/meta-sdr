@@ -180,24 +180,28 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=acf4d595f99e159bf31797aa872aef57 \
                     file://third_party/QNNPACK/LICENSE;md5=f1e2603190afb8bee3644e45853bd55e \
                     file://third_party/QNNPACK/deps/clog/LICENSE;md5=32150729bbb899c7ce46b1d9a0e2cd44"
 
-SRC_URI = "gitsm://github.com/pytorch/pytorch.git;protocol=https \
+SRC_URI = "gitsm://github.com/balister/pytorch.git;protocol=https;branch=oe-fixes \
            file://fix-sleef-cflags.diff \
+           file://site-file.cmake \
           "
 
 # Modify these as desired
 PV = "1.0+git${SRCPV}"
-SRCREV = "a97ca93c0e698b81599f7a0ca5cdbda947799431"
+SRCREV = "11da340ac009e75b18e9132c5c393faba13e7c8a"
 
 S = "${WORKDIR}/git"
 
 inherit python3native cmake
 
+FULL_OPTIMIZATION = "-O3 -pipe ${DEBUG_FLAGS}"
+
 EXTRA_OECMAKE = "-DGLIBCXX_USE_CXX11_ABI=1 -DBUILD_PYTHON=0 -DCOMPILER_WORKS=1 \
                  -DNATIVE_BUILD_DIR=${STAGING_DIR_NATIVE}/usr \
-                 -DBUILD_CUSTOM_PROTOBUF=0 \
+                 -DBUILD_CUSTOM_PROTOBUF=0 -DUSE_OPENMP=OFF \
                  -DCMAKE_SYSTEM_PROCESSOR=armv7 "
 
-DEPENDS = "fftw python3-pyyaml-native protobuf protobuf-native"
+DEPENDS = "fftw python3-pyyaml-native protobuf protobuf-native openblas \
+           libgfortran"
 
 # WARNING: the following rdepends are determined through basic analysis of the
 # python sources, and might not be 100% accurate.
@@ -208,8 +212,12 @@ do_compile_prepend() {
 	${BUILD_CC} -o ${STAGING_BINDIR_NATIVE}/mkrename ${S}/third_party/sleef/src/libm/mkrename.c
 }
 
+do_install_append() {
+	rm -rf ${D}${includedir}/pybind11
+}
+
 FILES_${PN} += "${datadir}/ATen"
-INSANE_SKIP_${PN}-dev += "dev-elf"
+INSANE_SKIP_${PN}-dev += "dev-elf ldflags"
 
 # WARNING: We were unable to map the following python package/module
 # dependencies to the bitbake packages which include them:
