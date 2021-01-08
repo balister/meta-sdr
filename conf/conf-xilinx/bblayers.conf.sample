@@ -14,5 +14,6 @@ BBLAYERS ?= " \
   ##COREBASE##/../meta-sdr \
   ##COREBASE##/../meta-qt5 \
   ##COREBASE##/../meta-xilinx/meta-xilinx-bsp \
+  ##COREBASE##/../meta-xilinx-tools \
   "
 
