@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "boost python3-mako-native python3-six-native"
 
-inherit python3native cmake pkgconfig
+inherit python3native cmake pkgconfig ptest
 
 PACKAGECONFIG ??= ""
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
@@ -17,6 +17,8 @@ export STAGING_LIBDIR
 
 PV = "2.4.1"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=master \
+           file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
+           file://run-ptest \
            file://0001-Check-for-lib64-verus-lib-and-set-LIB_SUFFIX-accordi.patch \
           "
 SRC_URI_append_ettus-e300 = "file://volk_config"
@@ -38,3 +40,12 @@ do_install_append() {
 		install -m 644 ${WORKDIR}/volk_config ${D}/${ROOT_HOME}/.volk
 	fi
 }
+
+do_install_ptest() {
+    mkdir -p ${D}${PTEST_PATH}
+    cd ${B}
+    find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name "volk*test.sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    install -m 0755 lib/volk_test_all ${D}/${PTEST_PATH}
+}
+
