@@ -19,7 +19,6 @@ PV = "2.4.1"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=master \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://run-ptest \
-           file://0001-Check-for-lib64-verus-lib-and-set-LIB_SUFFIX-accordi.patch \
           "
 SRC_URI_append_ettus-e300 = "file://volk_config"
 
