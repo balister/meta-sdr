@@ -20,7 +20,7 @@ PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thri
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python3-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
-inherit distutils3-base cmake pkgconfig python3native mime mime-xdg
+inherit distutils3-base cmake pkgconfig python3native mime mime-xdg ptest
 inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 
 export BUILD_SYS
@@ -66,6 +66,7 @@ GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-examples \
             gnuradio-doc gnuradio-zeromq \
             "
+GR_PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'gnuradio-ptest', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui4', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui5', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
@@ -224,13 +225,13 @@ GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-Use-python-relative-path-for-swig-so-we-can-find-mod.patch \
-           file://0001-grc-fix-dark-theme-detection.patch \
-           file://0001-grc-try-except-around-gsettings-for-when-those-setti.patch \
            file://0001-For-crossompiling-assume-we-are-using-python3.patch \
            file://0001-msg_handler-Use-lambdas-to-set-msg-handlers.patch \
            file://0002-msg_handler-Use-lambdas-in-most-components.patch \
            file://0003-msg_handler-Use-lambdas-in-gr-qtgui.patch \
            file://0004-msg_handler-Use-lambdas-in-gr-uhd.patch \
+           file://0001-When-cross-compiling-gnuradio-change-how-the-test-fi.patch \
+           file://run-ptest \
           "
 
 S="${WORKDIR}/git"
@@ -247,3 +248,13 @@ EXTRA_OECMAKE = "\
                  -DENABLE_GR_VOCODER=OFF \
                  -DENABLE_INTERNAL_VOLK=OFF \
 "
+
+do_install_ptest() {
+    mkdir -p ${D}${PTEST_PATH}
+    cd ${B}
+    find . -name "qa*sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
+
+    cd ${S}
+    find . -name "qa*py" -exec cp --parents {} ${D}${PTEST_PATH} \;
+}

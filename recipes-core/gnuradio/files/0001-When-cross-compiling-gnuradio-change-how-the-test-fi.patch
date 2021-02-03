@@ -1,0 +1,358 @@
+From d79ad56cfb00c4e532bc799f22d7c73c5e7ef849 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Fri, 18 Dec 2020 15:20:03 -0500
+Subject: [PATCH] When cross compiling gnuradio, change how the test files are
+ built.
+
+Normally, the gnuradio QA code expects to run in the build tree. For the
+cross compilng case, we cannot run the QA code during the build process.
+The changes here allow the creation of an additional package that can be
+installed on a target that will run the QA code against the installed
+libraries.
+
+Majoe changes are not using full paths to test files (since they include
+paths that only exist on the build machine) and not setting environment
+variables in the shell files to force the QA code to use code in the
+build tree.
+
+This patch disables the C++ only tests, these need some work and then they
+can be added back for the cross compile case.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ cmake/Modules/GrTest.cmake                    | 22 +++++++++++--------
+ .../python/gnuradio/gr/CMakeLists.txt         |  3 +++
+ gnuradio-runtime/python/pmt/CMakeLists.txt    |  3 +++
+ gr-analog/python/analog/CMakeLists.txt        |  3 +++
+ gr-audio/python/audio/CMakeLists.txt          |  3 +++
+ gr-blocks/python/blocks/CMakeLists.txt        |  3 +++
+ gr-channels/python/channels/CMakeLists.txt    |  3 +++
+ gr-digital/python/digital/CMakeLists.txt      |  3 +++
+ gr-dtv/python/dtv/CMakeLists.txt              |  3 +++
+ gr-fec/python/fec/CMakeLists.txt              |  3 +++
+ gr-fft/python/fft/CMakeLists.txt              |  3 +++
+ gr-filter/python/filter/CMakeLists.txt        |  3 +++
+ gr-qtgui/python/qtgui/CMakeLists.txt          |  3 +++
+ gr-trellis/python/trellis/CMakeLists.txt      |  3 +++
+ gr-uhd/python/uhd/CMakeLists.txt              |  3 +++
+ gr-utils/python/modtool/tests/CMakeLists.txt  |  3 +++
+ gr-video-sdl/python/video_sdl/CMakeLists.txt  |  3 +++
+ gr-vocoder/python/vocoder/CMakeLists.txt      |  3 +++
+ gr-wavelet/python/wavelet/CMakeLists.txt      |  3 +++
+ gr-zeromq/python/zeromq/CMakeLists.txt        |  3 +++
+ 20 files changed, 70 insertions(+), 9 deletions(-)
+
+diff --git a/cmake/Modules/GrTest.cmake b/cmake/Modules/GrTest.cmake
+index 2cd7d51fd..c33eb86d2 100644
+--- a/cmake/Modules/GrTest.cmake
++++ b/cmake/Modules/GrTest.cmake
+@@ -104,13 +104,15 @@ function(GR_ADD_TEST test_name)
+         else(CMAKE_CROSSCOMPILING)
+                 find_program(SHELL sh)
+         endif(CMAKE_CROSSCOMPILING)
+-        set(sh_file ${CMAKE_CURRENT_BINARY_DIR}/${test_name}_test.sh)
+-        file(WRITE ${sh_file} "#!${SHELL}\n")
+-        #each line sets an environment variable
+-        foreach(environ ${environs})
+-            file(APPEND ${sh_file} "export ${environ}\n")
+-        endforeach(environ)
+-        #load the command to run with its arguments
++	set(sh_file ${CMAKE_CURRENT_BINARY_DIR}/${test_name}_test.sh)
++	file(WRITE ${sh_file} "#!${SHELL}\n")
++	if (NOT CMAKE_CROSSCOMPILING)
++		#each line sets an environment variable
++        	foreach(environ ${environs})
++	            file(APPEND ${sh_file} "export ${environ}\n")
++	        endforeach(environ)
++	        #load the command to run with its arguments
++        endif(CMAKE_CROSSCOMPILING)
+         foreach(arg ${ARGN})
+             file(APPEND ${sh_file} "${arg} ")
+         endforeach(arg)
+@@ -119,7 +121,7 @@ function(GR_ADD_TEST test_name)
+         #make the shell file executable
+         execute_process(COMMAND chmod +x ${sh_file})
+ 
+-        add_test(${test_name} ${SHELL} ${sh_file})
++        add_test(${test_name} ${SHELL} ${test_name}_test.sh)
+     endif(UNIX)
+ 
+     if(WIN32)
+@@ -169,5 +171,7 @@ function(GR_ADD_CPP_TEST test_name test_source)
+     set_target_properties(${test_name}
+         PROPERTIES COMPILE_DEFINITIONS "BOOST_TEST_DYN_LINK;BOOST_TEST_MAIN"
+     )
+-    GR_ADD_TEST(${test_name} ${test_name})
++    IF (NOT CMAKE_CROSSCOMPILING)
++        GR_ADD_TEST(${test_name} ${test_name})
++    ENDIF(CMAKE_CROSSCOMPILING)
+ endfunction(GR_ADD_CPP_TEST)
+diff --git a/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt b/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
+index 87631f11b..53af15c50 100644
+--- a/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
++++ b/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
+@@ -51,6 +51,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gnuradio-runtime/python/pmt/CMakeLists.txt b/gnuradio-runtime/python/pmt/CMakeLists.txt
+index e63566392..6239adde2 100644
+--- a/gnuradio-runtime/python/pmt/CMakeLists.txt
++++ b/gnuradio-runtime/python/pmt/CMakeLists.txt
+@@ -42,6 +42,9 @@ foreach(py_qa_test_file ${py_qa_test_files})
+         ${CMAKE_BINARY_DIR}/gnuradio-blocks/swig		
+     )
+     set(GR_TEST_TARGET_DEPS gnuradio-runtime)
++    if (CMAKE_CROSSCOMPILING)
++	get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+ endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-analog/python/analog/CMakeLists.txt b/gr-analog/python/analog/CMakeLists.txt
+index 4c5d24f4c..1bf916d17 100644
+--- a/gr-analog/python/analog/CMakeLists.txt
++++ b/gr-analog/python/analog/CMakeLists.txt
+@@ -58,6 +58,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-audio/python/audio/CMakeLists.txt b/gr-audio/python/audio/CMakeLists.txt
+index 831156d62..7155c412b 100644
+--- a/gr-audio/python/audio/CMakeLists.txt
++++ b/gr-audio/python/audio/CMakeLists.txt
+@@ -42,6 +42,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-blocks/python/blocks/CMakeLists.txt b/gr-blocks/python/blocks/CMakeLists.txt
+index f2d100a2a..0234cd675 100644
+--- a/gr-blocks/python/blocks/CMakeLists.txt
++++ b/gr-blocks/python/blocks/CMakeLists.txt
+@@ -56,6 +56,9 @@ if(ENABLE_TESTING)
+ 
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ 
+diff --git a/gr-channels/python/channels/CMakeLists.txt b/gr-channels/python/channels/CMakeLists.txt
+index 0d5c90483..31ecd5775 100644
+--- a/gr-channels/python/channels/CMakeLists.txt
++++ b/gr-channels/python/channels/CMakeLists.txt
+@@ -56,6 +56,9 @@ if(ENABLE_TESTING)
+   file (GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-digital/python/digital/CMakeLists.txt b/gr-digital/python/digital/CMakeLists.txt
+index 2c80596bc..edc9cc108 100644
+--- a/gr-digital/python/digital/CMakeLists.txt
++++ b/gr-digital/python/digital/CMakeLists.txt
+@@ -84,6 +84,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-dtv/python/dtv/CMakeLists.txt b/gr-dtv/python/dtv/CMakeLists.txt
+index 76f5f005c..5e62a54f4 100644
+--- a/gr-dtv/python/dtv/CMakeLists.txt
++++ b/gr-dtv/python/dtv/CMakeLists.txt
+@@ -50,6 +50,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-fec/python/fec/CMakeLists.txt b/gr-fec/python/fec/CMakeLists.txt
+index cbde86191..b04f9be04 100644
+--- a/gr-fec/python/fec/CMakeLists.txt
++++ b/gr-fec/python/fec/CMakeLists.txt
+@@ -73,6 +73,9 @@ endif(NOT GSL_FOUND)
+ 
+ foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+ endforeach(py_qa_test_file)
+ 
+diff --git a/gr-fft/python/fft/CMakeLists.txt b/gr-fft/python/fft/CMakeLists.txt
+index acf81ca05..d11c6f4ee 100644
+--- a/gr-fft/python/fft/CMakeLists.txt
++++ b/gr-fft/python/fft/CMakeLists.txt
+@@ -43,6 +43,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-filter/python/filter/CMakeLists.txt b/gr-filter/python/filter/CMakeLists.txt
+index 0a1c92e87..2bd1d26c2 100644
+--- a/gr-filter/python/filter/CMakeLists.txt
++++ b/gr-filter/python/filter/CMakeLists.txt
+@@ -51,6 +51,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-qtgui/python/qtgui/CMakeLists.txt b/gr-qtgui/python/qtgui/CMakeLists.txt
+index b1a655563..65041f5e4 100644
+--- a/gr-qtgui/python/qtgui/CMakeLists.txt
++++ b/gr-qtgui/python/qtgui/CMakeLists.txt
+@@ -49,6 +49,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-trellis/python/trellis/CMakeLists.txt b/gr-trellis/python/trellis/CMakeLists.txt
+index 862a27424..f8e0b844c 100644
+--- a/gr-trellis/python/trellis/CMakeLists.txt
++++ b/gr-trellis/python/trellis/CMakeLists.txt
+@@ -51,6 +51,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-uhd/python/uhd/CMakeLists.txt b/gr-uhd/python/uhd/CMakeLists.txt
+index b173ba01d..583cc0ae9 100644
+--- a/gr-uhd/python/uhd/CMakeLists.txt
++++ b/gr-uhd/python/uhd/CMakeLists.txt
+@@ -46,6 +46,9 @@ include(GrTest)
+ file(GLOB py_qa_test_files "qa_*.py")
+ foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+ endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-utils/python/modtool/tests/CMakeLists.txt b/gr-utils/python/modtool/tests/CMakeLists.txt
+index 076b98a18..8987d0af6 100644
+--- a/gr-utils/python/modtool/tests/CMakeLists.txt
++++ b/gr-utils/python/modtool/tests/CMakeLists.txt
+@@ -37,6 +37,9 @@ if(ENABLE_TESTING)
+ 
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ 
+diff --git a/gr-video-sdl/python/video_sdl/CMakeLists.txt b/gr-video-sdl/python/video_sdl/CMakeLists.txt
+index 58e81cc4d..d05dd61c2 100644
+--- a/gr-video-sdl/python/video_sdl/CMakeLists.txt
++++ b/gr-video-sdl/python/video_sdl/CMakeLists.txt
+@@ -45,6 +45,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-vocoder/python/vocoder/CMakeLists.txt b/gr-vocoder/python/vocoder/CMakeLists.txt
+index 4be361c5c..fbc3745c0 100644
+--- a/gr-vocoder/python/vocoder/CMakeLists.txt
++++ b/gr-vocoder/python/vocoder/CMakeLists.txt
+@@ -66,6 +66,9 @@ if(ENABLE_TESTING)
+   endif()
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${CMAKE_CURRENT_SOURCE_DIR}/${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-wavelet/python/wavelet/CMakeLists.txt b/gr-wavelet/python/wavelet/CMakeLists.txt
+index 09dea8e01..436c43fc9 100644
+--- a/gr-wavelet/python/wavelet/CMakeLists.txt
++++ b/gr-wavelet/python/wavelet/CMakeLists.txt
+@@ -47,6 +47,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+diff --git a/gr-zeromq/python/zeromq/CMakeLists.txt b/gr-zeromq/python/zeromq/CMakeLists.txt
+index 9560fa1a1..0d0b32bb6 100644
+--- a/gr-zeromq/python/zeromq/CMakeLists.txt
++++ b/gr-zeromq/python/zeromq/CMakeLists.txt
+@@ -54,6 +54,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+-- 
+2.29.2
+
