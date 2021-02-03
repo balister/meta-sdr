@@ -97,7 +97,7 @@ FILES_${PN}-grc = "${bindir}/gnuradio-companion ${datadir}/gnuradio/grc \
                    ${PYTHON_SITEPACKAGES_DIR}/gnuradio/grc \
                    ${PYTHON_SITEPACKAGES_DIR}/grc_gnuradio \
                    ${sysconfdir}/gnuradio/conf.d/grc.conf \
-                   ${datadir}/icons ${datadir}/mime"
+                   ${datadir}/icons ${datadir}/mime ${datadir}/metainfo"
 FILES_${PN}-gru = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gru \
                    ${datadir}/gnuradio/gru"
 FILES_${PN}-gr-utils = "${bindir}/gr_plot* ${bindir}/grcc \
@@ -216,7 +216,7 @@ PV = "3.9.0+git${SRCPV}"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="2ead71c2486bc9ce49801003985c29d73fcf4aa5"
+SRCREV ="b3cf9da3957962733d3b4ec7979dde97f32e090b"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
