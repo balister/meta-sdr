@@ -20,7 +20,7 @@ PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thri
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python3-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
-inherit distutils3-base cmake pkgconfig python3native mime mime-xdg
+inherit distutils3-base cmake pkgconfig python3native mime mime-xdg ptest
 inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 
 export BUILD_SYS
@@ -66,6 +66,7 @@ GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-examples \
             gnuradio-doc gnuradio-zeromq \
             "
+GR_PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'gnuradio-ptest', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui4', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui5', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
@@ -223,6 +224,8 @@ GIT_BRANCH = "master"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+           file://0001-When-cross-compiling-gnuradio-change-how-the-test-fi.patch \
+           file://run-ptest \
           "
 
 S="${WORKDIR}/git"
@@ -238,7 +241,16 @@ EXTRA_OECMAKE = "\
                  -DENABLE_ORC=OFF \
                  -DENABLE_GR_VOCODER=OFF \
                  -DENABLE_INTERNAL_VOLK=OFF \
-                 -DENABLE_TESTING=OFF \
                  ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
                      '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
+
+do_install_ptest() {
+    mkdir -p ${D}${PTEST_PATH}
+    cd ${B}
+    find . -name "qa*sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
+
+    cd ${S}
+    find . -name "qa*py" -exec cp --parents {} ${D}${PTEST_PATH} \;
+}
