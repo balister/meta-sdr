@@ -213,11 +213,11 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.8.1+git${SRCPV}"
-PV = "3.8.2.0"
+PV = "3.8.3.0"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="67d8415f4d635c186fdf03a7a1d18b84d666a0c5"
+SRCREV ="c56e76c74c60d7dfa2d8e3b910a68b7b1f9f0ad9"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.8"
@@ -226,10 +226,6 @@ GITHUB_USER = "gnuradio"
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-Use-python-relative-path-for-swig-so-we-can-find-mod.patch \
            file://0001-For-crossompiling-assume-we-are-using-python3.patch \
-           file://0001-msg_handler-Use-lambdas-to-set-msg-handlers.patch \
-           file://0002-msg_handler-Use-lambdas-in-most-components.patch \
-           file://0003-msg_handler-Use-lambdas-in-gr-qtgui.patch \
-           file://0004-msg_handler-Use-lambdas-in-gr-uhd.patch \
            file://0001-When-cross-compiling-gnuradio-change-how-the-test-fi.patch \
            file://run-ptest \
           "
