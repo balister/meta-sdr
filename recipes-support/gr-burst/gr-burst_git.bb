@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/gr-vt/gr-burst"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio volk python-bitarray gr-eventstream gr-mapper swig-native"
+DEPENDS = "gnuradio volk python3-bitarray gr-eventstream gr-mapper swig-native"
 
 inherit setuptools3 cmake
 
