@@ -36,7 +36,7 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     ntp-utils \
     linux-firmware \
     libsodium \
-    resolvconf \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'resolvconf', d)} \
     sqlite3 \
     tar \
     wget \
