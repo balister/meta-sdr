@@ -7,6 +7,6 @@ runqemu gnuradio-ptest-image &
 
 sleep 45
 
-ssh root@192.168.7.2 'ptest-runner; shutdown -hf now' > ptest.log
+ssh root@192.168.7.2 'ptest-runner; shutdown -hf now' | tee ptest.log
 
 
