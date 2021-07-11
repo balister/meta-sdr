@@ -1,4 +1,4 @@
-From 057c6d2095aa3d82cb8effa24383e7e37697bfa1 Mon Sep 17 00:00:00 2001
+From 0606cf24bff4efd8a0407252f8e93f30843d8433 Mon Sep 17 00:00:00 2001
 From: Philip Balister <philip@balister.org>
 Date: Fri, 18 Dec 2020 15:20:03 -0500
 Subject: [PATCH] When cross compiling gnuradio, change how the test files are
@@ -10,7 +10,7 @@ The changes here allow the creation of an additional package that can be
 installed on a target that will run the QA code against the installed
 libraries.
 
-Majoe changes are not using full paths to test files (since they include
+Major changes are not using full paths to test files (since they include
 paths that only exist on the build machine) and not setting environment
 variables in the shell files to force the QA code to use code in the
 build tree.
@@ -21,7 +21,7 @@ can be added back for the cross compile case.
 Signed-off-by: Philip Balister <philip@balister.org>
 ---
  cmake/Modules/GrTest.cmake                    | 22 +++++++++++--------
- .../python/gnuradio/gr/CMakeLists.txt         |  3 +++
+ .../python/gnuradio/gr/CMakeLists.txt         |  7 +++++-
  gnuradio-runtime/python/pmt/CMakeLists.txt    |  3 +++
  gr-analog/python/analog/CMakeLists.txt        |  3 +++
  gr-audio/python/audio/CMakeLists.txt          |  3 +++
@@ -40,7 +40,7 @@ Signed-off-by: Philip Balister <philip@balister.org>
  gr-vocoder/python/vocoder/CMakeLists.txt      |  3 +++
  gr-wavelet/python/wavelet/CMakeLists.txt      |  3 +++
  gr-zeromq/python/zeromq/CMakeLists.txt        |  3 +++
- 20 files changed, 71 insertions(+), 10 deletions(-)
+ 20 files changed, 74 insertions(+), 11 deletions(-)
 
 diff --git a/cmake/Modules/GrTest.cmake b/cmake/Modules/GrTest.cmake
 index 8a9847897..06e0c997b 100644
@@ -88,19 +88,23 @@ index 8a9847897..06e0c997b 100644
 +    ENDIF(CMAKE_CROSSCOMPILING)
  endfunction(GR_ADD_CPP_TEST)
 diff --git a/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt b/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
-index 4633445f1..96757d1c6 100644
+index eccdcf736..231d8762c 100644
 --- a/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
 +++ b/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
-@@ -34,6 +34,9 @@ if(ENABLE_TESTING)
-   file(GLOB py_qa_test_files "qa_*.py")
+@@ -51,7 +51,12 @@ if(ENABLE_TESTING)
+ 
    foreach(py_qa_test_file ${py_qa_test_files})
      get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
+-    GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${CMAKE_CURRENT_SOURCE_DIR}/${py_qa_test_file})
 +    if (CMAKE_CROSSCOMPILING)
 +        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++        GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
++    else()
++        GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${CMAKE_CURRENT_SOURCE_DIR}/${py_qa_test_file})
 +    endif(CMAKE_CROSSCOMPILING)
-     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
    endforeach(py_qa_test_file)
  endif(ENABLE_TESTING)
+ 
 diff --git a/gnuradio-runtime/python/pmt/CMakeLists.txt b/gnuradio-runtime/python/pmt/CMakeLists.txt
 index 3dcec8246..679104cb6 100644
 --- a/gnuradio-runtime/python/pmt/CMakeLists.txt
@@ -144,10 +148,10 @@ index cc195dd06..4a5f12828 100644
    endforeach(py_qa_test_file)
  endif(ENABLE_TESTING)
 diff --git a/gr-blocks/python/blocks/CMakeLists.txt b/gr-blocks/python/blocks/CMakeLists.txt
-index ab1176c76..2043fca32 100644
+index 25ae7755d..514a899b9 100644
 --- a/gr-blocks/python/blocks/CMakeLists.txt
 +++ b/gr-blocks/python/blocks/CMakeLists.txt
-@@ -51,6 +51,9 @@ if(ENABLE_TESTING)
+@@ -52,6 +52,9 @@ if(ENABLE_TESTING)
  
    foreach(py_qa_test_file ${py_qa_test_files})
      get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
@@ -172,10 +176,10 @@ index d05901b94..c9afd9cd2 100644
    endforeach(py_qa_test_file)
  endif(ENABLE_TESTING)
 diff --git a/gr-digital/python/digital/CMakeLists.txt b/gr-digital/python/digital/CMakeLists.txt
-index 5dc40f8e3..c10a1e425 100644
+index 33038c7c6..9e0d4c0c4 100644
 --- a/gr-digital/python/digital/CMakeLists.txt
 +++ b/gr-digital/python/digital/CMakeLists.txt
-@@ -59,6 +59,9 @@ if(ENABLE_TESTING)
+@@ -58,6 +58,9 @@ if(ENABLE_TESTING)
    file(GLOB py_qa_test_files "qa_*.py")
    foreach(py_qa_test_file ${py_qa_test_files})
      get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
@@ -356,5 +360,5 @@ index 87ea10f83..93fed52be 100644
    endforeach(py_qa_test_file)
  endif(ENABLE_TESTING)
 -- 
-2.29.2
+2.31.1
 
