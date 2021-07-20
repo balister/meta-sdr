@@ -5,7 +5,10 @@ cd ptest-output/$MACHINE
 
 runqemu qemuparams="-m 2048" gnuradio-ptest-image &
 
-sleep 45
+until ssh root@192.168.7.2 'ls'
+	do	
+		sleep 1
+	done
 
 ssh root@192.168.7.2 'ptest-runner -t 1000; shutdown -hf now' | tee ptest.log
 
