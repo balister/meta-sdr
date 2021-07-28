@@ -1,0 +1,132 @@
+From 7e9dd32e075ba2724223763a4b6fbed1acc11e81 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Wed, 28 Jul 2021 11:53:46 -0400
+Subject: [PATCH 2/2] Update QA tests to import helper routines from blocks.
+
+The file metadata QA installs a file in blocks, but imported it
+directly. Updated init.py to import via blocks. matrix interleaver
+imported some routines from a py file that was available via blocks.
+
+These cretaed issues when you install the qa tests in images to run
+them outside the build area.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-blocks/python/blocks/__init__.py              |  1 +
+ gr-blocks/python/blocks/qa_file_metadata.py      | 15 ++++++---------
+ gr-blocks/python/blocks/qa_matrix_interleaver.py |  5 ++---
+ 3 files changed, 9 insertions(+), 12 deletions(-)
+
+diff --git a/gr-blocks/python/blocks/__init__.py b/gr-blocks/python/blocks/__init__.py
+index c9a4b3f75..192be5192 100644
+--- a/gr-blocks/python/blocks/__init__.py
++++ b/gr-blocks/python/blocks/__init__.py
+@@ -26,6 +26,7 @@ from .msg_meta_to_pair import meta_to_pair
+ from .msg_pair_to_var import msg_pair_to_var
+ from .var_to_msg import var_to_msg_pair
+ from .matrix_interleaver import *
++from .parse_file_metadata import parse_header, parse_extra_dict
+ 
+ #alias old add_vXX and multiply_vXX
+ add_vcc = add_cc
+diff --git a/gr-blocks/python/blocks/qa_file_metadata.py b/gr-blocks/python/blocks/qa_file_metadata.py
+index aff8aabaa..6ffacd3dc 100644
+--- a/gr-blocks/python/blocks/qa_file_metadata.py
++++ b/gr-blocks/python/blocks/qa_file_metadata.py
+@@ -15,9 +15,6 @@ import math
+ from gnuradio import gr, gr_unittest, blocks
+ import pmt
+ 
+-import parse_file_metadata
+-
+-
+ def sig_source_c(samp_rate, freq, amp, N):
+     t = [float(x) / samp_rate for x in range(N)]
+     y = [amp * math.cos(2. * math.pi * freq * x) +
+@@ -58,7 +55,7 @@ class test_file_metadata(gr_unittest.TestCase):
+         fsnk.close()
+ 
+         handle = open(outfile, "rb")
+-        header_str = handle.read(parse_file_metadata.HEADER_LENGTH)
++        header_str = handle.read(blocks.parse_file_metadata.HEADER_LENGTH)
+         if(len(header_str) == 0):
+             self.assertFalse()
+ 
+@@ -67,7 +64,7 @@ class test_file_metadata(gr_unittest.TestCase):
+         except RuntimeError:
+             self.assertFalse()
+ 
+-        info = parse_file_metadata.parse_header(header, False)
++        info = blocks.parse_header(header, False)
+ 
+         extra_str = handle.read(info["extra_len"])
+         self.assertEqual(len(extra_str) > 0, True)
+@@ -79,7 +76,7 @@ class test_file_metadata(gr_unittest.TestCase):
+         except RuntimeError:
+             self.assertFalse()
+ 
+-        extra_info = parse_file_metadata.parse_extra_dict(extra, info, False)
++        extra_info = blocks.parse_extra_dict(extra, info, False)
+ 
+         self.assertEqual(info['rx_rate'], samp_rate)
+         self.assertEqual(pmt.to_double(extra_info['samp_rate']), samp_rate)
+@@ -137,7 +134,7 @@ class test_file_metadata(gr_unittest.TestCase):
+ 
+         # Open detached header for reading
+         handle = open(outfile_hdr, "rb")
+-        header_str = handle.read(parse_file_metadata.HEADER_LENGTH)
++        header_str = handle.read(blocks.parse_file_metadata.HEADER_LENGTH)
+         if(len(header_str) == 0):
+             self.assertFalse()
+ 
+@@ -146,7 +143,7 @@ class test_file_metadata(gr_unittest.TestCase):
+         except RuntimeError:
+             self.assertFalse()
+ 
+-        info = parse_file_metadata.parse_header(header, False)
++        info = blocks.parse_header(header, False)
+ 
+         extra_str = handle.read(info["extra_len"])
+ 
+@@ -159,7 +156,7 @@ class test_file_metadata(gr_unittest.TestCase):
+         except RuntimeError:
+             self.assertFalse()
+ 
+-        extra_info = parse_file_metadata.parse_extra_dict(extra, info, False)
++        extra_info = blocks.parse_extra_dict(extra, info, False)
+ 
+         self.assertEqual(info['rx_rate'], samp_rate)
+         self.assertEqual(pmt.to_double(extra_info['samp_rate']), samp_rate)
+diff --git a/gr-blocks/python/blocks/qa_matrix_interleaver.py b/gr-blocks/python/blocks/qa_matrix_interleaver.py
+index d254ef6b5..6870b291f 100755
+--- a/gr-blocks/python/blocks/qa_matrix_interleaver.py
++++ b/gr-blocks/python/blocks/qa_matrix_interleaver.py
+@@ -10,7 +10,6 @@
+ 
+ from gnuradio import gr, gr_unittest
+ from gnuradio import blocks
+-from matrix_interleaver import matrix_interleaver
+ 
+ class qa_matrix_interleaver(gr_unittest.TestCase):
+ 
+@@ -29,7 +28,7 @@ class qa_matrix_interleaver(gr_unittest.TestCase):
+         expected = cols * list(range(rows))
+ 
+         src = blocks.vector_source_f(vec, False)
+-        itlv = matrix_interleaver(gr.sizeof_float, rows=rows, cols=cols)
++        itlv = blocks.matrix_interleaver(gr.sizeof_float, rows=rows, cols=cols)
+         snk = blocks.vector_sink_f()
+ 
+         tb.connect(src, itlv, snk)
+@@ -48,7 +47,7 @@ class qa_matrix_interleaver(gr_unittest.TestCase):
+         expected = rows * list(range(cols))
+ 
+         src = blocks.vector_source_f(vec, False)
+-        itlv = matrix_interleaver(gr.sizeof_float, rows=rows, cols=cols, deint=True)
++        itlv = blocks.matrix_interleaver(gr.sizeof_float, rows=rows, cols=cols, deint=True)
+         snk = blocks.vector_sink_f()
+ 
+         tb.connect(src, itlv, snk)
+-- 
+2.31.1
+

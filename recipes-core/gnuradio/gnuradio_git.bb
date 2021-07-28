@@ -225,6 +225,8 @@ GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-When-cross-compiling-gnuradio-change-how-the-test-fi.patch \
+           file://0001-qa_nlog10.py-Update-test-to-check-for-equal-with-one.patch \
+           file://0002-Update-QA-tests-to-import-helper-routines-from-block.patch \
            file://run-ptest \
           "
 
