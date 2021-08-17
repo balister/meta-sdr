@@ -154,7 +154,7 @@ FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/gnuradio/.debug \
                     ${datadir}/gnuradio/examples/*/.debug \
 "
 
-python populate_packages_prepend() {
+python populate_packages:prepend() {
     gnuradio_libdir = d.expand('${libdir}')
     gnuradio_pkgconfig = d.expand('${libdir}/pkgconfig')
 
@@ -209,13 +209,13 @@ python populate_packages_prepend() {
      #                 prepend=True)
     pn = d.getVar('PN')
     if pkgs:
-        d.appendVar('RDEPENDS_'+pn+'-dev', ' '+' '.join(pkgs))
+        d.appendVar('RDEPENDS:'+pn+'-dev', ' '+' '.join(pkgs))
 }
 
 PV = "3.9.0+git${SRCPV}"
 #PV = "3.8.0.0"
 
-FILESPATHPKG_prepend = "gnuradio-git:"
+FILESPATHPKG:prepend = "gnuradio-git:"
 
 SRCREV ="60580c0f485aa6790bc8d19c5d76bd3fc0e3d0cc"
 

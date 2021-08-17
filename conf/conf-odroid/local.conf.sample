@@ -11,7 +11,7 @@
 # the option is a question of removing the # character and making any change to the
 # variable as required.
 
-DISTRO_FEATURES_append = " opengl x11"
+DISTRO_FEATURES:append = " opengl x11"
 
 #
 # Parallelism Options
@@ -143,7 +143,6 @@ PACKAGE_CLASSES ?= "package_ipk"
 # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
 # We default to enabling the debugging tweaks.
 EXTRA_IMAGE_FEATURES = "debug-tweaks "
-EXTRA_IMAGE_FEATURES_remove_ettus-e1xx = "tools-profile"
 
 IMAGE_FSTYPES = "tar.gz wic.xz"
 
@@ -228,4 +227,4 @@ BB_DISKMON_DIRS = "\
 # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
 # track the version of this file when it was generated. This can safely be ignored if
 # this doesn't mean anything to you.
-CONF_VERSION = "1"
+CONF_VERSION = "2"

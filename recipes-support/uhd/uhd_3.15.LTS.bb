@@ -9,8 +9,8 @@ SRC_URI = "git://github.com/EttusResearch/uhd.git;branch=UHD-3.15.LTS \
 SRCREV = "aea0e2de34803d5ea8f25d7cf2fb08f4ab9d43f0"
 S = "${WORKDIR}/git/host"
 
-EXTRA_OECMAKE_append = " -DUHD_RELEASE_MODE=release"
+EXTRA_OECMAKE:append = " -DUHD_RELEASE_MODE=release"
 
-do_install_append () {
+do_install:append () {
     sed -i "1s@.*@#!/usr/bin/python3@" ${B}/utils/uhd_images_downloader.py
 }

@@ -1,4 +1,4 @@
-TOOLCHAIN_HOST_TASK_append = "${SDK_EXTRA_TOOLS}"
+TOOLCHAIN_HOST_TASK:append = "${SDK_EXTRA_TOOLS}"
 
 SDK_EXTRA_TOOLS = "  \
     nativesdk-python3-netserver nativesdk-python3-pprint \

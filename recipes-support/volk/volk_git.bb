@@ -20,7 +20,7 @@ SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=master \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://run-ptest \
           "
-SRC_URI_append_ettus-e300 = "file://volk_config"
+SRC_URI:append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
@@ -33,7 +33,7 @@ FILES_${PN}-modtool = "${bindir}/volk_modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/volk_modtool"
 FILES_${PN}-dev += "${libdir}/cmake"
 
-do_install_append() {
+do_install:append() {
 	if [ -e ${WORKDIR}/volk_config ]; then
 		install -d ${D}/${ROOT_HOME}/.volk
 		install -m 644 ${WORKDIR}/volk_config ${D}/${ROOT_HOME}/.volk
