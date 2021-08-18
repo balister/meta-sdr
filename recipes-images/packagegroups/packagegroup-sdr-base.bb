@@ -14,8 +14,8 @@ PACKAGES = "\
 
 PROVIDES = "${PACKAGES}"
 
-SUMMARY_packagegroup-sdr-base-extended = "Basic packages for an image with regular unix utilities."
-RDEPENDS_packagegroup-sdr-base-extended = "\
+SUMMARY:packagegroup-sdr-base-extended = "Basic packages for an image with regular unix utilities."
+RDEPENDS:packagegroup-sdr-base-extended = "\
     alsa-utils \
     i2c-tools \
     screen \
@@ -44,8 +44,8 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     rsync \
 "
 
-SUMMARY_packagegroup-sdr-base-debug = "Debugging tools."
-RDEPENDS_packagegroup-sdr-base-debug = "\
+SUMMARY:packagegroup-sdr-base-debug = "Debugging tools."
+RDEPENDS:packagegroup-sdr-base-debug = "\
     evtest \
     devmem2 \
     iperf3 \
@@ -54,8 +54,8 @@ RDEPENDS_packagegroup-sdr-base-debug = "\
 
 # Also set the image feature dev-pkgs, tools-sdk, and tools-debug
 # for a sane development image.
-SUMMARY_packagegroup-sdr-base-devel = "Development tools."
-RDEPENDS_packagegroup-sdr-base-devel = "\
+SUMMARY:packagegroup-sdr-base-devel = "Development tools."
+RDEPENDS:packagegroup-sdr-base-devel = "\
     git \
     git-perltools \
     swig \
@@ -66,8 +66,8 @@ RDEPENDS_packagegroup-sdr-base-devel = "\
     glib-2.0 \
 "
 
-SUMMARY_packagegroup-sdr-base-python = "Basic python packages."
-RDEPENDS_packagegroup-sdr-base-python = "\
+SUMMARY:packagegroup-sdr-base-python = "Basic python packages."
+RDEPENDS:packagegroup-sdr-base-python = "\
     python3 \
     python3-distutils \
     python3-pip \

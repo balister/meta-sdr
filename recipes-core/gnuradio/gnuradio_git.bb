@@ -26,34 +26,34 @@ inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
-RDEPENDS_${PN} = "python3-core python3-audio python3-threading python3-codecs \
+RDEPENDS:${PN} = "python3-core python3-audio python3-threading python3-codecs \
                   python3-shell python3-pickle \
                   python3-pkgutil python3-pydoc python3-mmap \
                   python3-netclient python3-difflib \
                   python3-pprint python3-numpy  \
 "
-RRECOMMENDS_${PN} = "${GR_PACKAGES}"
+RRECOMMENDS:${PN} = "${GR_PACKAGES}"
 
-RDEPENDS_${PN}-grc = "python3-mako python3-pyyaml python3-pygobject gtk+3 cairo adwaita-icon-theme"
+RDEPENDS:${PN}-grc = "python3-mako python3-pyyaml python3-pygobject gtk+3 cairo adwaita-icon-theme"
 
-RDEPENDS_${PN}-qtgui = "python3-pyqt5 python3-sip3"
+RDEPENDS:${PN}-qtgui = "python3-pyqt5 python3-sip3"
 
-RDEPENDS_${PN}-zeromq = "python3-pyzmq"
+RDEPENDS:${PN}-zeromq = "python3-pyzmq"
 
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-#do_configure_prepend() {
+#do_configure:prepend() {
 #    ${BUILD_CC} ${S}/gr-vocoder/lib/codec2/generate_codebook.c -o ${S}/gr-vocoder/lib/generate_codebook -lm
 #    echo "ADD_EXECUTABLE(generate_codebook IMPORTED)" >${S}/gr-vocoder/lib/generate_codebook.txt
 #    echo "SET_PROPERTY(TARGET generate_codebook APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)" >>${S}/gr-vocoder/lib/generate_codebook.txt
 #    echo 'SET_TARGET_PROPERTIES(generate_codebook PROPERTIES IMPORTED_LOCATION_RELEASE "${S}/gr-vocoder/lib/generate_codebook")' >>${S}/gr-vocoder/lib/generate_codebook.txt
 #}
 
-#do_compile_prepend() {
+#do_compile:prepend() {
 #    cp ${S}/gr-vocoder/lib/codec2/defines.h ${B}/gr-vocoder/lib/codec2
 #}
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
 GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-channels gnuradio-ctrlport gnuradio-digital gnuradio-fec gnuradio-fft \
@@ -73,83 +73,83 @@ GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '',
 
 PACKAGES = "gnuradio-dbg gnuradio-staticdev gnuradio-dev ${GR_PACKAGES} gnuradio"
 
-FILES_${PN}-analog = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/analog \
+FILES:${PN}-analog = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/analog \
                       ${datadir}/gnuradio/analog"
-FILES_${PN}-audio = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/audio \
+FILES:${PN}-audio = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/audio \
                      ${datadir}/gnuradio/audio \
                      ${sysconfdir}/gnuradio/conf.d/gr-audio* "
-FILES_${PN}-blocks = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/blocks \
+FILES:${PN}-blocks = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/blocks \
                       ${datadir}/gnuradio/blocks"
-FILES_${PN}-channels = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/channels \
+FILES:${PN}-channels = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/channels \
                         ${datadir}/gnuradio/channels"
-FILES_${PN}-ctrlport = "${sysconfdir}/gnuradio/conf.d/ctrlport.conf.example"
-FILES_${PN}-digital = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/digital \
+FILES:${PN}-ctrlport = "${sysconfdir}/gnuradio/conf.d/ctrlport.conf.example"
+FILES:${PN}-digital = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/digital \
                        ${datadir}/gnuradio/digital"
-FILES_${PN}-fec = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/fec \
+FILES:${PN}-fec = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/fec \
                    ${datadir}/gnuradio/fec"
-FILES_${PN}-fft = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/fft \
+FILES:${PN}-fft = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/fft \
                    ${datadir}/gnuradio/fft"
-FILES_${PN}-filter = "${bindir}/gr_filter_design \
+FILES:${PN}-filter = "${bindir}/gr_filter_design \
                       ${PYTHON_SITEPACKAGES_DIR}/gnuradio/filter \
                       ${datadir}/gnuradio/filter"
-FILES_${PN}-gr = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gr \
+FILES:${PN}-gr = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gr \
                   ${datadir}/gnuradio/gr"
-FILES_${PN}-grc = "${bindir}/gnuradio-companion ${datadir}/gnuradio/grc \
+FILES:${PN}-grc = "${bindir}/gnuradio-companion ${datadir}/gnuradio/grc \
                    ${PYTHON_SITEPACKAGES_DIR}/gnuradio/grc \
                    ${PYTHON_SITEPACKAGES_DIR}/grc_gnuradio \
                    ${sysconfdir}/gnuradio/conf.d/grc.conf \
                    ${datadir}/icons ${datadir}/mime ${datadir}/metainfo"
-FILES_${PN}-gru = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gru \
+FILES:${PN}-gru = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gru \
                    ${datadir}/gnuradio/gru"
-FILES_${PN}-gr-utils = "${bindir}/gr_plot* ${bindir}/grcc \
+FILES:${PN}-gr-utils = "${bindir}/gr_plot* ${bindir}/grcc \
                         ${bindir}/gr_read_file_metadata \
                         ${PYTHON_SITEPACKAGES_DIR}/gnuradio/plot_data* \
                         ${PYTHON_SITEPACKAGES_DIR}/gnuradio/plot_fft_base* \
                         ${PYTHON_SITEPACKAGES_DIR}/gnuradio/plot_psd_base* \
                         ${PYTHON_SITEPACKAGES_DIR}/gnuradio/pyqt_filter* \
                         ${PYTHON_SITEPACKAGES_DIR}/gnuradio/pyqt_plot*"
-FILES_${PN}-modtool = "${bindir}/gr_modtool ${datadir}/gnuradio/modtool \
+FILES:${PN}-modtool = "${bindir}/gr_modtool ${datadir}/gnuradio/modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/modtool \
                        ${sysconfdir}/gnuradio/conf.d/modtool.conf"
-FILES_${PN}-noaa = "${datadir}/gnuradio/noaa \
+FILES:${PN}-noaa = "${datadir}/gnuradio/noaa \
                     ${PYTHON_SITEPACKAGES_DIR}/gnuradio/noaa"
-FILES_${PN}-pager = "${bindir}/usrp_flex* \
+FILES:${PN}-pager = "${bindir}/usrp_flex* \
                      ${datadir}/gnuradio/pager \
                      ${PYTHON_SITEPACKAGES_DIR}/gnuradio/pager"
-FILES_${PN}-pmt = "${datadir}/pmt \
+FILES:${PN}-pmt = "${datadir}/pmt \
                    ${PYTHON_SITEPACKAGES_DIR}/pmt"
-FILES_${PN}-qtgui = "${bindir}/gr_psd_plot* ${bindir}/gr_spectrogram_plot* \
+FILES:${PN}-qtgui = "${bindir}/gr_psd_plot* ${bindir}/gr_spectrogram_plot* \
                      ${bindir}/gr_time* ${bindir}/gr_constellation_plot \
                      ${sysconfdir}/gnuradio/qtgui ${sysconfdir}/gnuradio/conf.d/gr-qtgui.conf \
                      ${PYTHON_SITEPACKAGES_DIR}/gnuradio/qtgui \
                      ${datadir}/gnuradio/themes"
-FILES_${PN}-runtime = "${sysconfdir}/gnuradio/conf.d/gnuradio-runtime.conf \
+FILES:${PN}-runtime = "${sysconfdir}/gnuradio/conf.d/gnuradio-runtime.conf \
                        ${bindir}/gnuradio-config-info \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/eng_* \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/__init__* \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/gr_unittest* \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/gr_xmlrunner* \
                       "
-FILES_${PN}-trellis = "${datadir}/gnuradio/trellis \
+FILES:${PN}-trellis = "${datadir}/gnuradio/trellis \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/trellis"
-FILES_${PN}-uhd = "${bindir}/uhd* \
+FILES:${PN}-uhd = "${bindir}/uhd* \
                    ${datadir}/gnuradio/uhd \
                    ${PYTHON_SITEPACKAGES_DIR}/gnuradio/uhd"
-FILES_${PN}-vocoder = "${datadir}/gnuradio/vocoder \
+FILES:${PN}-vocoder = "${datadir}/gnuradio/vocoder \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/vocoder"
-FILES_${PN}-zeromq = "${datadir}/gnuradio/zeromq \
+FILES:${PN}-zeromq = "${datadir}/gnuradio/zeromq \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/zeromq"
-FILES_${PN}-volk = "${bindir}/volk_profile ${bindir}/volk-config-info"
-FILES_${PN}-volk-modtool = "${bindir}/volk_modtool \
+FILES:${PN}-volk = "${bindir}/volk_profile ${bindir}/volk-config-info"
+FILES:${PN}-volk-modtool = "${bindir}/volk_modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/volk_modtool"
-FILES_${PN}-wavelet = "${datadir}/gnuradio/wavelet \
+FILES:${PN}-wavelet = "${datadir}/gnuradio/wavelet \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/wavelet"
-FILES_${PN}-examples = "${datadir}/gnuradio/examples"
+FILES:${PN}-examples = "${datadir}/gnuradio/examples"
 
-FILES_${PN} += "${PYTHON_SITEPACKAGES_DIR}/gnuradio"
-FILES_${PN} += "${sysconfdir}/gnuradio"
-FILES_${PN}-dev += "${libdir}/cmake"
-FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/gnuradio/.debug \
+FILES:${PN} += "${PYTHON_SITEPACKAGES_DIR}/gnuradio"
+FILES:${PN} += "${sysconfdir}/gnuradio"
+FILES:${PN}-dev += "${libdir}/cmake"
+FILES:${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/gnuradio/.debug \
                     ${PYTHON_SITEPACKAGES_DIR}/gnuradio/*/.debug \
                     ${datadir}/gnuradio/examples/*/.debug \
 "

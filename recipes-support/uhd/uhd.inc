@@ -8,24 +8,24 @@ DEPENDS = "git-native python3-mako-native boost uhd-firmware \
            python3-urllib3-native python3-chardet-native python3-certifi-native \
            python3-idna-native \
 "
-RDEPENDS_${PN} += "uhd-firmware python-core python3-core python3-requests"
+RDEPENDS:${PN} += "uhd-firmware python-core python3-core python3-requests"
 
 inherit cmake python3native
 
 PACKAGES =+ "${PN}-tests ${PN}-examples ${PN}-e1xx"
 
-INSANE_SKIP_${PN} = "dev-so"
+INSANE_SKIP:${PN} = "dev-so"
 
-FILES_${PN} += "${libdir}/libuhd.so \
+FILES:${PN} += "${libdir}/libuhd.so \
                 ${libdir}/uhd/utils/*"
-FILES_${PN}-tests += "${datadir}/uhd/tests/*"
-FILES_${PN}-dev += "${libdir}/cmake/*"
-FILES_${PN}-dbg += "${libdir}/uhd/examples/.debug/* \
+FILES:${PN}-tests += "${datadir}/uhd/tests/*"
+FILES:${PN}-dev += "${libdir}/cmake/*"
+FILES:${PN}-dbg += "${libdir}/uhd/examples/.debug/* \
                     ${libdir}/uhd/utils/.debug/* \
                     ${libdir}/uhd/utils/latency/.debug/* \
                     ${libdir}/uhd/tests/.debug/* \
                     ${libdir}/uhd/usrp_e_utils/.debug/*"
-FILES_${PN}-examples = "${libdir}/uhd/examples/*"
+FILES:${PN}-examples = "${libdir}/uhd/examples/*"
 
 PACKAGECONFIG ??= "e100 e300 b100 b200 usrp1 usrp2 x300"
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "

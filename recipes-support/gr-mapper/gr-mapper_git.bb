@@ -11,7 +11,7 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
+FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.4+git${SRCPV}"
 

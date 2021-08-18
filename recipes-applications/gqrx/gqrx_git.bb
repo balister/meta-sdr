@@ -18,5 +18,5 @@ SRCREV = "34333e78b2e565745b6d62bf0efcc57cc3b1988f"
 EXTRA_OECMAKE = "-DLINUX_AUDIO_BACKEND=Gr-audio \
                 "
 
-#RDEPENDS_${PN} = "qt4-plugin-imageformat-svg"
+#RDEPENDS:${PN} = "qt4-plugin-imageformat-svg"
 

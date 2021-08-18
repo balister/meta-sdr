@@ -14,8 +14,8 @@ PACKAGES = "\
 
 PROVIDES = "${PACKAGES}"
 
-SUMMARY_packagegroup-sdr-python-extended = "Useful python packages."
-RDEPENDS_packagegroup-sdr-python-extended = "\
+SUMMARY:packagegroup-sdr-python-extended = "Useful python packages."
+RDEPENDS:packagegroup-sdr-python-extended = "\
     python3-cython \
     python3-numpy \
     python3-modules \
@@ -23,14 +23,14 @@ RDEPENDS_packagegroup-sdr-python-extended = "\
     python3-twisted \
 "
 
-SUMMARY_packagegroup-sdr-gnuradio-base = "Basic GNU Radio install."
-RDEPENDS_packagegroup-sdr-gnuradio-base = "\
+SUMMARY:packagegroup-sdr-gnuradio-base = "Basic GNU Radio install."
+RDEPENDS:packagegroup-sdr-gnuradio-base = "\
     gnuradio \
 "
 
 
-SUMMARY_packagegroup-sdr-rtlsdr = "RTLSDR packages."
-RDEPENDS_packagegroup-sdr-rtlsdr = "\
+SUMMARY:packagegroup-sdr-rtlsdr = "RTLSDR packages."
+RDEPENDS:packagegroup-sdr-rtlsdr = "\
     rtl-sdr \
 "
 

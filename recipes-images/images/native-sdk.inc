@@ -9,5 +9,5 @@ SDK_EXTRA_TOOLS = "  \
     nativesdk-cmake nativesdk-python3-mako nativesdk-python3-six \
     "
 
-SDK_EXTRA_TOOLS_task-populate-sdk-ext = ""
+SDK_EXTRA_TOOLS:task-populate-sdk-ext = ""
 

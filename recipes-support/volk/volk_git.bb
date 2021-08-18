@@ -28,10 +28,10 @@ SRCREV = "797b0ac846858d081fbb53ed50e98765ec9cb6b2"
 
 PACKAGES += "${PN}-modtool"
 
-FILES_${PN} += "${ROOT_HOME}/.volk"
-FILES_${PN}-modtool = "${bindir}/volk_modtool \
+FILES:${PN} += "${ROOT_HOME}/.volk"
+FILES:${PN}-modtool = "${bindir}/volk_modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/volk_modtool"
-FILES_${PN}-dev += "${libdir}/cmake"
+FILES:${PN}-dev += "${libdir}/cmake"
 
 do_install:append() {
 	if [ -e ${WORKDIR}/volk_config ]; then

@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "gnuradio swig-native python-cheetah-native"
 
-# Use PACKAGECONFIG_pn-gr-osmosdr = "uhd hackrf"
+# Use PACKAGECONFIG:pn-gr-osmosdr = "uhd hackrf"
 # to build gr-osmosdr for uhd and hackrf. This variable goes in
 # local.conf or other suitable distro conf file.
 PACKAGECONFIG ??= "rtl-sdr airspy hackrf rfspace"
@@ -23,7 +23,7 @@ inherit distutils3-base cmake pkgconfig
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
+FILES:${PN} += "${datadir}/gnuradio/grc/blocks/*"
 
 PV = "0.2.0"
 

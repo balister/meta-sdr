@@ -10,7 +10,7 @@ inherit setuptools3 cmake
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
+FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.2+git${SRCPV}"
 

@@ -11,8 +11,8 @@ PACKAGES = "\
 
 PROVIDES = "${PACKAGES}"
 
-SUMMARY_packagegroup-sdr-uhd = "UHD packages."
-RDEPENDS_packagegroup-sdr-uhd = "\
+SUMMARY:packagegroup-sdr-uhd = "UHD packages."
+RDEPENDS:packagegroup-sdr-uhd = "\
     uhd \
     uhd-examples \
 "
