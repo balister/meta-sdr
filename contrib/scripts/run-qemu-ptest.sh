@@ -3,7 +3,7 @@
 mkdir -p ptest-output/$MACHINE
 cd ptest-output/$MACHINE
 
-runqemu qemuparams="-m 2048" gnuradio-ptest-image &
+runqemu qemuparams="-m 4096" gnuradio-ptest-image &
 
 until ssh root@192.168.7.2 'ls'
 	do	
