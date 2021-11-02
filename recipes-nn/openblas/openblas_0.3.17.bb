@@ -10,7 +10,8 @@ SRC_URI = "\
     file://0001-Modify-makefile-for-yocto.patch \
 "
 
-SRC_URI[md5sum] = "4727a1333a380b67c8d7c7787a3d9c9a"
+SRC_URI[sha256sum] = "df2934fa33d04fd84d839ca698280df55c690c86a5a1133b3f7266fce1de279f"
+
 
 S = "${WORKDIR}/OpenBLAS-${PV}"
 
