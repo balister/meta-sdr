@@ -90,7 +90,7 @@ HOMEPAGE = "https://pytorch.org/"
 # instead of &. If there is any doubt, check the accompanying documentation
 # to determine which situation is applicable.
 LICENSE = "Unknown & MIT & GPLv2 & GPLv3 & MPL-2.0 & LGPLv2.1 & Apache-2.0 & BSD"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=acf4d595f99e159bf31797aa872aef57 \
+LIC_FILES_CHKSUM = "file://LICENSE;md5=91a5dfdaccf53b27488cb3a639e986d5 \
                     file://aten/src/ATen/native/quantized/cpu/qnnpack/LICENSE;md5=f1e2603190afb8bee3644e45853bd55e \
                     file://aten/src/ATen/native/quantized/cpu/qnnpack/deps/clog/LICENSE;md5=32150729bbb899c7ce46b1d9a0e2cd44 \
                     file://caffe2/mobile/contrib/libopencl-stub/LICENSE;md5=911690f51af322440237a253d695d19f \
@@ -105,7 +105,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=acf4d595f99e159bf31797aa872aef57 \
                     file://third_party/FP16/LICENSE;md5=998fb0b16ad8a4fb8bd41bf3faf2d21c \
                     file://third_party/NNPACK/LICENSE;md5=c5a9b70072d4baa29517f99984c74aeb \
                     file://third_party/ideep/LICENSE;md5=fcb77001387249feb8deb2934a2a0172 \
-                    file://third_party/ideep/mkl-dnn/LICENSE;md5=3c6ff4426dbd618bcfd552ac4a7c1c56 \
+                    file://third_party/ideep/mkl-dnn/LICENSE;md5=c441291ac5f15bdc6b09b4cc02ece35b \
                     file://third_party/ideep/mkl-dnn/src/cpu/x64/jit_utils/jitprofiling/LICENSE.BSD;md5=e671ff178b24a95a382ba670503c66fb \
                     file://third_party/ideep/mkl-dnn/src/cpu/x64/xbyak/COPYRIGHT;md5=3b9bf048d063d54cdb28964db558bcc7 \
                     file://third_party/ideep/mkl-dnn/doc/legal_information.md;md5=19cc17769c3634e892edcb975c47d972 \
@@ -163,8 +163,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=acf4d595f99e159bf31797aa872aef57 \
                     file://third_party/fbgemm/third_party/asmjit/LICENSE.md;md5=3a9d013549ebbbda6f57c007cfb5a656 \
                     file://third_party/cpuinfo/LICENSE;md5=cabca80e8e4a4bbe90e9a4b4ad53f5f4 \
                     file://third_party/cpuinfo/deps/clog/LICENSE;md5=32150729bbb899c7ce46b1d9a0e2cd44 \
-                    file://third_party/pybind11/LICENSE;md5=beb87117af69fd10fbf9fb14c22a2e62 \
-                    file://third_party/pybind11/tools/clang/LICENSE.TXT;md5=dfabea443c6c16b6321441a8c8c19705 \
+                    file://third_party/pybind11/LICENSE;md5=774f65abd8a7fe3124be2cdf766cd06f \
                     file://third_party/gemmlowp/gemmlowp/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
                     file://third_party/gloo/LICENSE;md5=ea1ecec5f757696cea349b925fa70342 \
                     file://third_party/gloo/gloo/transport/uv/LICENSE.uvw;md5=75598a838148e597d8f0e810a57f3855 \
@@ -180,14 +179,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=acf4d595f99e159bf31797aa872aef57 \
                     file://third_party/QNNPACK/LICENSE;md5=f1e2603190afb8bee3644e45853bd55e \
                     file://third_party/QNNPACK/deps/clog/LICENSE;md5=32150729bbb899c7ce46b1d9a0e2cd44"
 
-SRC_URI = "gitsm://github.com/balister/pytorch.git;protocol=https;branch=oe-fixes \
-           file://fix-sleef-cflags.diff \
+SRC_URI = "gitsm://github.com/balister/pytorch.git;protocol=https;branch=lts/release/1.8 \
            file://site-file.cmake \
           "
 
 # Modify these as desired
-PV = "1.0+git${SRCPV}"
-SRCREV = "11da340ac009e75b18e9132c5c393faba13e7c8a"
+PV = "1.8.2"
+SRCREV = "e0495a7aa104471d95dc85a1b8f6473fbcc427a8"
 
 S = "${WORKDIR}/git"
 
@@ -198,10 +196,11 @@ FULL_OPTIMIZATION = "-O3 -pipe ${DEBUG_FLAGS}"
 EXTRA_OECMAKE = "-DGLIBCXX_USE_CXX11_ABI=1 -DBUILD_PYTHON=0 -DCOMPILER_WORKS=1 \
                  -DNATIVE_BUILD_DIR=${STAGING_DIR_NATIVE}/usr \
                  -DBUILD_CUSTOM_PROTOBUF=0 -DUSE_OPENMP=OFF \
-                 -DCMAKE_SYSTEM_PROCESSOR=armv7 "
+                 -DUSE_XNNPACK=OFF \
+                 -DCMAKE_SYSTEM_PROCESSOR=aarch64 "
 
 DEPENDS = "fftw python3-pyyaml-native protobuf protobuf-native openblas \
-           libgfortran"
+           libgfortran python3-typing-extensions-native"
 
 # WARNING: the following rdepends are determined through basic analysis of the
 # python sources, and might not be 100% accurate.
