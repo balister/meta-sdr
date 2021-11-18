@@ -4,6 +4,7 @@ HOMEPAGE = "http://www.openblas.net/"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5adf4792c949a00013ce25d476a2abc0"
 
+DEPENDS = "libgfortran"
 
 SRC_URI = "\
     https://github.com/xianyi/OpenBLAS/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz \
@@ -34,7 +35,6 @@ def map_bits(d):
     return 32
 
 EXTRA_OEMAKE = "\
-    ONLY_CBLAS=1 \
     HOSTCC=${BUILD_CC} \
     CROSS=1 \
     CROSS_SUFFIX=${TARGET_PREFIX} \
