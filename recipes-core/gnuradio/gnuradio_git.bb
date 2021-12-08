@@ -4,7 +4,7 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
-           python3-pybind11-native python3-numpy python3-numpy-native log4cpp \
+           python3-pybind11-native python3-numpy python3-numpy-native spdlog \
            python3-mako-native git-native gmp libsndfile1"
 
 #Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs
@@ -217,16 +217,13 @@ PV = "3.9.3+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="fd45d06b8fa4c398ffc5cac53b78e82344be9e95"
+SRCREV ="35a242f1cd4b724be0c4708d8690f82c804aafd8"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
-           file://0001-When-cross-compiling-gnuradio-change-how-the-test-fi.patch \
-           file://0001-qa_nlog10.py-Update-test-to-check-for-equal-with-one.patch \
-           file://0002-Update-QA-tests-to-import-helper-routines-from-block.patch \
            file://run-ptest \
           "
 
