@@ -217,14 +217,16 @@ PV = "3.9.4+git${SRCPV}"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="4918f8487f7bb13c53b2868809e7882e1d116882"
+SRCREV ="2cdde7b8947d63eac58462b9ccd4ca493f58275f"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.9"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
-           file://0001-When-cross-compiling-gnuradio-change-how-the-test-fi.patch \
+           file://0001-qa-update-tests-to-work-with-OpenEmbedded.patch \
+           file://0002-cmake-change-how-test-files-are-build-when-cross-com.patch \
+           file://0003-cmake-Remove-warnings-from-GrTest.cmake.patch \
            file://run-ptest \
           "
 

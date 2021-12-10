@@ -1,0 +1,36 @@
+From 943c2575de690bbc766cb486a5a5c5ddec342d2d Mon Sep 17 00:00:00 2001
+From: Ron Economos <w6rz@comcast.net>
+Date: Fri, 3 Dec 2021 11:49:08 -0800
+Subject: [PATCH 3/3] cmake: Remove warnings from GrTest.cmake
+
+Signed-off-by: Ron Economos <w6rz@comcast.net>
+---
+ cmake/Modules/GrTest.cmake | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/cmake/Modules/GrTest.cmake b/cmake/Modules/GrTest.cmake
+index 9d75ece64..ec2716293 100644
+--- a/cmake/Modules/GrTest.cmake
++++ b/cmake/Modules/GrTest.cmake
+@@ -104,7 +104,7 @@ function(GR_ADD_TEST test_name)
+ 	            file(APPEND ${sh_file} "export ${environ}\n")
+ 	        endforeach(environ)
+ 	        #load the command to run with its arguments
+-        endif(CMAKE_CROSSCOMPILING)
++        endif(NOT CMAKE_CROSSCOMPILING)
+         foreach(arg ${ARGN})
+             file(APPEND ${sh_file} "${arg} ")
+         endforeach(arg)
+@@ -163,7 +163,7 @@ function(GR_ADD_CPP_TEST test_name test_source)
+     set_target_properties(${test_name}
+         PROPERTIES COMPILE_DEFINITIONS "BOOST_TEST_DYN_LINK;BOOST_TEST_MAIN"
+     )
+-    IF (NOT CMAKE_CROSSCOMPILING)
++    if (NOT CMAKE_CROSSCOMPILING)
+         GR_ADD_TEST(${test_name} ${test_name})
+-    ENDIF(CMAKE_CROSSCOMPILING)
++    endif(NOT CMAKE_CROSSCOMPILING)
+ endfunction(GR_ADD_CPP_TEST)
+-- 
+2.31.1
+
