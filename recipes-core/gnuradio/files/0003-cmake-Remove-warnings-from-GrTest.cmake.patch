@@ -1,4 +1,4 @@
-From 943c2575de690bbc766cb486a5a5c5ddec342d2d Mon Sep 17 00:00:00 2001
+From b8a6588708c26632b7b6ab192cbcb243ee5d116e Mon Sep 17 00:00:00 2001
 From: Ron Economos <w6rz@comcast.net>
 Date: Fri, 3 Dec 2021 11:49:08 -0800
 Subject: [PATCH 3/3] cmake: Remove warnings from GrTest.cmake

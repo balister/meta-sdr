@@ -1,4 +1,4 @@
-From ba3388ea14dda2fe93c70be57d527237d985e90e Mon Sep 17 00:00:00 2001
+From 116ada0f2a67ccfbbfb69ae145ac5aaad656e961 Mon Sep 17 00:00:00 2001
 From: Philip Balister <philip@balister.org>
 Date: Fri, 3 Dec 2021 06:55:42 -0500
 Subject: [PATCH 2/3] cmake: change how test files are build when cross
@@ -23,7 +23,7 @@ can be added back for the cross compile case.
 Signed-off-by: Philip Balister <philip@balister.org>
 ---
  cmake/Modules/GrTest.cmake                     | 18 +++++++++++-------
- .../python/gnuradio/gr/CMakeLists.txt          |  7 ++++++-
+ .../python/gnuradio/gr/CMakeLists.txt          |  3 +++
  gnuradio-runtime/python/pmt/CMakeLists.txt     |  3 +++
  gr-analog/python/analog/CMakeLists.txt         |  3 +++
  gr-audio/python/audio/CMakeLists.txt           |  3 +++
@@ -42,7 +42,7 @@ Signed-off-by: Philip Balister <philip@balister.org>
  gr-vocoder/python/vocoder/CMakeLists.txt       |  3 +++
  gr-wavelet/python/wavelet/CMakeLists.txt       |  3 +++
  gr-zeromq/python/zeromq/CMakeLists.txt         |  3 +++
- 20 files changed, 72 insertions(+), 9 deletions(-)
+ 20 files changed, 69 insertions(+), 8 deletions(-)
 
 diff --git a/cmake/Modules/GrTest.cmake b/cmake/Modules/GrTest.cmake
 index 7be65492e..9d75ece64 100644
@@ -86,23 +86,19 @@ index 7be65492e..9d75ece64 100644
 +    ENDIF(CMAKE_CROSSCOMPILING)
  endfunction(GR_ADD_CPP_TEST)
 diff --git a/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt b/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
-index 4633445f1..4e39c38b9 100644
+index 4633445f1..96757d1c6 100644
 --- a/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
 +++ b/gnuradio-runtime/python/gnuradio/gr/CMakeLists.txt
-@@ -34,7 +34,12 @@ if(ENABLE_TESTING)
+@@ -34,6 +34,9 @@ if(ENABLE_TESTING)
    file(GLOB py_qa_test_files "qa_*.py")
    foreach(py_qa_test_file ${py_qa_test_files})
      get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
--    GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
 +    if (CMAKE_CROSSCOMPILING)
 +        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
-+        GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
-+    else()
-+        GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${CMAKE_CURRENT_SOURCE_DIR}/${py_qa_test_file})
 +    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
    endforeach(py_qa_test_file)
  endif(ENABLE_TESTING)
- 
 diff --git a/gnuradio-runtime/python/pmt/CMakeLists.txt b/gnuradio-runtime/python/pmt/CMakeLists.txt
 index 3dcec8246..679104cb6 100644
 --- a/gnuradio-runtime/python/pmt/CMakeLists.txt
