@@ -18,6 +18,7 @@ sed -i '/^BEGIN: \/usr\/lib\/fftw\/ptest/,/^fftw  test result:/{//!d}' ptest.log
 
 if [ -d ../.git ]; then
 	git checkout $BRANCH
+	git pull origin $BRANCH
 	git add ptest.log
 	(cd ../..; git log HEAD -1) | git commit -F -
 	git push origin $BRANCH
