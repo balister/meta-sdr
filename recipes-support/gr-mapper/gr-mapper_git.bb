@@ -15,7 +15,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.4+git${SRCPV}"
 
-SRC_URI = "git://github.com/gr-vt/gr-mapper;branch=master \
+SRC_URI = "git://github.com/gr-vt/gr-mapper;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 

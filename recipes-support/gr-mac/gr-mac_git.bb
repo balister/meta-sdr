@@ -15,7 +15,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.1+git${SRCPV}"
 
-SRC_URI = "git://github.com/jmalsbury/gr-mac;branch=master \
+SRC_URI = "git://github.com/jmalsbury/gr-mac;branch=master;protocol=https \
            file://cross-64.patch \
            file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "

@@ -15,7 +15,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.4+git${SRCPV}"
 
-SRC_URI = "git://github.com/gr-vt/gr-message_tools;branch=master \
+SRC_URI = "git://github.com/gr-vt/gr-message_tools;branch=master;protocol=https \
            file://0001-Boost-1.67-compatibility.patch \
           "
 
