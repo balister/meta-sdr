@@ -15,7 +15,7 @@ FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.3+git${SRCPV}"
 
-SRC_URI = "git://github.com/gr-vt/gr-framers;branch=master \
+SRC_URI = "git://github.com/gr-vt/gr-framers;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 

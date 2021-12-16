@@ -16,7 +16,7 @@ export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
 PV = "2.5.0"
-SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=master \
+SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=master;protocol=https \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://run-ptest \
           "
