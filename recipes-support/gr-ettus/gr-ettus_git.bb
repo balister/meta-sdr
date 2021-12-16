@@ -20,7 +20,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* \
 
 PV = "0.0.4+git${SRCPV}"
 
-SRC_URI = "git://github.com/EttusResearch/gr-ettus.git;branch=master \
+SRC_URI = "git://github.com/EttusResearch/gr-ettus.git;branch=master;protocol=https \
            file://0001-GrPlatform.cmake-Do-not-use-build-machine-files-duri.patch \
           "
 S = "${WORKDIR}/git"

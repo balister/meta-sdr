@@ -15,7 +15,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.5+git${SRCPV}"
 
-SRC_URI = "git://github.com/osh/gr-eventstream;branch=master \
+SRC_URI = "git://github.com/osh/gr-eventstream;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 

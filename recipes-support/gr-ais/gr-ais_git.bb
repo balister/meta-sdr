@@ -15,7 +15,7 @@ FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.3+git${SRCPV}"
 
-SRC_URI = "git://github.com/bistromath/gr-ais;branch=master \
+SRC_URI = "git://github.com/bistromath/gr-ais;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 
