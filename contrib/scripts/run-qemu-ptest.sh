@@ -5,6 +5,11 @@ cd ptest-output/$MACHINE
 
 runqemu qemuparams="-m 4096" gnuradio-ptest-image &
 
+if [ -d ../.git ]; then
+	git checkout $BRANCH
+	git pull origin $BRANCH
+fi
+
 until ssh root@192.168.7.2 'ls'
 	do	
 		sleep 1
@@ -17,8 +22,6 @@ sed -i '/^BEGIN: \/usr\/lib\/fftw\/ptest/,/^fftw  test result:/{//!d}' ptest.log
 
 
 if [ -d ../.git ]; then
-	git checkout $BRANCH
-	git pull origin $BRANCH
 	git add ptest.log
 	(cd ../..; git log HEAD -1) | git commit -F -
 	git push origin $BRANCH
