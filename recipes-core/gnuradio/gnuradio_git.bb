@@ -212,21 +212,18 @@ python populate_packages_prepend() {
         d.appendVar('RDEPENDS_'+pn+'-dev', ' '+' '.join(pkgs))
 }
 
-PV = "3.9.4+git${SRCPV}"
-#PV = "3.9.4.0-rc1"
+#PV = "3.9.4+git${SRCPV}"
+PV = "3.9.5.0-rc1"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="2cdde7b8947d63eac58462b9ccd4ca493f58275f"
+SRCREV ="6aefb623fb368137e3eb3b92db4e4134627dd8d0"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.9"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
-           file://0001-qa-update-tests-to-work-with-OpenEmbedded.patch \
-           file://0002-cmake-change-how-test-files-are-build-when-cross-com.patch \
-           file://0003-cmake-Remove-warnings-from-GrTest.cmake.patch \
            file://run-ptest \
           "
 
