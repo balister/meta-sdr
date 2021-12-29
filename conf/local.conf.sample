@@ -19,8 +19,8 @@ PACKAGECONFIG_pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 INHERIT += "blacklist"
 PNBLACKLIST[uhd] = "BROKEN: Build fails with newer boost"
 
-ERROR_QA_remove = "version-going-backwards"
-WARN_QA_append = " version-going-backwards"
+ERROR_QA:remove = "version-going-backwards"
+WARN_QA:append = " version-going-backwards"
 
 #
 # Parallelism Options
@@ -54,15 +54,6 @@ WARN_QA_append = " version-going-backwards"
 #
 # This sets the default machine to be qemux86 if no other machine is selected:
 MACHINE ??= "qemux86-64"
-
-DEFAULTTUNE_ettus-e3xx-sg1 = "armv7ahf-neon"
-DEFAULTTUNE_ettus-e3xx-sg3 = "armv7ahf-neon"
-DEFAULTTUNE_ettus-e1xx = "armv7ahf-neon"
-DEFAULTTUNE_zedboard-zynq7 = "armv7ahf-neon"
-DEFAULTTUNE_zc702-zynq7 = "armv7ahf-neon"
-DEFAULTTUNE_odroid-xu = "armv7ahf-neon"
-DEFAULTTUNE_nitrogen6x = "armv7ahf-neon"
-DEFAULTTUNE_keystone-evm = "armv7ahf-neon"
 
 #
 # Where to place downloads
