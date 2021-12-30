@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
            python3-pybind11-native python3-numpy python3-numpy-native spdlog \
-           python3-mako-native git-native gmp libsndfile1"
+           python3-mako-native git-native gmp libsndfile1 \
+           python3-packaging-native"
 
 #Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs
 PACKAGECONFIG ??= "qtgui5 grc zeromq"
@@ -217,7 +218,7 @@ PV = "3.10.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="19864fc6ede818b169259607bb85bd5931013e02"
+SRCREV ="2e77edb7136a3be73f7a7e8b047813494daa6bc9"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
