@@ -7,7 +7,9 @@ runqemu qemuparams="-m 4096" gnuradio-ptest-image &
 
 if [ -d ../.git ]; then
 	git checkout $BRANCH
-	git pull origin $BRANCH
+	git clean -xdf
+	git fetch origin
+	git reset --hard origin/$BRANCH
 fi
 
 until ssh root@192.168.7.2 'ls'
