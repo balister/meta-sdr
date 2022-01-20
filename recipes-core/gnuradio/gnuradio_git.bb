@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
            python3-pybind11-native python3-numpy python3-numpy-native spdlog \
-           python3-mako-native git-native gmp libsndfile1"
+           python3-mako-native git-native gmp libsndfile1 \
+           python3-packaging-native"
 
 #Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs
 PACKAGECONFIG ??= "qtgui5 grc zeromq"
