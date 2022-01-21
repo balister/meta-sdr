@@ -19,7 +19,7 @@ until ssh root@192.168.7.2 'ls'
 
 ssh root@192.168.7.2 'ptest-runner -t 1000; shutdown -hf now' | tee ptest.log
 
-sed -i s/[0-9]*\.[0-9][0-9].sec// ptest.log
+sed -i 's/\s*[0-9]*\.[0-9][0-9].sec//' ptest.log
 sed -i '/^BEGIN: \/usr\/lib\/fftw\/ptest/,/^fftw  test result:/{//!d}' ptest.log
 
 
