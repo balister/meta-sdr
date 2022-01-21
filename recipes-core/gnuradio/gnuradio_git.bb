@@ -218,7 +218,7 @@ PV = "3.10.0.0"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="9e6aeefeae8294026a188d5597c4f7559179dc5c"
+SRCREV ="3349d483a1f7e5db0eea042815d237810373857b"
 
 # Make it easy to test against branches
 GIT_BRANCH = "master"
@@ -253,4 +253,7 @@ do_install_ptest() {
 
     cd ${S}
     find . -name "qa*py" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name "_qa*py" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name "*.alist" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name file_taps_loader.py -exec cp --parents {} ${D}${PTEST_PATH} \;
 }
