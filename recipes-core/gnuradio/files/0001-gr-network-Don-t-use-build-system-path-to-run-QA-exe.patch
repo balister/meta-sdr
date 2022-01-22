@@ -1,0 +1,28 @@
+From 4e4f740ac671eb6985c443eaf9828d60fa987927 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Sat, 22 Jan 2022 16:39:16 -0500
+Subject: [PATCH] gr-network: Don't use build system path to run QA
+ executables.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-network/python/network/CMakeLists.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gr-network/python/network/CMakeLists.txt b/gr-network/python/network/CMakeLists.txt
+index c6feaffc2..03f386f02 100644
+--- a/gr-network/python/network/CMakeLists.txt
++++ b/gr-network/python/network/CMakeLists.txt
+@@ -37,6 +37,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+-- 
+2.34.1
+

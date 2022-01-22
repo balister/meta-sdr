@@ -1,0 +1,27 @@
+From 9a0ad5e21757e050947536f9d4f190b844956015 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Sat, 22 Jan 2022 15:10:48 -0500
+Subject: [PATCH] gr-pdu: Don't use build system path to run QA executables.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-pdu/python/pdu/CMakeLists.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gr-pdu/python/pdu/CMakeLists.txt b/gr-pdu/python/pdu/CMakeLists.txt
+index 902dadc2f..fb28a5190 100644
+--- a/gr-pdu/python/pdu/CMakeLists.txt
++++ b/gr-pdu/python/pdu/CMakeLists.txt
+@@ -28,6 +28,9 @@ if(ENABLE_TESTING)
+   file(GLOB py_qa_test_files "qa_*.py")
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
++    if (CMAKE_CROSSCOMPILING)
++        get_filename_component(py_qa_test_file ${py_qa_test_file} NAME)
++    endif(CMAKE_CROSSCOMPILING)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} -B ${py_qa_test_file})
+   endforeach(py_qa_test_file)
+ endif(ENABLE_TESTING)
+-- 
+2.34.1
+
