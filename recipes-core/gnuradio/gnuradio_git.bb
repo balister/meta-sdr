@@ -214,20 +214,21 @@ python populate_packages:prepend() {
 }
 
 #PV = "3.9.3+git${SRCPV}"
-PV = "3.10.0.0"
+PV = "3.10.1.0-rc1"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="9e6aeefeae8294026a188d5597c4f7559179dc5c"
+SRCREV ="24a7d09fa58aaa8dfc714eb1ac16829986c91a14"
 
 # Make it easy to test against branches
-GIT_BRANCH = "master"
+GIT_BRANCH = "maint-3.10"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://run-ptest \
            file://0001-gr-pdu-Don-t-use-build-system-path-to-run-QA-executa.patch \
            file://0001-gr-network-Don-t-use-build-system-path-to-run-QA-exe.patch \
+           file://0001-Cross-compiling-is-skipping-c-tests-don-t-try-to-set.patch \
           "
 
 S="${WORKDIR}/git"

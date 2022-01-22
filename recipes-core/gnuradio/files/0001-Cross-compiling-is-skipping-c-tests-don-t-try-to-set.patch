@@ -1,0 +1,33 @@
+From 09d6964c035261661589ccfe90eb75bc2fb539a5 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Sat, 22 Jan 2022 13:49:13 -0500
+Subject: [PATCH] Cross compiling is skipping c++ tests, don't try to set
+ properties on them.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-blocks/lib/CMakeLists.txt | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/gr-blocks/lib/CMakeLists.txt b/gr-blocks/lib/CMakeLists.txt
+index 40e3a9619..5a964020c 100644
+--- a/gr-blocks/lib/CMakeLists.txt
++++ b/gr-blocks/lib/CMakeLists.txt
+@@ -253,9 +253,11 @@ if(ENABLE_TESTING)
+     GR_ADD_CPP_TEST("blocks_${qa_file}"
+       ${CMAKE_CURRENT_SOURCE_DIR}/${qa_file}
+     )
+-    set_tests_properties("blocks_${qa_file}"
+-        PROPERTIES TIMEOUT 30
+-    )
++    IF (NOT CMAKE_CROSSCOMPILING)
++        set_tests_properties("blocks_${qa_file}"
++            PROPERTIES TIMEOUT 30
++        )
++    ENDIF (NOT CMAKE_CROSSCOMPILING)
+   endforeach(qa_file)
+ 
+ endif(ENABLE_TESTING)
+-- 
+2.34.1
+
