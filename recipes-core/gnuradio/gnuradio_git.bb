@@ -226,6 +226,8 @@ GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://run-ptest \
+           file://0001-gr-pdu-Don-t-use-build-system-path-to-run-QA-executa.patch \
+           file://0001-gr-network-Don-t-use-build-system-path-to-run-QA-exe.patch \
           "
 
 S="${WORKDIR}/git"
