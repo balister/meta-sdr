@@ -251,6 +251,7 @@ do_install_ptest() {
     mkdir -p ${D}${PTEST_PATH}
     cd ${B}
     find . -name "qa*sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name test_modtool_test.sh -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
 
     cd ${S}
@@ -258,4 +259,6 @@ do_install_ptest() {
     find . -name "_qa*py" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name "*.alist" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name file_taps_loader.py -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name test_16bit_1chunk.wav -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name test_modtool.py -exec cp --parents {} ${D}${PTEST_PATH} \;
 }
