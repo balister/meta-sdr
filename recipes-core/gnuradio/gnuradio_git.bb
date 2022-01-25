@@ -218,7 +218,7 @@ python populate_packages:prepend() {
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="b42996b1569722d34dad2057406e4a6c3de99366"
+SRCREV ="3069ff289ce9bac442215ab016dd3488b5206cbd"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
