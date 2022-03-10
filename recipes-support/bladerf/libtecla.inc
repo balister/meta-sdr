@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TERMS;md5=36e990266b063a55483b4410333243d2"
 
 DEPENDS += "ncurses"
 
-S = "${WORKDIR}/libtecla/"
+S = "${WORKDIR}/libtecla"
 
 inherit autotools-brokensep pkgconfig
 

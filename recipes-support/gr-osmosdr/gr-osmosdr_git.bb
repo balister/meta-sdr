@@ -18,18 +18,21 @@ PACKAGECONFIG[bladerf] = "-DENABLE_BLADERF=ON,-DENABLE_BLADERF=OFF,libbladerf, "
 PACKAGECONFIG[hackrf] = "-DENABLE_HACKRF=ON,-DENABLE_HACKRF=OFF,libhackrf, "
 PACKAGECONFIG[rfspace] = "-DENABLE_RFSPACE=ON,-DENABLE_RFSPACE=OFF, , "
 
-inherit distutils3-base cmake pkgconfig
+inherit setuptools3 cmake pkgconfig
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/*"
+FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.2.0"
 
-SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
-           file://0001-Fixes-for-boost-endian.hpp-removal.patch \
-          "
+EXTRA_OECMAKE = " -DPYTHON_EXECUTABLE=/usr/bin/python3.8 "
+
+GIT_BRANCH = "gr3.8"
+
+SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=${GIT_BRANCH}"
+
 S = "${WORKDIR}/git"
 
-SRCREV = "af2fda22b3b3745520ef38e9aaa757484871ee0c"
+SRCREV = "cffef690f29e0793cd2d6c5d028c0c929115f0ac"
