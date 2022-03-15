@@ -10,7 +10,7 @@ PV = "0.0.2"
 
 inherit cmake pkgconfig
 
-SRC_URI = "git://github.com/mossmann/hackrf.git;branch=master \
+SRC_URI = "git://github.com/mossmann/hackrf.git;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git/host"
 
