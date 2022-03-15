@@ -31,7 +31,7 @@ EXTRA_OECMAKE = " -DPYTHON_EXECUTABLE=/usr/bin/python3.8 "
 
 GIT_BRANCH = "gr3.8"
 
-SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=${GIT_BRANCH}"
+SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=${GIT_BRANCH};protocol=https"
 
 S = "${WORKDIR}/git"
 
