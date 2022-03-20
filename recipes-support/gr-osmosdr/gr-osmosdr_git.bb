@@ -18,7 +18,7 @@ PACKAGECONFIG[bladerf] = "-DENABLE_BLADERF=ON,-DENABLE_BLADERF=OFF,libbladerf, "
 PACKAGECONFIG[hackrf] = "-DENABLE_HACKRF=ON,-DENABLE_HACKRF=OFF,libhackrf, "
 PACKAGECONFIG[rfspace] = "-DENABLE_RFSPACE=ON,-DENABLE_RFSPACE=OFF, , "
 
-inherit distutils3-base cmake pkgconfig
+inherit setuptools3-base cmake pkgconfig
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"

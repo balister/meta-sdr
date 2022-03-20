@@ -21,7 +21,7 @@ PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thri
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python3-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
-inherit distutils3-base cmake pkgconfig python3native mime mime-xdg ptest
+inherit setuptools3-base cmake pkgconfig python3native mime mime-xdg ptest
 inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 
 export BUILD_SYS
