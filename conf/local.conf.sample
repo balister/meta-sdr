@@ -16,9 +16,6 @@ DISTRO_FEATURES:append = " opengl x11 ptest"
 PACKAGECONFIG_pn-gnuradio = "grc zeromq logging"
 PACKAGECONFIG_pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 
-INHERIT += "blacklist"
-PNBLACKLIST[uhd] = "BROKEN: Build fails with newer boost"
-
 ERROR_QA:remove = "version-going-backwards"
 WARN_QA:append = " version-going-backwards"
 
