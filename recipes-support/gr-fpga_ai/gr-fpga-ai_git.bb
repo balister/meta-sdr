@@ -16,7 +16,7 @@ PV = "0.2.0"
 
 EXTRA_OECMAKE = " -DPYTHON_EXECUTABLE=/usr/bin/python3.8 "
 
-GIT_BRANCH = "main"
+GIT_BRANCH = "gr3.8"
 
 SRC_URI = "git://github.com/s59mz/gr-fpga_ai;branch=${GIT_BRANCH};protocol=http"
 
