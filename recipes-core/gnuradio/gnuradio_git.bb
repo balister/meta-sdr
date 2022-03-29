@@ -218,7 +218,7 @@ PV = "3.10.1.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="141c0da0349703a483d0c5931d01ed207dcdd3b6"
+SRCREV ="6767475c9312520395cb888997d3348de32b1054"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
@@ -226,9 +226,6 @@ GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://run-ptest \
-           file://0001-Cross-compiling-is-skipping-c-tests-don-t-try-to-set.patch \
-           file://0001-gr-pdu-Don-t-use-build-system-path-to-run-QA-executa.patch \
-           file://0001-gr-network-Don-t-use-build-system-path-to-run-QA-exe.patch \
           "
 
 S="${WORKDIR}/git"
