@@ -213,17 +213,18 @@ python populate_packages_prepend() {
 }
 
 #PV = "3.9.4+git${SRCPV}"
-PV = "3.9.5.0"
+PV = "v3.9.6.0-rc1"
 
 FILESPATHPKG_prepend = "gnuradio-git:"
 
-SRCREV ="cb2ab8dd1555ec08a9afbfec675b6a7c8d9dbc90"
+SRCREV ="5e014040bff9a32be8ce06746076378881134e8f"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.9"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+           file://0001-Cross-compiling-is-skipping-c-tests-don-t-try-to-set.patch \
            file://run-ptest \
           "
 
