@@ -2,7 +2,7 @@ require recipes-support/uhd/uhd.inc
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=8255adf1069294c928e0e18b01a16282"
 
-SRC_URI = "git://github.com/EttusResearch/uhd.git;branch=UHD-3.15.LTS \
+SRC_URI = "git://github.com/EttusResearch/uhd.git;branch=UHD-3.15.LTS;protocol=https \
            file://0001-Convert-the-asm-s16-le-converters-to-NEON-intrinsics.patch;striplevel=2 \
            file://0002-Be-more-verbose-when-checking-for-python-import.patch \
           "

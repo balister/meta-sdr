@@ -9,7 +9,7 @@ inherit cmake_qt5
 
 PV = "2.11.5+"
 
-SRC_URI = "git://github.com/csete/gqrx.git \
+SRC_URI = "git://github.com/csete/gqrx.git;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 
