@@ -1,6 +1,6 @@
 SUMMARY = "AirSpy userspace utilities"
 HOMEPAGE = "http://airspy.com"
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = " \
     file://${S}/src/airspy_rx.c;endline=21;md5=8643b32b01d99f350264d19401fcd072 \
     "

@@ -1,6 +1,6 @@
 SUMMARY = "Easy-to-use MAC-layer implementations for GNU Radio."
 HOMEPAGE = "https://github.com/jmalsbury/gr-mac"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://CMakeLists.txt;md5=e84f563988fbb5a8798ffd8f9d28febf"
 
 DEPENDS = "gnuradio cppunit swig-native"

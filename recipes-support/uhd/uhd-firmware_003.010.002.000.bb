@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.ettus.com"
 
 PE = "1"
 
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://share/uhd/images/LICENSE;md5=8255adf1069294c928e0e18b01a16282"
 
 inherit allarch
