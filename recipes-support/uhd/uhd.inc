@@ -1,6 +1,6 @@
 SUMMARY = "Universal Hardware Driver for Ettus Research products."
 HOMEPAGE = "http://www.ettus.com"
-LICENSE = "GPLv3+"
+LICENSE = "GPL-3.0-or-later"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=8255adf1069294c928e0e18b01a16282"
 
 DEPENDS = "git-native python3-mako-native boost uhd-firmware \

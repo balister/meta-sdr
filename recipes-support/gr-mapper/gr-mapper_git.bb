@@ -1,6 +1,6 @@
 SUMMARY = "This out of tree module contains a number of blocks to help perform mapping between bits and symbols"
 HOMEPAGE = "https://github.com/gr-vt/gr-mapper"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "gnuradio log4cpp cppunit swig-native"

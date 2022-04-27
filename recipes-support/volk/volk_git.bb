@@ -1,6 +1,6 @@
 SUMMARY = "The Vector Optimized Library of Kernels"
 HOMEPAGE = "http://libvolk.org"
-LICENSE = "LGPL-3.0"
+LICENSE = "LGPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4df01d1e6b630c93c723497d44195eec"
 
 DEPENDS = "boost python3-mako-native python3-six-native"

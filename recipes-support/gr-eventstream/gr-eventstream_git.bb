@@ -1,6 +1,6 @@
 SUMMARY = "GNU Radio Event Stream"
 HOMEPAGE = "https://github.com/osh/gr-eventstream"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://README;md5=9800ab3d0fd4ec2809f2a71e4251e377"
 
 DEPENDS = "gnuradio log4cpp swig swig-native"

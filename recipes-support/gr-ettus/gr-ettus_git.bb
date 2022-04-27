@@ -1,6 +1,6 @@
 SUMMARY = "Experimental UHD and USRP features for GNU Radio."
 HOMEPAGE = "https://github.com/EttusResearch/gr-ettus"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "gnuradio uhd swig-native"

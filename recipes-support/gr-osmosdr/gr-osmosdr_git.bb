@@ -1,6 +1,6 @@
 SUMMARY = "OsmocomSDR gnuradio block set"
 HOMEPAGE = "http://sdr.osmocom.org/trac/wiki/GrOsmoSDR"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "gnuradio swig-native python-cheetah-native"
