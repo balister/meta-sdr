@@ -218,13 +218,16 @@ PV = "3.10.3.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="53dd57ca8fb8bc929c2b4cef6384d14342ed49e7"
+SRCREV ="af78fad36d41b7c0d653ad21ec5ad8d58585d230"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+           file://0001-Remove-paths-from-pc-files-that-contain-build-system.patch \
+           file://0001-Don-t-use-the-value-of-PYTHON_EXECTUABLE-probed-at-b.patch \
+           file://0001-Compiler-flags-include-build-system-paths.patch \
            file://run-ptest \
           "
 
@@ -244,6 +247,10 @@ EXTRA_OECMAKE = "\
                  ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
                      '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
+do_install:append() {
+    find ${D} -name "*.pyc" -exec rm {} \;
+    find ${D} -name "*.pyo" -exec rm {} \;
+}
 
 do_install_ptest() {
     mkdir -p ${D}${PTEST_PATH}
@@ -251,6 +258,8 @@ do_install_ptest() {
     find . -name "qa*sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name test_modtool_test.sh -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${B}||g" {} \;
+    find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${S}||g" {} \;
 
     cd ${S}
     find . -name "qa*py" -exec cp --parents {} ${D}${PTEST_PATH} \;

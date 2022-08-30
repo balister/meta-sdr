@@ -1,0 +1,36 @@
+From ad8c5014179f831ab1613dc82514c6f1c724cc43 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 30 Aug 2022 11:52:17 -0400
+Subject: [PATCH] Remove paths from pc files that contain build system paths.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gnuradio-runtime/gnuradio-runtime.pc.in | 2 +-
+ gr-qtgui/gnuradio-qtgui.pc.in           | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gnuradio-runtime/gnuradio-runtime.pc.in b/gnuradio-runtime/gnuradio-runtime.pc.in
+index e10deceb9..d4488896c 100644
+--- a/gnuradio-runtime/gnuradio-runtime.pc.in
++++ b/gnuradio-runtime/gnuradio-runtime.pc.in
+@@ -8,4 +8,4 @@ Description: GNU Radio core runtime infrastructure
+ Requires:
+ Version: @LIBVER@
+ Libs: -L${libdir} -lgnuradio-runtime -lgnuradio-pmt
+-Cflags: -I${includedir} @PC_ADD_CFLAGS@
++Cflags: -I${includedir}
+diff --git a/gr-qtgui/gnuradio-qtgui.pc.in b/gr-qtgui/gnuradio-qtgui.pc.in
+index a1e93eb47..8f0dcd53f 100644
+--- a/gr-qtgui/gnuradio-qtgui.pc.in
++++ b/gr-qtgui/gnuradio-qtgui.pc.in
+@@ -7,5 +7,5 @@ Name: gnuradio-qtgui
+ Description: GNU Radio blocks for QT GUI
+ Requires: gnuradio-runtime
+ Version: @LIBVER@
+-Libs: -L${libdir} -lgnuradio-qtgui @PC_LIBS_STR@
+-Cflags: -I${includedir} -I@QWT_INCLUDE_DIRS@ -I@QT_HEADERS_DIR@
++Libs: -L${libdir} -lgnuradio-qtgui
++Cflags: -I${includedir}
+-- 
+2.37.2
+
