@@ -1,0 +1,27 @@
+From 143797c9ec470c2dca3714f4cfe01cdb0e62cba6 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 30 Aug 2022 15:47:58 -0400
+Subject: [PATCH] Do not compile compiler flags into volk. This leaks build
+ system paths.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ lib/constants.c.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/constants.c.in b/lib/constants.c.in
+index fba8c39..c243250 100644
+--- a/lib/constants.c.in
++++ b/lib/constants.c.in
+@@ -37,7 +37,7 @@ volk_c_compiler()
+ const char*
+ volk_compiler_flags()
+ {
+-  return "@COMPILER_INFO@";
++  return "";
+ }
+ 
+ const char*
+-- 
+2.37.2
+

@@ -19,6 +19,7 @@ export STAGING_LIBDIR
 PV = "2.5.1+git${SRCPV}"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
+           file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
            file://run-ptest \
           "
 SRC_URI:append_ettus-e300 = "file://volk_config"
@@ -41,10 +42,19 @@ do_install:append() {
 	fi
 }
 
+do_install:append() {
+    find ${D} -name "*.pyc" -exec rm {} \;
+    find ${D} -name "*.pyo" -exec rm {} \;
+}
+
 do_install_ptest() {
     mkdir -p ${D}${PTEST_PATH}
     cd ${B}
     find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${B}||g" {} \;
+    find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${S}||g" {} \;
+
+
     find . -name "volk*test.sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
     install -m 0755 lib/volk_test_all ${D}/${PTEST_PATH}
 }
