@@ -15,7 +15,7 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
-PV = "2.5.1"
+PV = "2.5.2"
 #PV = "2.5.1+git${SRCPV}"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
@@ -25,7 +25,7 @@ SRC_URI:append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "ce4e4a00fc953f3451bfcdd4310b03785d8b4055"
+SRCREV = "07c1952cd642897af70b6f8bbfeee3a14f54f525"
 
 PACKAGES += "${PN}-modtool"
 
