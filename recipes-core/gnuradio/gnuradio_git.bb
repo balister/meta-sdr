@@ -8,20 +8,21 @@ DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
            python3-mako-native git-native gmp libsndfile1 \
            python3-packaging-native"
 
-#Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs
-PACKAGECONFIG ??= "qtgui5 grc zeromq"
+#Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs iio
+PACKAGECONFIG ??= "qtgui5 grc zeromq iio"
 
 PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
                  ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, , "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
+PACKAGECONFIG[iio] = "-DENABLE_GR_IIO=ON,-DENABLE_GR_IIO=OFF,libiio libad9361-iio "
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
 PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
 PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thrift thrift-native, "
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python3-pyzmq, "
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
-inherit setuptools3-base cmake pkgconfig python3native mime mime-xdg ptest
+inherit distutils3-base  cmake pkgconfig python3native mime mime-xdg ptest
 inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 
 export BUILD_SYS
@@ -41,6 +42,8 @@ RDEPENDS:${PN}-qtgui = "python3-pyqt5 python3-sip3"
 
 RDEPENDS:${PN}-zeromq = "python3-pyzmq"
 
+RDEPENDS:${PN}-iio = "libiio libad9361-iio"
+
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 #do_configure:prepend() {
@@ -58,7 +61,7 @@ ALLOW_EMPTY:${PN} = "1"
 
 GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-channels gnuradio-ctrlport gnuradio-digital gnuradio-fec gnuradio-fft \
-            gnuradio-filter gnuradio-gr gnuradio-gru \
+            gnuradio-filter gnuradio-gr gnuradio-gru gnuradio-iio \
             gnuradio-gr-utils \
             gnuradio-modtool gnuradio-noaa gnuradio-pager gnuradio-pmt \
             gnuradio-runtime \
@@ -102,6 +105,8 @@ FILES:${PN}-grc = "${bindir}/gnuradio-companion ${datadir}/gnuradio/grc \
                    ${datadir}/icons ${datadir}/mime ${datadir}/metainfo"
 FILES:${PN}-gru = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/gru \
                    ${datadir}/gnuradio/gru"
+FILES:${PN}-iio = "${PYTHON_SITEPACKAGES_DIR}/gnuradio/iio \
+                   ${datadir}/gnuradio/iio"
 FILES:${PN}-gr-utils = "${bindir}/gr_plot* ${bindir}/grcc \
                         ${bindir}/gr_read_file_metadata \
                         ${PYTHON_SITEPACKAGES_DIR}/gnuradio/plot_data* \
@@ -213,15 +218,15 @@ python populate_packages:prepend() {
         d.appendVar('RDEPENDS:'+pn+'-dev', ' '+' '.join(pkgs))
 }
 
-PV = "3.10.3.0+git${SRCPV}"
+PV = "3.10.4.0"
 #PV = "3.10.0.0"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="af78fad36d41b7c0d653ad21ec5ad8d58585d230"
+SRCREV ="279e8ede08fd2ac8648586b65f5fa9335a3a0585"
 
 # Make it easy to test against branches
-GIT_BRANCH = "main"
+GIT_BRANCH = "maint-3.10"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
