@@ -20,6 +20,7 @@ PV = "2.5.2"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
+           file://0001-Fix-build-for-32-bit-arm-with-neon.patch \
            file://run-ptest \
           "
 SRC_URI:append_ettus-e300 = "file://volk_config"
