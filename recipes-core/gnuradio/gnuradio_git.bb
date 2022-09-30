@@ -9,7 +9,7 @@ DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
            python3-packaging-native"
 
 #Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs iio
-PACKAGECONFIG ??= "qtgui5 grc zeromq iio"
+PACKAGECONFIG ??= "qtgui5 grc zeromq"
 
 PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
                  ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 "
@@ -42,7 +42,7 @@ RDEPENDS:${PN}-qtgui = "python3-pyqt5 python3-sip3"
 
 RDEPENDS:${PN}-zeromq = "python3-pyzmq"
 
-RDEPENDS:${PN}-iio = "libiio libad9361-iio"
+#RDEPENDS:${PN}-iio = "libiio libad9361-iio"
 
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
