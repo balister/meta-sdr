@@ -228,6 +228,7 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://0001-Remove-paths-from-pc-files-that-contain-build-system.patch \
            file://0001-Don-t-use-the-value-of-PYTHON_EXECTUABLE-probed-at-b.patch \
            file://0001-Compiler-flags-include-build-system-paths.patch \
+           file://0001-cmake-Ensure-that-target-names-are-unique.patch \
            file://run-ptest \
           "
 
