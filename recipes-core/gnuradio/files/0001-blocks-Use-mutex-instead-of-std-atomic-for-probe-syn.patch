@@ -1,0 +1,90 @@
+From 08b3d35a776d5b83dd3373efe1e9c290a090b8a6 Mon Sep 17 00:00:00 2001
+From: Clayton Smith <argilo@gmail.com>
+Date: Sun, 16 Oct 2022 12:00:54 -0400
+Subject: [PATCH] blocks: Use mutex instead of std::atomic for probe
+ synchronization
+
+It appears that std::atomic does not work on all platforms. Switching to
+the mutex approach already sued by the vector version of this block
+avoids the problem.
+
+Signed-off-by: Clayton Smith <argilo@gmail.com>
+---
+ gr-blocks/lib/CMakeLists.txt       | 4 ----
+ gr-blocks/lib/probe_signal_impl.cc | 9 +++++++++
+ gr-blocks/lib/probe_signal_impl.h  | 6 +++---
+ 3 files changed, 12 insertions(+), 7 deletions(-)
+
+diff --git a/gr-blocks/lib/CMakeLists.txt b/gr-blocks/lib/CMakeLists.txt
+index adf5f39e9..3b2e561d8 100644
+--- a/gr-blocks/lib/CMakeLists.txt
++++ b/gr-blocks/lib/CMakeLists.txt
+@@ -212,10 +212,6 @@ if(MSVC)
+     target_sources(gnuradio-blocks PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-blocks.rc)
+ endif(MSVC)
+ 
+-if(MSVC)
+-    target_compile_definitions(gnuradio-blocks PUBLIC _ENABLE_ATOMIC_ALIGNMENT_FIX)
+-endif()
+-
+ if(BUILD_SHARED_LIBS)
+     if(SNDFILE_FOUND)
+         gr_library_foo(gnuradio-blocks SNDFILE)
+diff --git a/gr-blocks/lib/probe_signal_impl.cc b/gr-blocks/lib/probe_signal_impl.cc
+index f3bb366ae..5668855da 100644
+--- a/gr-blocks/lib/probe_signal_impl.cc
++++ b/gr-blocks/lib/probe_signal_impl.cc
+@@ -46,6 +46,7 @@ int probe_signal_impl<T>::work(int noutput_items,
+ {
+     const T* in = (const T*)input_items[0];
+ 
++    gr::thread::scoped_lock guard(d_mutex);
+     if (noutput_items > 0)
+         d_level = in[noutput_items - 1];
+ 
+@@ -57,5 +58,13 @@ template class probe_signal<std::int16_t>;
+ template class probe_signal<std::int32_t>;
+ template class probe_signal<float>;
+ template class probe_signal<gr_complex>;
++
++template <class T>
++T probe_signal_impl<T>::level() const
++{
++    gr::thread::scoped_lock guard(d_mutex);
++    return d_level;
++}
++
+ } /* namespace blocks */
+ } /* namespace gr */
+diff --git a/gr-blocks/lib/probe_signal_impl.h b/gr-blocks/lib/probe_signal_impl.h
+index ebf548493..06b1abf77 100644
+--- a/gr-blocks/lib/probe_signal_impl.h
++++ b/gr-blocks/lib/probe_signal_impl.h
+@@ -13,7 +13,6 @@
+ #define PROBE_SIGNAL_IMPL_H
+ 
+ #include <gnuradio/blocks/probe_signal.h>
+-#include <atomic>
+ 
+ namespace gr {
+ namespace blocks {
+@@ -22,13 +21,14 @@ template <class T>
+ class probe_signal_impl : public probe_signal<T>
+ {
+ private:
+-    std::atomic<T> d_level;
++    T d_level;
++    mutable gr::thread::mutex d_mutex;
+ 
+ public:
+     probe_signal_impl();
+     ~probe_signal_impl() override;
+ 
+-    T level() const override { return d_level; }
++    T level() const override;
+ 
+     int work(int noutput_items,
+              gr_vector_const_void_star& input_items,
+-- 
+2.38.1
+
