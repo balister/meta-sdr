@@ -213,19 +213,18 @@ python populate_packages:prepend() {
         d.appendVar('RDEPENDS:'+pn+'-dev', ' '+' '.join(pkgs))
 }
 
-#PV = "3.10.2.0+git${SRCPV}"
-PV = "3.10.4.0"
+PV = "3.10.4.0+git${SRCPV}"
+#PV = "3.10.4.0"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="279e8ede08fd2ac8648586b65f5fa9335a3a0585"
+SRCREV ="a040c4999cefed48cc2a39875e486cdbc945d4c2"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.10"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
-           file://0001-blocks-Use-mutex-instead-of-std-atomic-for-probe-syn.patch \
            file://run-ptest \
           "
 
