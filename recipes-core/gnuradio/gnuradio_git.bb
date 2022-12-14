@@ -12,7 +12,8 @@ DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
 PACKAGECONFIG ??= "qtgui5 grc zeromq"
 
 PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
-                 ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 "
+                 ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 \
+                 , python3-pyqt5 python3-sip3"
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, , "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
@@ -36,8 +37,6 @@ RDEPENDS:${PN} = "python3-core python3-audio python3-threading python3-codecs \
 RRECOMMENDS:${PN} = "${GR_PACKAGES}"
 
 RDEPENDS:${PN}-grc = "python3-mako python3-pyyaml python3-pygobject gtk+3 cairo adwaita-icon-theme"
-
-RDEPENDS:${PN}-qtgui = "python3-pyqt5 python3-sip3"
 
 RDEPENDS:${PN}-zeromq = "python3-pyzmq"
 
