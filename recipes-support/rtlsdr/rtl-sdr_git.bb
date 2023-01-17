@@ -10,7 +10,7 @@ PV = "0.6.0+git"
 
 SRC_URI = "git://git.osmocom.org/rtl-sdr;branch=master;protocol=https \
           "
-SRCREV = "dc92af01bf82b5185986190e3cde3762565d2194"
+SRCREV = "142325a93c6ad70f851f43434acfdf75e12dfe03"
 
 S = "${WORKDIR}/git"
 
