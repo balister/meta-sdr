@@ -3,20 +3,22 @@ HOMEPAGE = "http://gqrx.dk/"
 LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio gr-osmosdr"
+DEPENDS = "gnuradio gr-osmosdr qtsvg"
 
 inherit cmake_qt5
 
-PV = "2.11.5+"
+PV = "2.15.9"
 
-SRC_URI = "git://github.com/csete/gqrx.git;branch=master;protocol=https \
+SRC_URI = "git://github.com/gqrx-sdr/gqrx.git;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "34333e78b2e565745b6d62bf0efcc57cc3b1988f"
+SRCREV = "c8b57ef5a4f83d918c02bf73f1b5cfaebdc7e880"
 
 EXTRA_OECMAKE = "-DLINUX_AUDIO_BACKEND=Gr-audio \
                 "
+
+FILES:${PN} += "${datadir}"
 
 #RDEPENDS:${PN} = "qt4-plugin-imageformat-svg"
 
