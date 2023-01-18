@@ -225,6 +225,7 @@ GIT_BRANCH = "maint-3.10"
 GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
+           file://0001-Don-t-use-the-value-of-PYTHON_EXECTUABLE-probed-at-b.patch \
            file://run-ptest \
           "
 
