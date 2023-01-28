@@ -21,6 +21,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-core-eclipse-debug \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xauth', '', d)} \
     e2fsprogs-resize2fs \
+    kernel-modules \
     "
 
 #    zeroc-ice 
