@@ -5,7 +5,7 @@ IMAGE_FEATURES += "x11-base "
 CORE_IMAGE_EXTRA_INSTALL += "\
     packagegroup-sdr-gnuradio-extended \
     xinput-calibrator \
-    xserver-xorg-extension-glx \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
     directfb-examples \
     wpa-supplicant \
     hostapd \
