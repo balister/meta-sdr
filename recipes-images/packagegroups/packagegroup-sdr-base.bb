@@ -36,7 +36,6 @@ RDEPENDS:packagegroup-sdr-base-extended = "\
     ntp \
     ntpdate \
     ntp-utils \
-    linux-firmware \
     libsodium \
     sqlite3 \
     tar \
