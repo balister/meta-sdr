@@ -217,7 +217,7 @@ PV = "3.10.3.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="3f9c56abc81f92979760ef8c00dda173a4694f81"
+SRCREV ="823d60ab54522842f956aac738333de139777de9"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
@@ -227,14 +227,14 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://0001-Remove-paths-from-pc-files-that-contain-build-system.patch \
            file://0001-Don-t-use-the-value-of-PYTHON_EXECTUABLE-probed-at-b.patch \
            file://0001-Compiler-flags-include-build-system-paths.patch \
-           file://0001-cmake-Ensure-that-target-names-are-unique.patch \
            file://run-ptest \
           "
 
 S="${WORKDIR}/git"
 
 EXTRA_OECMAKE = "\
-                 -DGR_PYTHON_DIR=${PYTHON_SITEPACKAGES_DIR} \
+                 -DCMAKE_BUILD_TYPE=Debug \
+                 -DPYBIND11_PYTHONLIBS_OVERWRITE=0 \
                  -DENABLE_GR_ATSC=FALSE \
                  -DENABLE_GR_FCD=OFF \
                  -DENABLE_GR_WXGUI=OFF \
