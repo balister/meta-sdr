@@ -12,12 +12,10 @@ if [ -d ../.git ]; then
 	git reset --hard origin/$BRANCH
 fi
 
-until ssh root@192.168.7.2 'ls'
-	do	
-		sleep 1
-	done
+ssh -o ConnectionAttempts=50 root@192.168.7.2 'ptest-runner -t 1000; shutdown -hf now' | tee ptest.log
 
-ssh root@192.168.7.2 'ptest-runner -t 1000; shutdown -hf now' | tee ptest.log
+if [ ${PIPESTATUS[0]} != "0" ]
+	exit 0
 
 sed -i 's/\s*[0-9]*\.[0-9][0-9].sec//' ptest.log
 sed -i '/^BEGIN: \/usr\/lib\/fftw\/ptest/,/^fftw  test result:/{//!d}' ptest.log
