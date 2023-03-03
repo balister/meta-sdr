@@ -14,8 +14,9 @@ fi
 
 ssh -o ConnectionAttempts=50 root@192.168.7.2 'ptest-runner -t 1000; shutdown -hf now' | tee ptest.log
 
-if [ ${PIPESTATUS[0]} != "0" ]
+if [ ${PIPESTATUS[0]} != "0" ]; then
 	exit 0
+fi
 
 sed -i 's/\s*[0-9]*\.[0-9][0-9].sec//' ptest.log
 sed -i '/^BEGIN: \/usr\/lib\/fftw\/ptest/,/^fftw  test result:/{//!d}' ptest.log
