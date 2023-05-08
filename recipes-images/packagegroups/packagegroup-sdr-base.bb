@@ -34,7 +34,6 @@ RDEPENDS:packagegroup-sdr-base-extended = "\
     procps \
     protobuf \
     ntp \
-    ntpdate \
     ntp-utils \
     linux-firmware \
     libsodium \
