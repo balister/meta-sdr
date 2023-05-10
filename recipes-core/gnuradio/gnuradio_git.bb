@@ -214,11 +214,11 @@ python populate_packages:prepend() {
 }
 
 #PV = "3.10.4.0+git${SRCPV}"
-PV = "v3.10.6.0-rc1"
+PV = "v3.10.6.0"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="4e29e2f1be7373bb2dfe2b4ef4ce1de1ec063f8e"
+SRCREV ="c7cd5048ccfbdac71d17f1c9ad09dd4ed8f8af43"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.10"
