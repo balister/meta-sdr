@@ -1,9 +1,9 @@
 SUMMARY = "The Vector Optimized Library of Kernels"
 HOMEPAGE = "http://libvolk.org"
 LICENSE = "LGPL-3.0-only"
-LIC_FILES_CHKSUM = "file://COPYING;md5=4df01d1e6b630c93c723497d44195eec"
+LIC_FILES_CHKSUM = "file://COPYING;md5=3000208d539ec061b899bce1d9ce9404"
 
-DEPENDS = "boost python3-mako-native python3-six-native"
+DEPENDS = "python3-mako-native python3-six-native"
 
 inherit python3native cmake pkgconfig ptest
 
@@ -15,19 +15,19 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
-PV = "2.5.2"
+PV = "3.0.0"
 #PV = "2.5.1+git${SRCPV}"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
+           file://0001-Fix-sse2neon.h-build-on-gcc-13.patch \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
-           file://0001-Fix-build-for-32-bit-arm-with-neon.patch \
            file://run-ptest \
           "
 SRC_URI:append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "07c1952cd642897af70b6f8bbfeee3a14f54f525"
+SRCREV = "5d7822bb3fada6f7195a6ccf9c782c92483d30ec"
 
 PACKAGES += "${PN}-modtool"
 
