@@ -3,7 +3,15 @@
 mkdir -p ptest-output/$MACHINE
 cd ptest-output/$MACHINE
 
-runqemu publicvnc qemuparams="-m 2048" gnuradio-ptest-image &
+QEMUPARAMS="-m 4096"
+
+if [ "$MACHINE" = "qemuarm"  ]; then
+	QEMUPARAMS="-m 2048"
+fi;
+echo "QEMUPARAMS = " $QEMUPARAMS
+echo "MACHINE = " $MACHINE
+
+runqemu publicvnc qemuparams="$QEMUPARAMS" gnuradio-ptest-image &
 
 if [ -d ../.git ]; then
 	git checkout $BRANCH
