@@ -15,7 +15,7 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
-PV = "3.0.0"
+PV = "3.1.0"
 #PV = "2.5.1+git${SRCPV}"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
            file://0001-Fix-sse2neon.h-build-on-gcc-13.patch \
@@ -27,7 +27,7 @@ SRC_URI:append_ettus-e300 = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "5d7822bb3fada6f7195a6ccf9c782c92483d30ec"
+SRCREV = "d1b1673eb61f936cecee769255203be790b1ad27"
 
 PACKAGES += "${PN}-modtool"
 
