@@ -27,7 +27,7 @@ if [ ${PIPESTATUS[0]} != "0" ]; then
 fi
 
 sed -i 's/\s*[0-9]*\.[0-9][0-9].sec//' ptest.log
-sed -i '/^BEGIN: \/usr\/lib\/fftw\/ptest/,/^fftw  test result:/{//!d}' ptest.log
+sed -E -i '/^BEGIN: \/usr\/lib\/fftw\/ptest/,/^PASS|^FAIL/{//!d}' ptest.log
 
 
 if [ -d ../.git ]; then
