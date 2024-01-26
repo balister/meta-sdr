@@ -217,7 +217,7 @@ PV = "3.10.10.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="506e68df1629a813bed2883b0668f6252b07e19a"
+SRCREV ="4242290cde32a40332f294b603f93d109c3bd423"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
