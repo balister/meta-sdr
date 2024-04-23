@@ -214,11 +214,11 @@ python populate_packages:prepend() {
 }
 
 #PV = "3.10.4.0+git${SRCPV}"
-PV = "v3.10.9.2"
+PV = "v3.10.10.0"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV = "c7c828a12fa3ad9f3039aa421cbc01ef01c1f984"
+SRCREV = "0425a9c9b5b4934fdab89812bce315e2f47d9956"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.10"
@@ -226,6 +226,7 @@ GITHUB_USER = "gnuradio"
 
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-Don-t-use-the-value-of-PYTHON_EXECTUABLE-probed-at-b.patch \
+           file://0001-ctrlport-probes-only-pybind-if-ctrlport-enabled.patch \
            file://run-ptest \
           "
 

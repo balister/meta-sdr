@@ -1,0 +1,292 @@
+From 50d634f5ce1111d34a4fd04ee935e444fdbed34d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <mmueller@gnuradio.org>
+Date: Tue, 23 Apr 2024 15:54:41 +0200
+Subject: [PATCH] ctrlport probes: only pybind if ctrlport enabled
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Previously, the python bindings would be built even if ctrlport was disabled, which leads to missing symbols at python module load time
+
+Signed-off-by: Marcus Müller <mmueller@gnuradio.org>
+---
+ .../gnuradio/gr/bindings/CMakeLists.txt       | 39 ++++++++++++-------
+ .../gnuradio/gr/bindings/python_bindings.cc   | 35 ++++++++++-------
+ .../python/blocks/bindings/CMakeLists.txt     | 21 +++++++---
+ .../python/blocks/bindings/python_bindings.cc |  4 ++
+ gr-fft/python/fft/bindings/CMakeLists.txt     | 12 +++++-
+ gr-fft/python/fft/bindings/python_bindings.cc |  4 ++
+ 6 files changed, 78 insertions(+), 37 deletions(-)
+
+diff --git a/gnuradio-runtime/python/gnuradio/gr/bindings/CMakeLists.txt b/gnuradio-runtime/python/gnuradio/gr/bindings/CMakeLists.txt
+index 43d02f89e..2d9531c1a 100644
+--- a/gnuradio-runtime/python/gnuradio/gr/bindings/CMakeLists.txt
++++ b/gnuradio-runtime/python/gnuradio/gr/bindings/CMakeLists.txt
+@@ -51,19 +51,6 @@ list(
+     # pycallback_object_python.cc
+     random_python.cc
+     realtime_python.cc
+-    # rpcbufferedget_python.cc
+-    rpccallbackregister_base_python.cc
+-    rpcmanager_python.cc
+-    # rpcmanager_base_python.cc
+-    # rpcpmtconverters_thrift_python.cc
+-    # rpcregisterhelpers_python.cc
+-    # rpcserver_aggregator_python.cc
+-    # rpcserver_base_python.cc
+-    # rpcserver_booter_aggregator_python.cc
+-    rpcserver_booter_base_python.cc
+-    # rpcserver_booter_thrift_python.cc
+-    # rpcserver_selector_python.cc
+-    # rpcserver_thrift_python.cc
+     runtime_types_python.cc
+     sincos_python.cc
+     sptr_magic_python.cc
+@@ -76,8 +63,6 @@ list(
+     # thread_python.cc
+     # thread_body_wrapper_python.cc
+     # thread_group_python.cc
+-    # thrift_application_base_python.cc
+-    # thrift_server_template_python.cc
+     top_block_python.cc
+     tpb_detail_python.cc
+     # types_python.cc
+@@ -85,8 +70,32 @@ list(
+     # xoroshiro128p_python.cc
+     python_bindings.cc)
+ 
++if(ENABLE_GR_CTRLPORT)
++    list(APPEND gr_python_files 
++        # rpcbufferedget_python.cc
++        # rpcmanager_base_python.cc
++        # rpcpmtconverters_thrift_python.cc
++        # rpcregisterhelpers_python.cc
++        # rpcserver_aggregator_python.cc
++        # rpcserver_base_python.cc
++        # rpcserver_booter_aggregator_python.cc
++        # rpcserver_booter_thrift_python.cc
++        # rpcserver_selector_python.cc
++        # rpcserver_thrift_python.cc
++        # thrift_application_base_python.cc
++        # thrift_server_template_python.cc
++        rpccallbackregister_base_python.cc
++        rpcmanager_python.cc
++        rpcserver_booter_base_python.cc
++        )
++endif()
++
+ gr_pybind_make_check_hash(gr ../../../.. gr::gr "${gr_python_files}")
+ 
++if(ENABLE_GR_CTRLPORT)
++    target_compile_definitions(gr_python PUBLIC GR_HAVE_CTRLPORT)
++endif()
++
+ install(
+     TARGETS gr_python
+     DESTINATION ${GR_PYTHON_DIR}/gnuradio/gr
+diff --git a/gnuradio-runtime/python/gnuradio/gr/bindings/python_bindings.cc b/gnuradio-runtime/python/gnuradio/gr/bindings/python_bindings.cc
+index 85a9772a6..231fa6c67 100644
+--- a/gnuradio-runtime/python/gnuradio/gr/bindings/python_bindings.cc
++++ b/gnuradio-runtime/python/gnuradio/gr/bindings/python_bindings.cc
+@@ -59,19 +59,6 @@ void bind_prefs(py::module&);
+ // void bind_pycallback_object(py::module&);
+ void bind_random(py::module&);
+ void bind_realtime(py::module&);
+-// void bind_rpcbufferedget(py::module&);
+-void bind_rpccallbackregister_base(py::module&);
+-void bind_rpcmanager(py::module&);
+-// void bind_rpcmanager_base(py::module&);
+-// void bind_rpcpmtconverters_thrift(py::module&);
+-// void bind_rpcregisterhelpers(py::module&);
+-// void bind_rpcserver_aggregator(py::module&);
+-// void bind_rpcserver_base(py::module&);
+-// void bind_rpcserver_booter_aggregator(py::module&);
+-void bind_rpcserver_booter_base(py::module&);
+-// void bind_rpcserver_booter_thrift(py::module&);
+-// void bind_rpcserver_selector(py::module&);
+-// void bind_rpcserver_thrift(py::module&);
+ void bind_runtime_types(py::module&);
+ void bind_sincos(py::module&);
+ void bind_sptr_magic(py::module&);
+@@ -84,13 +71,29 @@ void bind_tags(py::module&);
+ // void bind_thread(py::module&);
+ // void bind_thread_body_wrapper(py::module&);
+ // void bind_thread_group(py::module&);
+-// void bind_thrift_application_base(py::module&);
+-// void bind_thrift_server_template(py::module&);
+ void bind_top_block(py::module&);
+ void bind_tpb_detail(py::module&);
+ // void bind_types(py::module&);
+ // void bind_unittests(py::module&);
+ // void bind_xoroshiro128p(py::module&);
++//
++#ifdef GR_HAVE_CTRLPORT
++// void bind_rpcbufferedget(py::module&);
++void bind_rpccallbackregister_base(py::module&);
++void bind_rpcmanager(py::module&);
++// void bind_rpcmanager_base(py::module&);
++// void bind_rpcpmtconverters_thrift(py::module&);
++// void bind_rpcregisterhelpers(py::module&);
++// void bind_rpcserver_aggregator(py::module&);
++// void bind_rpcserver_base(py::module&);
++// void bind_rpcserver_booter_aggregator(py::module&);
++void bind_rpcserver_booter_base(py::module&);
++// void bind_rpcserver_booter_thrift(py::module&);
++// void bind_rpcserver_selector(py::module&);
++// void bind_rpcserver_thrift(py::module&);
++// void bind_thrift_application_base(py::module&);
++// void bind_thrift_server_template(py::module&);
++#endif
+ 
+ // We need this hack because import_array() returns NULL
+ // for newer Python versions.
+@@ -161,6 +164,7 @@ PYBIND11_MODULE(gr_python, m)
+     // // bind_pycallback_object(m);
+     bind_random(m);
+     bind_realtime(m);
++#ifdef GR_HAVE_CTRLPORT
+     // // bind_rpcbufferedget(m);
+     bind_rpccallbackregister_base(m);
+     bind_rpcmanager(m);
+@@ -174,6 +178,7 @@ PYBIND11_MODULE(gr_python, m)
+     // // bind_rpcserver_booter_thrift(m);
+     // // bind_rpcserver_selector(m);
+     // // bind_rpcserver_thrift(m);
++#endif
+     bind_runtime_types(m);
+     bind_sincos(m);
+     bind_sptr_magic(m);
+diff --git a/gr-blocks/python/blocks/bindings/CMakeLists.txt b/gr-blocks/python/blocks/bindings/CMakeLists.txt
+index 167f2d826..56124eae3 100644
+--- a/gr-blocks/python/blocks/bindings/CMakeLists.txt
++++ b/gr-blocks/python/blocks/bindings/CMakeLists.txt
+@@ -49,12 +49,6 @@ list(
+     correctiq_man_python.cc
+     correctiq_swapiq_python.cc
+     count_bits_python.cc
+-    ctrlport_probe2_b_python.cc
+-    ctrlport_probe2_c_python.cc
+-    ctrlport_probe2_f_python.cc
+-    ctrlport_probe2_i_python.cc
+-    ctrlport_probe2_s_python.cc
+-    ctrlport_probe_c_python.cc
+     deinterleave_python.cc
+     delay_python.cc
+     divide_python.cc
+@@ -169,8 +163,23 @@ if(SNDFILE_FOUND)
+          wavfile_source_python.cc)
+ endif()
+ 
++if(ENABLE_GR_CTRLPORT)
++    list(APPEND blocks_python_files 
++        ctrlport_probe2_b_python.cc
++        ctrlport_probe2_c_python.cc
++        ctrlport_probe2_f_python.cc
++        ctrlport_probe2_i_python.cc
++        ctrlport_probe2_s_python.cc
++        ctrlport_probe_c_python.cc
++        )
++endif()
++
+ gr_pybind_make_check_hash(blocks ../../.. gr::blocks "${blocks_python_files}")
+ 
++if(ENABLE_GR_CTRLPORT)
++    target_compile_definitions(blocks_python PUBLIC GR_HAVE_CTRLPORT)
++endif()
++
+ install(
+     TARGETS blocks_python
+     DESTINATION ${GR_PYTHON_DIR}/gnuradio/blocks
+diff --git a/gr-blocks/python/blocks/bindings/python_bindings.cc b/gr-blocks/python/blocks/bindings/python_bindings.cc
+index 23d842b7e..a87acdc64 100644
+--- a/gr-blocks/python/blocks/bindings/python_bindings.cc
++++ b/gr-blocks/python/blocks/bindings/python_bindings.cc
+@@ -51,12 +51,14 @@ void bind_correctiq_auto(py::module&);
+ void bind_correctiq_man(py::module&);
+ void bind_correctiq_swapiq(py::module&);
+ void bind_count_bits(py::module&);
++#ifdef GR_HAVE_CTRLPORT
+ void bind_ctrlport_probe2_b(py::module&);
+ void bind_ctrlport_probe2_c(py::module&);
+ void bind_ctrlport_probe2_f(py::module&);
+ void bind_ctrlport_probe2_i(py::module&);
+ void bind_ctrlport_probe2_s(py::module&);
+ void bind_ctrlport_probe_c(py::module&);
++#endif
+ void bind_deinterleave(py::module&);
+ void bind_delay(py::module&);
+ void bind_divide(py::module&);
+@@ -225,12 +227,14 @@ PYBIND11_MODULE(blocks_python, m)
+     bind_correctiq_man(m);
+     bind_correctiq_swapiq(m);
+     bind_count_bits(m);
++#ifdef GR_HAVE_CTRLPORT
+     bind_ctrlport_probe2_b(m);
+     bind_ctrlport_probe2_c(m);
+     bind_ctrlport_probe2_f(m);
+     bind_ctrlport_probe2_i(m);
+     bind_ctrlport_probe2_s(m);
+     bind_ctrlport_probe_c(m);
++#endif
+     bind_deinterleave(m);
+     bind_delay(m);
+     bind_divide(m);
+diff --git a/gr-fft/python/fft/bindings/CMakeLists.txt b/gr-fft/python/fft/bindings/CMakeLists.txt
+index 063bd28e3..c6c445c87 100644
+--- a/gr-fft/python/fft/bindings/CMakeLists.txt
++++ b/gr-fft/python/fft/bindings/CMakeLists.txt
+@@ -7,7 +7,6 @@ include(GrPybind)
+ list(
+     APPEND
+     fft_python_files
+-    ctrlport_probe_psd_python.cc
+     fft_shift_python.cc
+     fft_v_python.cc
+     goertzel_python.cc
+@@ -15,8 +14,19 @@ list(
+     window_python.cc
+     python_bindings.cc)
+ 
++if(ENABLE_GR_CTRLPORT)
++    list(APPEND fft_python_files
++    ctrlport_probe_psd_python.cc
++        )
++endif()
++
+ gr_pybind_make_check_hash(fft ../../.. gr::fft "${fft_python_files}")
+ 
++if(ENABLE_GR_CTRLPORT)
++    target_compile_definitions(fft_python PUBLIC GR_HAVE_CTRLPORT)
++endif()
++
++
+ install(
+     TARGETS fft_python
+     DESTINATION ${GR_PYTHON_DIR}/gnuradio/fft
+diff --git a/gr-fft/python/fft/bindings/python_bindings.cc b/gr-fft/python/fft/bindings/python_bindings.cc
+index 1558e5da7..f4a6ea7d8 100644
+--- a/gr-fft/python/fft/bindings/python_bindings.cc
++++ b/gr-fft/python/fft/bindings/python_bindings.cc
+@@ -15,7 +15,9 @@
+ 
+ namespace py = pybind11;
+ 
++#ifdef GR_HAVE_CTRLPORT
+ void bind_ctrlport_probe_psd(py::module&);
++#endif
+ void bind_fft_shift(py::module&);
+ void bind_fft_v(py::module&);
+ void bind_goertzel(py::module&);
+@@ -41,7 +43,9 @@ PYBIND11_MODULE(fft_python, m)
+     // Allow access to base block methods
+     py::module::import("gnuradio.gr");
+ 
++#ifdef GR_HAVE_CTRLPORT
+     bind_ctrlport_probe_psd(m);
++#endif
+     bind_fft_shift(m);
+     bind_fft_v(m);
+     bind_goertzel(m);
+-- 
+2.44.0
+
