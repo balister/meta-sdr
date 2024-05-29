@@ -21,8 +21,6 @@ RDEPENDS:packagegroup-sdr-python-extended = "\
     python3-cython \
     python3-numpy \
     python3-modules \
-    python3-six \
-    python3-twisted \
 "
 
 SUMMARY:packagegroup-sdr-gnuradio-base = "Basic GNU Radio install."
