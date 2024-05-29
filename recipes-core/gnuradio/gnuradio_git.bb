@@ -12,8 +12,7 @@ DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
 PACKAGECONFIG ??= "qtgui5 grc zeromq"
 
 PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
-                 ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 \
-                 , python3-pyqt5 python3-sip3"
+                 ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 "
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, , "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
