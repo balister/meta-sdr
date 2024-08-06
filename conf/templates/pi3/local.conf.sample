@@ -16,9 +16,6 @@ DISTRO_FEATURES:append = " opengl x11"
 PACKAGECONFIG:pn-gnuradio = "qtgui5 grc zeromq logging"
 PACKAGECONFIG:pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 
-INHERIT += "blacklist"
-SKIP_RECIPE[uhd] = "BROKEN: Build fails with newer boost"
-
 #
 # Parallelism Options
 #
@@ -50,16 +47,7 @@ SKIP_RECIPE[uhd] = "BROKEN: Build fails with newer boost"
 #MACHINE ?= "qemux86-64"
 #
 # This sets the default machine to be qemux86 if no other machine is selected:
-MACHINE ??= "raspberrypi3-64"
-
-DEFAULTTUNE_ettus-e3xx-sg1 = "armv7ahf-neon"
-DEFAULTTUNE_ettus-e3xx-sg3 = "armv7ahf-neon"
-DEFAULTTUNE_ettus-e1xx = "armv7ahf-neon"
-DEFAULTTUNE_zedboard-zynq7 = "armv7ahf-neon"
-DEFAULTTUNE_zc702-zynq7 = "armv7ahf-neon"
-DEFAULTTUNE_odroid-xu = "armv7ahf-neon"
-DEFAULTTUNE_nitrogen6x = "armv7ahf-neon"
-DEFAULTTUNE_keystone-evm = "armv7ahf-neon"
+MACHINE ??= "raspberrypi4-64"
 
 #
 # Where to place downloads
@@ -162,7 +150,7 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks "
 #   - 'image-swab' to perform host system intrusion detection
 # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
 # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
-USER_CLASSES ?= "buildhistory buildstats image-buildinfo image-mklibs rm_work"
+USER_CLASSES ?= "buildhistory buildstats image-buildinfo rm_work"
 
 RM_WORK_EXCLUDE = "base-dev-image uhd-dev-image gnuradio-dev-image \
                    gnuradio-demo-image gnuradio-video-demo-image"
