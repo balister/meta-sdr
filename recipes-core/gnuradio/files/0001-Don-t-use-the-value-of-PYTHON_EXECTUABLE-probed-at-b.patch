@@ -6,6 +6,8 @@ Subject: [PATCH] Don't use the value of PYTHON_EXECTUABLE probed at build
 
  * For cross case, this path likely will not exist.
 
+Upstream-Status: Inappropriate [Only matters when cross compiling]
+
 Signed-off-by: Philip Balister <philip@balister.org>
 ---
  cmake/Modules/GnuradioConfig.cmake.in | 1 -

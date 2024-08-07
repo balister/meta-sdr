@@ -3,6 +3,9 @@ From: Philip Balister <philip@balister.org>
 Date: Tue, 30 Aug 2022 11:52:17 -0400
 Subject: [PATCH] Remove paths from pc files that contain build system paths.
 
+Upstream-Status: Inappropriate [Need to figure out how to get this
+upstream]
+
 Signed-off-by: Philip Balister <philip@balister.org>
 ---
  gnuradio-runtime/gnuradio-runtime.pc.in | 2 +-

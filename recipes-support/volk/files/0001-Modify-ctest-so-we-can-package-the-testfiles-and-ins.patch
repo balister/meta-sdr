@@ -8,6 +8,9 @@ This lets us run the volk tests on the embedded target easily. Major changes
 are not including full paths to files, since these were based on the build
 system paths and not setting paths to find libraries in the build directory.
 
+Upstream-Status: Inappropriate [Upstream may have a conflicting test
+setup]
+
 Signed-off-by: Philip Balister <philip@balister.org>
 ---
  cmake/Modules/VolkAddTest.cmake | 36 +++++++++++++++++++--------------

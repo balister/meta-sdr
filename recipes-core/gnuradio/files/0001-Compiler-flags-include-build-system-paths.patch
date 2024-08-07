@@ -3,6 +3,9 @@ From: Philip Balister <philip@balister.org>
 Date: Tue, 30 Aug 2022 13:54:43 -0400
 Subject: [PATCH] Compiler flags include build system paths.
 
+Upstream-Status: Inappropriate [Need to convince develops
+reproducibility is important]
+
 Signed-off-by: Philip Balister <philip@balister.org>
 ---
  gnuradio-runtime/lib/constants.cc.in | 2 +-

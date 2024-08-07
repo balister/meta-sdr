@@ -4,6 +4,9 @@ Date: Tue, 30 Aug 2022 15:47:58 -0400
 Subject: [PATCH] Do not compile compiler flags into volk. This leaks build
  system paths.
 
+Upstream-Status: Inappropriate [I Need to convince upstream
+reproducibility matters]
+
 Signed-off-by: Philip Balister <philip@balister.org>
 ---
  lib/constants.c.in | 2 +-
