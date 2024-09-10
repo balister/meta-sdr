@@ -1,21 +1,21 @@
 SUMMARY = "This out of tree module contains a number of blocks to help perform mapping between bits and symbols"
 HOMEPAGE = "https://github.com/gr-vt/gr-mapper"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio log4cpp swig-native"
+DEPENDS = "gnuradio log4cpp cppunit swig-native"
 
-inherit setuptools cmake
+inherit setuptools3 cmake
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
+FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.4+git${SRCPV}"
 
-SRC_URI = "git://github.com/gr-vt/gr-mapper;branch=master \
+SRC_URI = "git://github.com/gr-vt/gr-mapper;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 

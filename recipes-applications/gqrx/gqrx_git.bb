@@ -1,26 +1,24 @@
 SUMMARY = "SDR powered by GNU Radio and Qt"
 HOMEPAGE = "http://gqrx.dk/"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio gr-osmosdr"
+DEPENDS = "gnuradio gr-osmosdr qtsvg"
 
-inherit qt4x11
+inherit cmake_qt5
 
-PV = "2.5.3"
+PV = "2.15.9"
 
-SRC_URI = "git://github.com/csete/gqrx.git;branch=master \
-           file://0001-Disable-pulseaudio.patch \
+SRC_URI = "git://github.com/gqrx-sdr/gqrx.git;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "8bbe051d7983187fe8958c63e1e2cc6f483427e7"
+SRCREV = "c8b57ef5a4f83d918c02bf73f1b5cfaebdc7e880"
 
-EXTRA_QMAKEVARS_PRE="PREFIX="${prefix}""
+EXTRA_OECMAKE = "-DLINUX_AUDIO_BACKEND=Gr-audio \
+                "
 
-do_install() {
-	oe_runmake INSTALL_ROOT=${D} install
-}
+FILES:${PN} += "${datadir}"
 
-RDEPENDS_${PN} = "qt4-plugin-imageformat-svg"
+#RDEPENDS:${PN} = "qt4-plugin-imageformat-svg"
 

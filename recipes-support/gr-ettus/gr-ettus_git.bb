@@ -1,11 +1,11 @@
 SUMMARY = "Experimental UHD and USRP features for GNU Radio."
 HOMEPAGE = "https://github.com/EttusResearch/gr-ettus"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio uhd"
+DEPENDS = "gnuradio uhd swig-native"
 
-inherit setuptools cmake
+inherit setuptools3 cmake
 
 PACKAGECONFIG ??= "qt4"
 
@@ -15,12 +15,12 @@ export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* \
+FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* \
                 ${prefix}/etc"
 
 PV = "0.0.4+git${SRCPV}"
 
-SRC_URI = "git://github.com/EttusResearch/gr-ettus.git;branch=master \
+SRC_URI = "git://github.com/EttusResearch/gr-ettus.git;branch=master;protocol=https \
            file://0001-GrPlatform.cmake-Do-not-use-build-machine-files-duri.patch \
           "
 S = "${WORKDIR}/git"

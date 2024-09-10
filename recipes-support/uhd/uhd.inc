@@ -1,28 +1,31 @@
 SUMMARY = "Universal Hardware Driver for Ettus Research products."
 HOMEPAGE = "http://www.ettus.com"
-LICENSE = "GPLv3+"
+LICENSE = "GPL-3.0-or-later"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=8255adf1069294c928e0e18b01a16282"
 
-DEPENDS = "git-native python-mako-native boost uhd-firmware \
-           ncurses udev python-requests"
-RDEPENDS_${PN} += "uhd-firmware python-requests"
+DEPENDS = "git-native python3-mako-native boost uhd-firmware \
+           ncurses udev python3-requests-native python3-numpy-native \
+           python3-urllib3-native python3-chardet-native python3-certifi-native \
+           python3-idna-native \
+"
+RDEPENDS:${PN} += "uhd-firmware python-core python3-core python3-requests"
 
-inherit cmake pythonnative
+inherit cmake python3native
 
 PACKAGES =+ "${PN}-tests ${PN}-examples ${PN}-e1xx"
 
-INSANE_SKIP_${PN} = "dev-so"
+INSANE_SKIP:${PN} = "dev-so"
 
-FILES_${PN} += "${libdir}/libuhd.so \
+FILES:${PN} += "${libdir}/libuhd.so \
                 ${libdir}/uhd/utils/*"
-FILES_${PN}-tests += "${datadir}/uhd/tests/*"
-FILES_${PN}-dev += "${libdir}/cmake/*"
-FILES_${PN}-dbg += "${libdir}/uhd/examples/.debug/* \
+FILES:${PN}-tests += "${datadir}/uhd/tests/*"
+FILES:${PN}-dev += "${libdir}/cmake/*"
+FILES:${PN}-dbg += "${libdir}/uhd/examples/.debug/* \
                     ${libdir}/uhd/utils/.debug/* \
                     ${libdir}/uhd/utils/latency/.debug/* \
                     ${libdir}/uhd/tests/.debug/* \
                     ${libdir}/uhd/usrp_e_utils/.debug/*"
-FILES_${PN}-examples = "${libdir}/uhd/examples/*"
+FILES:${PN}-examples = "${libdir}/uhd/examples/*"
 
 PACKAGECONFIG ??= "e100 e300 b100 b200 usrp1 usrp2 x300"
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
@@ -36,4 +39,6 @@ PACKAGECONFIG[usrp1] = "-DENABLE_USRP1=ON,-DENABLE_USRP1=OFF, libusb1"
 PACKAGECONFIG[usrp2] = "-DENABLE_USRP2=ON,-DENABLE_USRP2=OFF, "
 PACKAGECONFIG[x300] = "-DENABLE_X300=ON,-DENABLE_X300=OFF, "
 
-EXTRA_OECMAKE = "-DENABLE_LIBUHD=TRUE"
+EXTRA_OECMAKE = "-DENABLE_LIBUHD=TRUE \
+                 -DENABLE_PYTHON3=TRUE \
+                 -DPYTHON_EXECUTABLE=${PYTHON}"

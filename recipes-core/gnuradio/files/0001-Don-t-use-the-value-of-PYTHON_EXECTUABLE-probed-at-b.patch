@@ -1,0 +1,30 @@
+From 400b4b0bdcdb56c9ed4b9e4d79892cdb4bbf3d8b Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 30 Aug 2022 13:15:59 -0400
+Subject: [PATCH] Don't use the value of PYTHON_EXECTUABLE probed at build
+ time.
+
+ * For cross case, this path likely will not exist.
+
+Upstream-Status: Inappropriate [Only matters when cross compiling]
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ cmake/Modules/GnuradioConfig.cmake.in | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/cmake/Modules/GnuradioConfig.cmake.in b/cmake/Modules/GnuradioConfig.cmake.in
+index 0598270bb..fbce24df0 100644
+--- a/cmake/Modules/GnuradioConfig.cmake.in
++++ b/cmake/Modules/GnuradioConfig.cmake.in
+@@ -33,7 +33,6 @@ set(ENABLE_PYTHON
+     @ENABLE_PYTHON@
+     CACHE BOOL "Enable Python & pybind11 Bindings")
+ if(${ENABLE_PYTHON})
+-    set(PYTHON_EXECUTABLE @PYTHON_EXECUTABLE@)
+     include(GrPython)
+ endif()
+ 
+-- 
+2.37.2
+

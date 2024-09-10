@@ -1,0 +1,31 @@
+From 3bd495f48c84d56d7d61f68e2c2bfd64027216dd Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 22 Nov 2018 01:26:32 +0100
+Subject: [PATCH] Yet another boost >= 1.67 fix
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ lib/usrp/e300/e300_fifo_config.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/usrp/e300/e300_fifo_config.cpp b/lib/usrp/e300/e300_fifo_config.cpp
+index 43d14aa..5000a1f 100644
+--- a/lib/usrp/e300/e300_fifo_config.cpp
++++ b/lib/usrp/e300/e300_fifo_config.cpp
+@@ -110,7 +110,7 @@ struct e300_fifo_poll_waiter
+         boost::mutex::scoped_lock l(_mutex);
+         if (_poll_claimed)
+         {
+-            _cond.timed_wait(l, boost::posix_time::microseconds(timeout*1000000));
++            _cond.timed_wait(l, boost::posix_time::microseconds(long(timeout*1000000)));
+         }
+         else
+         {
+-- 
+2.14.5
+

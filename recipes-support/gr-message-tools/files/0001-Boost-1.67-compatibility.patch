@@ -1,0 +1,63 @@
+From 008cc5b3cd2b4fc54532553bc71bbfce76408860 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Thu, 31 May 2018 14:46:55 -0400
+Subject: [PATCH] Boost 1.67 compatibility
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ lib/message_strobe_source_impl.cc | 2 +-
+ lib/msg_vector_strobe_impl.cc     | 2 +-
+ lib/pdu_file_source_impl.cc       | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/lib/message_strobe_source_impl.cc b/lib/message_strobe_source_impl.cc
+index 6784cd4..d0f495e 100644
+--- a/lib/message_strobe_source_impl.cc
++++ b/lib/message_strobe_source_impl.cc
+@@ -138,7 +138,7 @@ namespace gr {
+     void message_strobe_source_impl::run()
+     {
+       while(!d_finished) {
+-        boost::this_thread::sleep(boost::posix_time::milliseconds(d_period_ms)); 
++        boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<long>(d_period_ms))); 
+         if(d_finished) {
+           return;
+         }
+diff --git a/lib/msg_vector_strobe_impl.cc b/lib/msg_vector_strobe_impl.cc
+index 9f8c455..c730cfe 100644
+--- a/lib/msg_vector_strobe_impl.cc
++++ b/lib/msg_vector_strobe_impl.cc
+@@ -83,7 +83,7 @@ namespace gr {
+     void msg_vector_strobe_impl::run()
+     {
+       while(!d_finished) {
+-        boost::this_thread::sleep(boost::posix_time::milliseconds(d_period_ms)); 
++        boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<long>(d_period_ms))); 
+         if(d_finished) {
+           return;
+         }
+diff --git a/lib/pdu_file_source_impl.cc b/lib/pdu_file_source_impl.cc
+index 9eb407a..637d5c4 100644
+--- a/lib/pdu_file_source_impl.cc
++++ b/lib/pdu_file_source_impl.cc
+@@ -123,7 +123,7 @@ namespace gr {
+     void
+     pdu_file_source_impl::run()
+     {
+-      boost::this_thread::sleep(boost::posix_time::milliseconds(1));
++      boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<long>(1)));
+       while(!d_finished) {
+         do_update();       // update d_fp is reqd
+         if(d_fp == NULL){
+@@ -137,7 +137,7 @@ namespace gr {
+ //          print(d_msg);
+         if(good_msg){
+           message_port_pub(pmt::mp("msg"), d_msg);
+-          boost::this_thread::sleep(boost::posix_time::milliseconds(d_delay_ms));
++          boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<long>(d_delay_ms)));
+         }
+       }
+     }
+-- 
+2.14.3
+

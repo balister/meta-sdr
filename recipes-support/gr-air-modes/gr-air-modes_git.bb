@@ -1,20 +1,20 @@
 SUMMARY = "A mode S receiver for GNU Radio."
 HOMEPAGE = "https://github.com/bistromath/gr-ais"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "gnuradio sqlite3 gr-osmosdr"
+DEPENDS = "gnuradio sqlite3 gr-osmosdr swig-native"
 
-inherit setuptools cmake
+inherit setuptools3 cmake
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
+FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.2+git${SRCPV}"
 
-SRC_URI = "git://github.com/bistromath/gr-air-modes \
+SRC_URI = "git://github.com/bistromath/gr-air-modes;branch=master;protocol=https \
           "
 S = "${WORKDIR}/git"
 

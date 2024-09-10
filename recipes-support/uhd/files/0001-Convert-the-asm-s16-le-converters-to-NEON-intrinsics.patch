@@ -1,0 +1,122 @@
+From 753ba885584a24ea7a4e6998295ba1644f73ac88 Mon Sep 17 00:00:00 2001
+From: Trevor Gamblin <tvgamblin@gmail.com>
+Date: Wed, 1 Jan 2020 13:14:20 -0500
+Subject: [PATCH] Convert the asm s16 le converters to NEON intrinsics so they
+ work on aarch64.
+
+Updated version of patch to work with the changes
+in uhd 3.14.x and up.
+
+Signed-off-by: Trevor Gamblin <tvgamblin@gmail.com>
+---
+ host/lib/convert/CMakeLists.txt        | 22 ++++++++++++----
+ host/lib/convert/convert_with_neon.cpp | 35 +++++++++++++++++---------
+ 2 files changed, 40 insertions(+), 17 deletions(-)
+
+diff --git a/host/lib/convert/CMakeLists.txt b/host/lib/convert/CMakeLists.txt
+index 5034e2850..4191eed59 100644
+--- a/host/lib/convert/CMakeLists.txt
++++ b/host/lib/convert/CMakeLists.txt
+@@ -68,18 +68,30 @@ endif(HAVE_TMMINTRIN_H)
+ set(NEON_SIMD_ENABLE ON CACHE BOOL
+     "Use NEON SIMD instructions, if applicable")
+ mark_as_advanced(NEON_SIMD_ENABLE)
++message(STATUS "Configuring neon based converters.")
+ if(CMAKE_COMPILER_IS_GNUCXX)
+     CHECK_INCLUDE_FILE_CXX(arm_neon.h HAVE_ARM_NEON_H)
+ endif(CMAKE_COMPILER_IS_GNUCXX)
+ 
+-if(NEON_SIMD_ENABLE AND HAVE_ARM_NEON_H AND
+-   (${CMAKE_SIZEOF_VOID_P} EQUAL 4))
+-    enable_language(ASM)
+-
++if(NEON_SIMD_ENABLE AND HAVE_ARM_NEON_H)
++    message(STATUS "  Enabling neon intrinsics based converters.")
+     LIBUHD_APPEND_SOURCES(
+         ${CMAKE_CURRENT_SOURCE_DIR}/convert_with_neon.cpp
+-        ${CMAKE_CURRENT_SOURCE_DIR}/convert_neon.S
+     )
++    if (${CMAKE_SIZEOF_VOID_P} EQUAL 4)
++        message(STATUS "  Enabling neon assembly based converters.")
++        enable_language(ASM)
++        LIBUHD_APPEND_SOURCES(
++            ${CMAKE_CURRENT_SOURCE_DIR}/convert_neon.S
++        )
++    endif()
++    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
++        message(STATUS "  Enabling neon64 assembly based converters.")
++        enable_language(ASM)
++#        LIBUHD_APPEND_SOURCES(
++#            ${CMAKE_CURRENT_SOURCE_DIR}/convert_neon_64.S
++#        )
++    endif()
+ endif()
+ 
+ ########################################################################
+diff --git a/host/lib/convert/convert_with_neon.cpp b/host/lib/convert/convert_with_neon.cpp
+index 8a3bd29d5..c3d0ff450 100644
+--- a/host/lib/convert/convert_with_neon.cpp
++++ b/host/lib/convert/convert_with_neon.cpp
+@@ -8,10 +8,7 @@
+ #include "convert_common.hpp"
+ #include <uhd/utils/byteswap.hpp>
+ #include <arm_neon.h>
+-
+-extern "C" {
+-void neon_item32_sc16_swap_16n(void *, void *, int iter);
+-}
++#include <iostream>
+ 
+ static const int SIMD_WIDTH = 16;
+ 
+@@ -103,12 +100,19 @@ DECLARE_CONVERTER(sc16, 1, sc16_item32_le, 1, PRIORITY_SIMD){
+     const sc16_t *input = reinterpret_cast<const sc16_t *>(inputs[0]);
+     item32_t *output = reinterpret_cast<item32_t *>(outputs[0]);
+ 
+-    size_t i = nsamps / SIMD_WIDTH;
++    size_t i;
++
++    for (i=0; i < (nsamps & ~0xf); i+=8) {
++        int16x8_t Q0 = vld1q_s16(reinterpret_cast<const int16_t *>(&input[i]));
++        int16x8_t Q1 = vld1q_s16(reinterpret_cast<const int16_t *>(&input[i+4]));
++
++        int16x8_t Q3 = vrev32q_s16(Q0);
++        int16x8_t Q4 = vrev32q_s16(Q1);
+ 
+-    if (i)
+-        neon_item32_sc16_swap_16n((void *) input, (void *) output, i);
++        vst1q_s16(reinterpret_cast<int16_t *>(&output[i]), Q3);
++        vst1q_s16(reinterpret_cast<int16_t *>(&output[i+4]), Q4);
+ 
+-    i *= SIMD_WIDTH;
++    }
+ 
+     xx_to_item32_sc16<uhd::htowx>(input+i, output+i, nsamps-i, scale_factor);
+ }
+@@ -117,12 +121,19 @@ DECLARE_CONVERTER(sc16_item32_le, 1, sc16, 1, PRIORITY_SIMD){
+     const item32_t *input = reinterpret_cast<const item32_t *>(inputs[0]);
+     sc16_t *output = reinterpret_cast<sc16_t *>(outputs[0]);
+ 
+-    size_t i = nsamps / SIMD_WIDTH;
++    size_t i;
++    for (i=0; i < (nsamps & ~0xf); i+=8) {
++        int16x8_t Q0 = vld1q_s16(reinterpret_cast<const int16_t *>(&input[i]));
++        int16x8_t Q1 = vld1q_s16(reinterpret_cast<const int16_t *>(&input[i+4]));
++
++        int16x8_t Q2 = vrev32q_s16(Q0);
++        int16x8_t Q3 = vrev32q_s16(Q1);
++
++        vst1q_s16(reinterpret_cast<int16_t *>(&output[i]), Q2);
++        vst1q_s16(reinterpret_cast<int16_t *>(&output[i+4]), Q3);
+ 
+-    if (i)
+-        neon_item32_sc16_swap_16n((void *) input, (void *) output, i);
++    }
+ 
+-    i *= SIMD_WIDTH;
+ 
+     item32_sc16_to_xx<uhd::wtohx>(input+i, output+i, nsamps-i, scale_factor);
+ }
+-- 
+2.23.0
+

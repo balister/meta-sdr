@@ -1,0 +1,29 @@
+From 3aeaa4d00320a772810a2a36a7b2cc86e276d495 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 30 Aug 2022 13:54:43 -0400
+Subject: [PATCH] Compiler flags include build system paths.
+
+Upstream-Status: Inappropriate [Need to convince develops
+reproducibility is important]
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gnuradio-runtime/lib/constants.cc.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gnuradio-runtime/lib/constants.cc.in b/gnuradio-runtime/lib/constants.cc.in
+index 4d8e240e2..3cb94c8d6 100644
+--- a/gnuradio-runtime/lib/constants.cc.in
++++ b/gnuradio-runtime/lib/constants.cc.in
+@@ -68,7 +68,7 @@ const std::string c_compiler() { return "@cmake_c_compiler_version@"; }
+ 
+ const std::string cxx_compiler() { return "@cmake_cxx_compiler_version@"; }
+ 
+-const std::string compiler_flags() { return "@COMPILER_INFO@"; }
++const std::string compiler_flags() { return ""; }
+ 
+ const std::string build_time_enabled_components() { return "@_gr_enabled_components@"; }
+ 
+-- 
+2.37.2
+

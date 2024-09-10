@@ -1,0 +1,45 @@
+From 27da30da8b61afd1f6058c4f190151f978f7e413 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Wed, 21 Nov 2018 00:25:11 +0100
+Subject: [PATCH] Be more verbose when checking for python import
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Before we just saw that an import failed - now we see why it fails e.g for
+missing further dependencies:
+
+Before:
+| Python checking for requests 2.0 or greater - "import requests" failed
+
+After:
+| -- Python checking for requests 2.0 or greater - "import requests" failed Traceback (most recent call last):
+|   File "<string>", line 4, in <module>
+|   File "/home/superandy/tmp/oe-core-glibc/work/cortexa7t2hf-neon-vfpv4-mortsgna-linux-gnueabi/uhd/3.13.0.1-r0/recipe-sysroot-native/usr/lib/python3.5/site-packages/requests/__init__.py", line 43, in <module>
+|     import urllib3
+| ImportError: No module named 'urllib3'
+
+Upstream-Status: Pending
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ cmake/Modules/UHDPython.cmake | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/cmake/Modules/UHDPython.cmake b/cmake/Modules/UHDPython.cmake
+index f8f3686..cc9c30c 100644
+--- a/cmake/Modules/UHDPython.cmake
++++ b/cmake/Modules/UHDPython.cmake
+@@ -60,8 +60,7 @@ MACRO(PYTHON_CHECK_MODULE desc mod cmd have)
+         COMMAND ${PYTHON_EXECUTABLE} -c "
+ #########################################
+ from distutils.version import LooseVersion
+-try: import ${mod}
+-except: exit(1)
++import ${mod}
+ try: assert ${cmd}
+ except: exit(2)
+ exit(0)
+-- 
+2.14.5
+

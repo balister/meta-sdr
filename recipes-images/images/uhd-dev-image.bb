@@ -38,8 +38,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     orc \
     libudev \
     iperf3 \
-    openssh-sftp \
-    openssh-sftp-server \
+    ${@bb.utils.contains('IMAGE_FEATURES', 'ssh-server-openssh', 'openssh-sftp openssh-sftp-server', '', d)} \
     fftwf-wisdom \
     ntpdate \
     uhd \

@@ -3,6 +3,8 @@
 
 LICENSE = "MIT"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup
 
 PACKAGES = "\
@@ -14,8 +16,8 @@ PACKAGES = "\
 
 PROVIDES = "${PACKAGES}"
 
-SUMMARY_packagegroup-sdr-base-extended = "Basic packages for an image with regular unix utilities."
-RDEPENDS_packagegroup-sdr-base-extended = "\
+SUMMARY:packagegroup-sdr-base-extended = "Basic packages for an image with regular unix utilities."
+RDEPENDS:packagegroup-sdr-base-extended = "\
     alsa-utils \
     i2c-tools \
     screen \
@@ -25,19 +27,16 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     iw \
     sshfs-fuse \
     libudev \
-    nano \
+    ${@bb.utils.contains('ENABLE_WIDEC', 'false', '', 'nano', d)}  \
     nfs-utils-client \
     cifs-utils \
-    openssh-sftp \
-    openssh-sftp-server \
+    ${@bb.utils.contains('IMAGE_FEATURES', 'ssh-server-openssh', 'openssh-sftp openssh-sftp-server', '', d)} \
     procps \
     protobuf \
     ntp \
-    ntpdate \
     ntp-utils \
     linux-firmware \
     libsodium \
-    resolvconf \
     sqlite3 \
     tar \
     wget \
@@ -46,8 +45,8 @@ RDEPENDS_packagegroup-sdr-base-extended = "\
     rsync \
 "
 
-SUMMARY_packagegroup-sdr-base-debug = "Debugging tools."
-RDEPENDS_packagegroup-sdr-base-debug = "\
+SUMMARY:packagegroup-sdr-base-debug = "Debugging tools."
+RDEPENDS:packagegroup-sdr-base-debug = "\
     evtest \
     devmem2 \
     iperf3 \
@@ -56,8 +55,8 @@ RDEPENDS_packagegroup-sdr-base-debug = "\
 
 # Also set the image feature dev-pkgs, tools-sdk, and tools-debug
 # for a sane development image.
-SUMMARY_packagegroup-sdr-base-devel = "Development tools."
-RDEPENDS_packagegroup-sdr-base-devel = "\
+SUMMARY:packagegroup-sdr-base-devel = "Development tools."
+RDEPENDS:packagegroup-sdr-base-devel = "\
     git \
     git-perltools \
     swig \
@@ -68,12 +67,11 @@ RDEPENDS_packagegroup-sdr-base-devel = "\
     glib-2.0 \
 "
 
-SUMMARY_packagegroup-sdr-base-python = "Basic python packages."
-RDEPENDS_packagegroup-sdr-base-python = "\
-    python \
-    python-cheetah \
-    python-distutils \
-    python-pip \
-    python-mako \
-    python-pyyaml \
+SUMMARY:packagegroup-sdr-base-python = "Basic python packages."
+RDEPENDS:packagegroup-sdr-base-python = "\
+    python3 \
+    python3-distutils-extra \
+    python3-pip \
+    python3-mako \
+    python3-pyyaml \
 "

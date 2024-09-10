@@ -1,21 +1,21 @@
 SUMMARY = "Easy-to-use MAC-layer implementations for GNU Radio."
 HOMEPAGE = "https://github.com/jmalsbury/gr-mac"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://CMakeLists.txt;md5=e84f563988fbb5a8798ffd8f9d28febf"
 
-DEPENDS = "gnuradio"
+DEPENDS = "gnuradio cppunit swig-native"
 
-inherit setuptools cmake
+inherit setuptools3 cmake
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
+FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.1+git${SRCPV}"
 
-SRC_URI = "git://github.com/jmalsbury/gr-mac;branch=master \
+SRC_URI = "git://github.com/jmalsbury/gr-mac;branch=master;protocol=https \
            file://cross-64.patch \
            file://0001-Use-CMAKE_INSTALL_LIBDIR-to-set-LIB_SUFFIX.patch \
           "
