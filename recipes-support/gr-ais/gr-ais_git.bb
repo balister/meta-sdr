@@ -1,9 +1,10 @@
 SUMMARY = "Automatic Information System decoder for shipborne position reporting for the Gnuradio project"
 HOMEPAGE = "https://github.com/bistromath/gr-ais"
-LICENSE = "GPL-3.0-only"
-LIC_FILES_CHKSUM = "file://CMakeLists.txt;md5=0ad29e89f2e64b6025da4cf91d2055fb"
+LICENSE = "GPL-3.0-or-later"
+LIC_FILES_CHKSUM = "file://CMakeLists.txt;md5=2f64aa5c06f8d667b76f72180213a1f0"
 
-DEPENDS = "gnuradio swig-native"
+DEPENDS = "gnuradio python3-pybind11-native python3-native python3-numpy-native"
+RDEPENDS:${PN} = "gnuradio"
 
 inherit setuptools3 cmake
 
@@ -15,8 +16,15 @@ FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* ${libdir}/*.so"
 
 PV = "0.0.3+git${SRCPV}"
 
-SRC_URI = "git://github.com/bistromath/gr-ais;branch=master;protocol=https \
+SRC_URI = "git://github.com/bkerler/gr-ais;branch=maint-3.10;protocol=https \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "1863d1bf8a7709a8dfedb3ddb8e2b99112e7c872"
+SRCREV = "fd72dd564470f55eea664271a026c892c69c6784"
+
+INSANE_SKIP:${PN} = "dev-so"
+FILES_SOLIBSDEV = ""
+FILES:${PN} += " \
+    ${datadir}/gnuradio/grc/blocks/*.yml \
+    ${libdir}/*.so \
+"
