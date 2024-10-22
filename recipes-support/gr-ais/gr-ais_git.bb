@@ -31,7 +31,7 @@ EXTRA_OECMAKE = " \
     -DENABLE_DOXYGEN=OFF \
     "
 
-INSANE_SKIP:${PN} = "dev-so"
+INSANE_SKIP:${PN} = "dev-so already-stripped"
 FILES_SOLIBSDEV = ""
 FILES:${PN} += " \
     ${datadir}/gnuradio/grc/blocks/*.yml \
