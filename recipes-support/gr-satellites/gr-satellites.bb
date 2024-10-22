@@ -1,6 +1,6 @@
 SUMMARY = "gr-satellites is a GNU Radio out-of-tree module encompassing a collection of telemetry decoders that supports many different Amateur satellites."
 HOMEPAGE = "https://github.com/daniestevez/gr-satellites"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=84dcc94da3adb52b53ae4fa38fe49e5d"
 
 
@@ -31,7 +31,7 @@ EXTRA_OECMAKE = " \
     "
 
 
-INSANE_SKIP:${PN} = "dev-so"
+INSANE_SKIP:${PN} = "dev-so already-stripped"
 FILES_SOLIBSDEV = ""
 FILES:${PN} += " \
     ${datadir}/gnuradio/grc/blocks/*.yml \
