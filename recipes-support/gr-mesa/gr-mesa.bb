@@ -4,7 +4,7 @@ LICENSE = "GPL-3.0-or-later"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0-or-later;md5=1c76c4cc354acaac30ed4d5eefea7245"
 
 
-DEPENDS = "gnuradio volk log4cpp cppunit swig-native python3-pybind11-native python3-native python3-numpy-native spdlog gr-lfast"
+DEPENDS = "gnuradio volk log4cpp cppunit  python3-pybind11-native  python3-numpy-native spdlog gr-lfast"
 RDEPENDS:${PN} = "gnuradio python3-click volk"
 
 inherit setuptools3 cmake pkgconfig python3native
