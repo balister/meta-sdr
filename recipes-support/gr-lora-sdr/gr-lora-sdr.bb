@@ -1,6 +1,6 @@
 SUMMARY = "This is the fully-functional GNU Radio software-defined radio (SDR) implementation of a LoRa transceiver with all the necessary receiver components to operate correctly even at very low SNRs. This work has been conducted at the Telecommunication Circuits Laboratory, EPFL"
 HOMEPAGE = "https://github.com/tapparelj/gr-lora_sdr"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://CMakeLists.txt;md5=8ad2a0a5a9277845fb953e76de029ec5"
 
 
@@ -30,7 +30,7 @@ EXTRA_OECMAKE = " \
     -DENABLE_DOXYGEN=OFF \
     "
 
-INSANE_SKIP:${PN} = "dev-so"
+INSANE_SKIP:${PN} = "dev-so already-stripped"
 FILES_SOLIBSDEV = ""
 FILES:${PN} += " \
     ${datadir}/gnuradio/grc/blocks/*.yml \
