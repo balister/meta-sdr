@@ -3,6 +3,8 @@ HOMEPAGE = "https://github.com/bistromath/gr-ais"
 LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
+INSANE_SKIP:${PN} = "already-stripped"
+
 DEPENDS = "gnuradio sqlite3 gr-osmosdr python3-pybind11-native  python3-numpy-native"
 RDEPENDS:${PN} = "gnuradio"
 
