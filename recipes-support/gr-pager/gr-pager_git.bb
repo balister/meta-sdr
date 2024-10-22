@@ -1,6 +1,6 @@
 SUMMARY = "This is an out-of-tree (OOT) module for GNU Radio which can demodulate and decode Motorola FLEX radiopager signals. "
 HOMEPAGE = "https://github.com/troycurtisjr/gr-pager"
-LICENSE = "GPLv3"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 
@@ -32,7 +32,7 @@ EXTRA_OECMAKE = " \
     -DENABLE_DOXYGEN=OFF \
     "
 
-INSANE_SKIP:${PN} = "dev-so"
+INSANE_SKIP:${PN} = "dev-so already-stripped"
 FILES_SOLIBSDEV = ""
 FILES:${PN} += " \
     ${datadir}/gnuradio/grc/blocks/*.yml \
