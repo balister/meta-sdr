@@ -14,4 +14,13 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     lighttpd-module-cgi \
     python3-pyephem \
     gqrx \
+    gr-adsb \
+    gr-air-modes \
+    gr-ais \
+    gr-foo \
+    gr-ieee80211 \
+    gr-lora-sdr \
+    gr-osmosdr \
+    gr-pager \
+    gr-satellites \
     "
