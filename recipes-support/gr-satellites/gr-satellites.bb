@@ -4,10 +4,10 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=84dcc94da3adb52b53ae4fa38fe49e5d"
 
 
-DEPENDS = "gnuradio python3 cppunit python3-pybind11-native python3-native python3-numpy-native spdlog python3-construct python3-requests orc orc-native feh"
+DEPENDS = "gnuradio python3 cppunit python3-pybind11-native python3-numpy-native spdlog python3-construct python3-requests orc orc-native feh"
 RDEPENDS:${PN} = "gnuradio python3-click python3-construct python3-requests orc feh"
 
-inherit setuptools3 cmake
+inherit setuptools3 cmake python3native
 
 
 export BUILD_SYS
