@@ -4,10 +4,10 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 
-DEPENDS = "gnuradio log4cpp cppunit swig-native python3-pybind11-native  python3-native python3-numpy-native"
+DEPENDS = "gnuradio log4cpp cppunit python3-pybind11-native  python3-numpy-native"
 RDEPENDS:${PN} = "gnuradio python3-click"
 
-inherit setuptools3 cmake
+inherit setuptools3 cmake python3native
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
