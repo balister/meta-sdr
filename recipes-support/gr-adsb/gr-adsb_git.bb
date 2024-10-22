@@ -4,10 +4,10 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=84dcc94da3adb52b53ae4fa38fe49e5d"
 
 
-DEPENDS = "gnuradio gr-foo log4cpp cppunit swig-native python3-pybind11-native python3-native python3-numpy-native"
+DEPENDS = "gnuradio gr-foo log4cpp cppunit python3-pybind11-native python3-numpy-native"
 RDEPENDS:${PN} = "gnuradio python3-click"
 
-inherit setuptools3 cmake
+inherit setuptools3 cmake python3native
 
 export BUILD_SYS
 export HOST_SYS="${MULTIMACH_TARGET_SYS}"
@@ -20,11 +20,9 @@ SRC_URI = "git://github.com/bkerler/gr-adsb;branch=maint-3.10;protocol=https \
 S = "${WORKDIR}/git"
 
 SRCREV = "a35d5d6d7ac5fc091d121694ac51d600e77e44de"
-PYTHON_MAJMIN = "3.12"
 
 EXTRA_OECMAKE = " \
     -DCMAKE_CROSSCOMPLIING=ON \
-    -DPYTHON_INCLUDE_DIRS=${STAGING_INCDIR}/python${PYTHON_MAJMIN} \
     -DGR_PYTHON_DIR=${PYTHON_SITEPACKAGES_DIR} \
     -DENABLE_DOXYGEN=OFF \
     "
