@@ -1,0 +1,22 @@
+From 1317a5ccaa938b66f353e8d443dc68f2f1ac3330 Mon Sep 17 00:00:00 2001
+From: Toby Flynn <tflynn@redwiretechnology.com>
+Date: Tue, 20 Sep 2022 13:53:35 -0400
+Subject: [PATCH] adding neon support
+
+---
+ lib/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 2588cf7..0013b02 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -36,7 +36,7 @@ IF(UNIX)
+     STRING(COMPARE EQUAL "fma" "${FMA_THERE}" FMA_TRUE)
+     IF (FMA_TRUE)
+                 MESSAGE(STATUS "Found FMA support.  Setting fma compile flag.")
+-                set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfma")
++                #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfpu=neon")
+     ELSE (FMA_TRUE)
+                 MESSAGE(STATUS "FMA support not found.  Not setting fma flag.")
+     ENDIF (FMA_TRUE)
