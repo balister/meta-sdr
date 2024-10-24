@@ -4,6 +4,7 @@ LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 INSANE_SKIP:${PN} = "already-stripped"
+INSANE_SKIP:${PN}-dev = "buildpaths"
 
 DEPENDS = "gnuradio python3-six-native python3-pybind11-native \
            python3-mako-native python3-numpy-native"
