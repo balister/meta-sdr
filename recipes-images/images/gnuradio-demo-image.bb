@@ -13,7 +13,6 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     lighttpd \
     lighttpd-module-cgi \
     python3-pyephem \
-    gqrx \
     gr-adsb \
     gr-air-modes \
     gr-ais \
