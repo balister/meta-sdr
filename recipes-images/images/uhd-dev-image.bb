@@ -4,8 +4,9 @@ environment suitable for building GNURadio installed."
 require version-image.inc
 
 IMAGE_FEATURES += "splash ssh-server-openssh tools-sdk \
-                   tools-debug debug-tweaks \
-                   dev-pkgs \
+                   tools-debug dev-pkgs \
+                   allow-empty-password empty-root-password \
+                   allow-root-login post-install-logging \
                   "
 
 EXTRA_IMAGE_FEATURES += "package-management"

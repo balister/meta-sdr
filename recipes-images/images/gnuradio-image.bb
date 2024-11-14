@@ -4,7 +4,8 @@ environment suitable for building GNURadio out of tree blocks installed."
 require version-image.inc
 
 IMAGE_FEATURES += "splash ssh-server-openssh \
-                   debug-tweaks \
+                   allow-empty-password empty-root-password \
+                   allow-root-login post-install-logging \
                   "
 
 EXTRA_IMAGE_FEATURES += "package-management"
