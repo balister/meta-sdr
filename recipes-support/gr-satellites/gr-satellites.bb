@@ -4,15 +4,10 @@ LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=84dcc94da3adb52b53ae4fa38fe49e5d"
 
 
-DEPENDS = "gnuradio python3 cppunit python3-pybind11-native python3-numpy-native spdlog python3-construct python3-requests orc orc-native feh"
+DEPENDS = "python3-construct python3-requests orc orc-native feh"
 RDEPENDS:${PN} = "gnuradio python3-click python3-construct python3-requests orc feh"
 
-inherit setuptools3 cmake python3native
-
-
-export BUILD_SYS
-export HOST_SYS="${MULTIMACH_TARGET_SYS}"
-
+inherit gnuradio-oot
 
 PV = "5.6.0+git${SRCPV}"
 
@@ -21,19 +16,4 @@ SRC_URI = "git://github.com/daniestevez/gr-satellites;branch=maint-3.10;protocol
 S = "${WORKDIR}/git"
 
 SRCREV = "e26c1f96679190d3b237be784b3374f951362362"
-PYTHON_MAJMIN = "3.12"
 
-EXTRA_OECMAKE = " \
-    -DCMAKE_CROSSCOMPLIING=ON \
-    -DPYTHON_INCLUDE_DIRS=${STAGING_INCDIR}/python${PYTHON_MAJMIN} \
-    -DGR_PYTHON_DIR=${PYTHON_SITEPACKAGES_DIR} \
-    -DENABLE_DOXYGEN=OFF \
-    "
-
-
-INSANE_SKIP:${PN} = "dev-so already-stripped"
-FILES_SOLIBSDEV = ""
-FILES:${PN} += " \
-    ${datadir}/gnuradio/grc/blocks/*.yml \
-    ${libdir}/*.so \
-"

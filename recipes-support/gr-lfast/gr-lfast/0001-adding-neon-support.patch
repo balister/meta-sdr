@@ -3,6 +3,8 @@ From: Toby Flynn <tflynn@redwiretechnology.com>
 Date: Tue, 20 Sep 2022 13:53:35 -0400
 Subject: [PATCH] adding neon support
 
+Upstream-Status: Pending [Needs submitting]
+
 ---
  lib/CMakeLists.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
