@@ -3,11 +3,9 @@ HOMEPAGE = "http://sdr.osmocom.org/trac/wiki/GrOsmoSDR"
 LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-INSANE_SKIP:${PN} = "already-stripped"
 INSANE_SKIP:${PN}-dev = "buildpaths"
 
-DEPENDS = "gnuradio python3-six-native python3-pybind11-native \
-           python3-mako-native python3-numpy-native"
+DEPENDS = "python3-six-native python3-mako-native"
 
 # Use PACKAGECONFIG:pn-gr-osmosdr = "uhd hackrf"
 # to build gr-osmosdr for uhd and hackrf. This variable goes in
@@ -22,14 +20,9 @@ PACKAGECONFIG[bladerf] = "-DENABLE_BLADERF=ON,-DENABLE_BLADERF=OFF,libbladerf, "
 PACKAGECONFIG[hackrf] = "-DENABLE_HACKRF=ON,-DENABLE_HACKRF=OFF,libhackrf, "
 PACKAGECONFIG[rfspace] = "-DENABLE_RFSPACE=ON,-DENABLE_RFSPACE=OFF, , "
 
-inherit setuptools3-base cmake pkgconfig
+inherit gnuradio-oot
 
 EXTRA_OECMAKE = "-DENABLE_DEFAULT=OFF -DENABLE_PYTHON=ON"
-
-export BUILD_SYS
-export HOST_SYS="${MULTIMACH_TARGET_SYS}"
-
-FILES:${PN} += "${datadir}/gnuradio/grc/blocks/*"
 
 PV = "0.2.4"
 
