@@ -1,6 +1,6 @@
 inherit python3targetconfig setuptools3 cmake pkgconfig
 
-DEPENDS:append = " gnuradio volk log4cpp cppunit python3-pybind11-native \
+DEPENDS:append = " gnuradio volk cppunit python3-pybind11-native \
                    python3-numpy-native spdlog"
 
 export BUILD_SYS
