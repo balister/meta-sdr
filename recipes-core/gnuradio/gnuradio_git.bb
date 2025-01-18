@@ -111,6 +111,9 @@ FILES:${PN}-gr-utils = "${bindir}/gr_plot* ${bindir}/grcc \
                         ${PYTHON_SITEPACKAGES_DIR}/gnuradio/pyqt_plot*"
 FILES:${PN}-modtool = "${bindir}/gr_modtool ${datadir}/gnuradio/modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/modtool \
+                       ${datadir}/bash-completion \
+                       ${datadir}/zsh \
+                       ${datadir}/fish \
                        ${sysconfdir}/gnuradio/conf.d/modtool.conf"
 FILES:${PN}-noaa = "${datadir}/gnuradio/noaa \
                     ${PYTHON_SITEPACKAGES_DIR}/gnuradio/noaa"
@@ -214,11 +217,11 @@ python populate_packages:prepend() {
 }
 
 #PV = "3.10.4.0+git${SRCPV}"
-PV = "v3.10.11.0"
+PV = "v3.10.12.0-rc1"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV = "1d29734d8a88f5ecb822e08ba73c3dad699258c8"
+SRCREV = "35b0664b9d758c813bac53f6874197f9f2abb4b8"
 
 # Make it easy to test against branches
 GIT_BRANCH = "maint-3.10"
