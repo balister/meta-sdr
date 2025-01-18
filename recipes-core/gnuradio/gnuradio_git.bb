@@ -110,6 +110,9 @@ FILES:${PN}-gr-utils = "${bindir}/gr_plot* ${bindir}/grcc \
                         ${PYTHON_SITEPACKAGES_DIR}/gnuradio/pyqt_plot*"
 FILES:${PN}-modtool = "${bindir}/gr_modtool ${datadir}/gnuradio/modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/gnuradio/modtool \
+                       ${datadir}/bash-completion \
+                       ${datadir}/zsh \
+                       ${datadir}/fish \
                        ${sysconfdir}/gnuradio/conf.d/modtool.conf"
 FILES:${PN}-noaa = "${datadir}/gnuradio/noaa \
                     ${PYTHON_SITEPACKAGES_DIR}/gnuradio/noaa"
@@ -217,7 +220,7 @@ PV = "3.10.10.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="61ba4c666c35ba0db01ee5536137e50ce61928d3"
+SRCREV ="44aff13ce59255397ab43fa4d088dd6d3021ec89"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
