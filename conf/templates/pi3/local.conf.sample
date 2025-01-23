@@ -16,6 +16,11 @@ DISTRO_FEATURES:append = " opengl x11"
 PACKAGECONFIG:pn-gnuradio = "qtgui5 grc zeromq logging"
 PACKAGECONFIG:pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 
+LICENSE_FLAGS_ACCEPTED:append = "synaptics-killswitch"
+
+ERROR_QA:remove = "version-going-backwards"
+WARN_QA:append = " version-going-backwards"
+
 #
 # Parallelism Options
 #
