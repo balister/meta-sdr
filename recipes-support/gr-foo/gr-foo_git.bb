@@ -13,5 +13,5 @@ SRC_URI = "git://github.com/bastibl/gr-foo;branch=maint-3.10;protocol=https \
           "
 S = "${WORKDIR}/git"
 
-SRCREV = "0a34f68565863218c3c010e69f6bd6a9bdfd7142"
+SRCREV = "4c2a471b0453b9dca669b2d9dfcbfba6278741d7"
 
