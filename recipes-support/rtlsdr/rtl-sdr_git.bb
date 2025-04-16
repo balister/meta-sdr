@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
 DEPENDS = "libusb1"
 
-PV = "0.6.0+git"
+PV = "2.0.2"
 
-SRC_URI = "git://git.osmocom.org/rtl-sdr;branch=master;protocol=https \
+SRC_URI = "git://gitea.osmocom.org/sdr/rtl-sdr.git;branch=master;protocol=https \
           "
-SRCREV = "142325a93c6ad70f851f43434acfdf75e12dfe03"
+SRCREV = "619ac3186ea0ffc092615e1f59f7397e5e6f668c"
 
 S = "${WORKDIR}/git"
 
