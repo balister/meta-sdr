@@ -8,7 +8,7 @@ URI: git://github.com/openembedded/meta-openembedded.git
 branch: master
 revision: HEAD
 
-URI: git://git.yoctoproject.org/meta-qt4
+URI: https://github.com/meta-qt5/meta-qt5.git
 branch: master
 revision: HEAD
 
