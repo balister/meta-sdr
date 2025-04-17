@@ -10,7 +10,7 @@ RDEPENDS:${PN} = "gnuradio python3-click"
 inherit setuptools3 cmake python3native
 
 export BUILD_SYS
-export HOST_SYS="${MULTIMACH_TARGET_SYS}"
+export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
 
 
 PV = "0.0.4+git${SRCPV}"
