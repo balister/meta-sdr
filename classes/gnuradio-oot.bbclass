@@ -4,7 +4,7 @@ DEPENDS:append = " gnuradio volk cppunit python3-pybind11-native \
                    python3-numpy-native spdlog"
 
 export BUILD_SYS
-export HOST_SYS="${MULTIMACH_TARGET_SYS}"
+export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
 PYTHON_MAJMIN = "${PYTHON_BASEVERSION}"

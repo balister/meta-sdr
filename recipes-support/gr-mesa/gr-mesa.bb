@@ -11,7 +11,7 @@ inherit setuptools3 cmake pkgconfig python3native
 
 
 export BUILD_SYS
-export HOST_SYS="${MULTIMACH_TARGET_SYS}"
+export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
 

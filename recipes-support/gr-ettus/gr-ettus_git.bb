@@ -12,7 +12,7 @@ PACKAGECONFIG ??= "qt4"
 PACKAGECONFIG[qt4] = "-DENABLE_QT=ON,-DENABLE_QT=OFF,qt4-x11-free qt4-native, "
 
 export BUILD_SYS
-export HOST_SYS="${MULTIMACH_TARGET_SYS}"
+export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
 
 FILES_SOLIBSDEV = ""
 FILES:${PN} += "${datadir}/gnuradio/grc/blocks/* \

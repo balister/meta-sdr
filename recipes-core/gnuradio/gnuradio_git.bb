@@ -26,7 +26,7 @@ inherit setuptools3-base cmake pkgconfig python3native mime mime-xdg ptest
 inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 
 export BUILD_SYS
-export HOST_SYS="${MULTIMACH_TARGET_SYS}"
+export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
 
 RDEPENDS:${PN} = "python3-core python3-audio python3-threading python3-codecs \
                   python3-shell python3-pickle \
@@ -220,7 +220,7 @@ PV = "3.10.12.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV ="25af1c73628e35e12976f81b502cdcdfd51fe7c3"
+SRCREV = "25af1c73628e35e12976f81b502cdcdfd51fe7c3"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
@@ -233,7 +233,7 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://run-ptest \
           "
 
-S="${WORKDIR}/git"
+S = "${WORKDIR}/git"
 
 EXTRA_OECMAKE = "\
                  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
