@@ -22,4 +22,5 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     gr-osmosdr \
     gr-pager \
     gr-satellites \
+    rtl433 \
     "
