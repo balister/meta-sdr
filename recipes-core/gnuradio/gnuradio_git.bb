@@ -233,8 +233,6 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://run-ptest \
           "
 
-S = "${WORKDIR}/git"
-
 EXTRA_OECMAKE = "\
                  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                  -DPYBIND11_PYTHONLIBS_OVERWRITE=0 \

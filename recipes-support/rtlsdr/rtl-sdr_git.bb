@@ -12,8 +12,6 @@ SRC_URI = "git://gitea.osmocom.org/sdr/rtl-sdr.git;branch=master;protocol=https 
           "
 SRCREV = "619ac3186ea0ffc092615e1f59f7397e5e6f668c"
 
-S = "${WORKDIR}/git"
-
 inherit autotools pkgconfig lib_package
 
 EXTRA_OECONF = "--enable-driver-detach"

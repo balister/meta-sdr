@@ -24,8 +24,6 @@ SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
           "
 SRC_URI:append_ettus-e300 = "file://volk_config"
 
-S = "${WORKDIR}/git"
-
 SRCREV = "aac4c7f8cabf48135dfc22f5290c6ebca3cc9966"
 
 PACKAGES += "${PN}-modtool"
