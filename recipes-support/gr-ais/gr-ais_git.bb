@@ -11,7 +11,5 @@ PV = "0.0.3+git${SRCPV}"
 
 SRC_URI = "git://github.com/bkerler/gr-ais;branch=maint-3.10;protocol=https \
           "
-S = "${WORKDIR}/git"
-
 SRCREV = "fd72dd564470f55eea664271a026c892c69c6784"
 

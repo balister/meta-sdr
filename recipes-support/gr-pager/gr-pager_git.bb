@@ -13,5 +13,3 @@ SRC_URI = "git://github.com/bkerler/gr-pager.git;branch=maint-3.10;protocol=http
           "
 SRCREV = "7df10f41709af2841058a7f42b3d641ee508d10e"
 
-S = "${WORKDIR}/git"
-

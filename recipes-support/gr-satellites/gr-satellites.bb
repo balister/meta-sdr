@@ -13,7 +13,5 @@ PV = "5.6.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/daniestevez/gr-satellites;branch=maint-3.10;protocol=https \
           "
-S = "${WORKDIR}/git"
-
 SRCREV = "e26c1f96679190d3b237be784b3374f951362362"
 

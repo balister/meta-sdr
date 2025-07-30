@@ -28,6 +28,4 @@ PV = "0.2.4"
 
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
           "
-S = "${WORKDIR}/git"
-
 SRCREV = "82d6b6db78c829ddf7511826bd2b64be2bc189d5"

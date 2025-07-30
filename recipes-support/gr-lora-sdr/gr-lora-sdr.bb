@@ -11,8 +11,6 @@ PV = "1.0.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/tapparelj/gr-lora_sdr.git;branch=master;protocol=https \
           "
-S = "${WORKDIR}/git"
-
 SRCREV = "b53a3ba434df3150f4fb51a3e4bb1226caa51717"
 
 FILES:${PN} += "${datadir}/gr-lora_sdr/examples/*.grc"

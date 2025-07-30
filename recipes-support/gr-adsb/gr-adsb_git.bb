@@ -17,8 +17,6 @@ PV = "0.0.4+git${SRCPV}"
 
 SRC_URI = "git://github.com/bkerler/gr-adsb;branch=maint-3.10;protocol=https \
           "
-S = "${WORKDIR}/git"
-
 SRCREV = "a35d5d6d7ac5fc091d121694ac51d600e77e44de"
 
 EXTRA_OECMAKE = " \

@@ -8,8 +8,9 @@ PV = "25.02"
 SRCREV = "5cae16fbc9c1c98652676ab45d7bbf7f51e6ccea"
 SRC_URI = "git://github.com/merbanan/rtl_433.git;protocol=https;branch=master"
 
-S = "${WORKDIR}/git"
-
 DEPENDS = "libusb1 rtl-sdr openssl"
 
 inherit cmake
+
+EXTRA_OECMAKE = "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+

@@ -12,6 +12,9 @@ inherit cmake pkgconfig
 
 SRC_URI = "git://github.com/mossmann/hackrf.git;branch=master;protocol=https \
           "
-S = "${WORKDIR}/git/host"
+S = "${UNPACKDIR}/${BP}/host"
 
 SRCREV = "43e6f99fe8543094d18ff3a6550ed2066c398862"
+
+EXTRA_OECMAKE = "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+

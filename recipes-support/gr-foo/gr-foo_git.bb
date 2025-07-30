@@ -11,7 +11,5 @@ PV = "0.0.4+git${SRCPV}"
 
 SRC_URI = "git://github.com/bastibl/gr-foo;branch=maint-3.10;protocol=https \
           "
-S = "${WORKDIR}/git"
-
 SRCREV = "4c2a471b0453b9dca669b2d9dfcbfba6278741d7"
 

@@ -12,7 +12,5 @@ PV = "0.0.2+git${SRCPV}"
 
 SRC_URI = "git://github.com/bkerler/gr-air-modes;branch=maint-3.10;protocol=https \
           "
-S = "${WORKDIR}/git"
-
 SRCREV = "3a946c55f74da8395158b43fc69aab3902432aca"
 
