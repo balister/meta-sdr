@@ -14,7 +14,5 @@ PV = "1.0.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/ghostop14/gr-mesa;branch=master;protocol=https \
            "
-S = "${WORKDIR}/git"
-
 SRCREV = "1840556948343d2398721f1bd23c1f42b389f136"
 
