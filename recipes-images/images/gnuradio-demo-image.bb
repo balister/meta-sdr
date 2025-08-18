@@ -20,6 +20,7 @@ CORE_IMAGE_EXTRA_INSTALL += "\
     gr-ieee80211 \
     gr-lora-sdr \
     gr-osmosdr \
+    gr-mesa \
     gr-pager \
     gr-satellites \
     rtl433 \
