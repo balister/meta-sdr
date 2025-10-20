@@ -220,7 +220,7 @@ PV = "3.10.12.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV = "25af1c73628e35e12976f81b502cdcdfd51fe7c3"
+SRCREV = "d1fa98fbbfd83c537cc0ff57f7cae337db1f4d36"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
@@ -229,7 +229,6 @@ GITHUB_USER = "gnuradio"
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-Remove-paths-from-pc-files-that-contain-build-system.patch \
            file://0001-Don-t-use-the-value-of-PYTHON_EXECTUABLE-probed-at-b.patch \
-           file://0001-Compiler-flags-include-build-system-paths.patch \
            file://run-ptest \
           "
 
