@@ -13,7 +13,7 @@
 
 DISTRO_FEATURES:append = " opengl x11 ptest"
 
-PACKAGECONFIG:pn-gnuradio = "qtgui5 grc zeromq logging"
+PACKAGECONFIG:pn-gnuradio = "grc zeromq logging"
 PACKAGECONFIG:pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 
 ERROR_QA:remove = "version-going-backwards"
