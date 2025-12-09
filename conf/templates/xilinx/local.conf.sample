@@ -12,6 +12,8 @@ PACKAGECONFIG:pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 ERROR_QA:remove = "version-going-backwards"
 WARN_QA:append = " version-going-backwards"
 
+INIT_MANAGER ?= "systemd"
+
 #
 # This file is your local configuration file and is where all local user settings
 # are placed. The comments in this file give some guide to the options a new user
