@@ -270,5 +270,6 @@ do_install_ptest() {
     find . -name "*.alist" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name file_taps_loader.py -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name test_16bit_1chunk.wav -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name test_16bit_1chunk_normal.wav -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name test_modtool.py -exec cp --parents {} ${D}${PTEST_PATH} \;
 }
