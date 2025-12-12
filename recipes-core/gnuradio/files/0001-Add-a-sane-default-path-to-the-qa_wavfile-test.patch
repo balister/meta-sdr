@@ -1,0 +1,40 @@
+From 4baca185340de3849bdfd784159bf440bf0cc853 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Sat, 13 Dec 2025 06:37:22 +0900
+Subject: [PATCH] Add a sane default path to the qa_wavfile test.
+
+For the OpenEmbedded ptest I ahve copied the tests to
+the target device and when the tests are run, the srcdir
+environment variable is not set, so the test fails. This
+adds a sane default that allows the test ot run sucessfully.
+
+Upstream-Status: Inappropriate [Will submit, but I forget the tagfor
+that]
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-blocks/python/blocks/qa_wavfile.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gr-blocks/python/blocks/qa_wavfile.py b/gr-blocks/python/blocks/qa_wavfile.py
+index 5c35a1cf6..6dc62fd0b 100644
+--- a/gr-blocks/python/blocks/qa_wavfile.py
++++ b/gr-blocks/python/blocks/qa_wavfile.py
+@@ -17,11 +17,11 @@ import unittest
+ import wave
+ from os.path import getsize
+ 
+-g_in_file = os.path.join(os.getenv("srcdir"), "test_16bit_1chunk.wav")
++g_in_file = os.path.join(os.getenv("srcdir", os.getcwd()), "test_16bit_1chunk.wav")
+ g_in_file_normal = os.path.join(
+-    os.getenv("srcdir"),
++    os.getenv("srcdir", os.getcwd()),
+     "test_16bit_1chunk_normal.wav")
+-g_in_file_mp3 = os.path.join(os.getenv("srcdir"), "test_no_info_frame.mp3")
++g_in_file_mp3 = os.path.join(os.getenv("srcdir"), os.getcwd(), "test_no_info_frame.mp3")
+ g_extra_header_offset = 36
+ g_extra_header_len = 22
+ 
+-- 
+2.52.0
+
