@@ -23,6 +23,7 @@ SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
            file://run-ptest \
           "
 SRC_URI:append_ettus-e300 = "file://volk_config"
+SRC_URI:append_zynqmp-zcu104-sdt-full = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
