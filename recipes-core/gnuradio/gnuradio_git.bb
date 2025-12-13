@@ -262,6 +262,7 @@ do_install_ptest() {
     find . -name "qa*sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name test_modtool_test.sh -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name "gr_fec_rstest" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${B}||g" {} \;
     find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${S}||g" {} \;
 
