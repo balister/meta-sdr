@@ -15,8 +15,8 @@ export BUILD_SYS
 export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
-#PV = "3.1.0"
-PV = "3.1.1+git${SRCPV}"
+#PV = "3.2.0"
+PV = "3.2.0+git${SRCPV}"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
@@ -27,7 +27,7 @@ SRC_URI:append:zynqmp-zcu104-sdt-full = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "aac4c7f8cabf48135dfc22f5290c6ebca3cc9966"
+SRCREV = "0870df6cdbca3523256a1a94e323411de507e58e"
 
 PACKAGES += "${PN}-modtool"
 
