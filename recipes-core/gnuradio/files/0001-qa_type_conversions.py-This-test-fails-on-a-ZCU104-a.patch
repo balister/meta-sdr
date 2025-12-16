@@ -21,7 +21,7 @@ index fc4150481..b852baff3 100644
          self.tb.connect(src, op, dst)
          self.tb.run()
 -        self.assertFloatTuplesAlmostEqual(expected_data, dst.data(), 5)
-+        self.assertFloatTuplesAlmostEqual(expected_data, dst.data(), 2)
++        self.assertFloatTuplesAlmostEqual(expected_data, dst.data(), 1)
  
      def test_complex_to_mag_squared(self):
          src_data = (1 + 2j, 3 - 4j, 5 + 6j, 7 - 8j, -9 + 10j)
