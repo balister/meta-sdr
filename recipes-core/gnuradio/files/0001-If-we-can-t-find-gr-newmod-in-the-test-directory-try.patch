@@ -1,0 +1,27 @@
+From 72a0a8ebb0a28000b2b430ec386398118559c786 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 16 Dec 2025 14:23:33 -0500
+Subject: [PATCH] If we can't find gr-newmod in the test directory try an
+ installed version.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-utils/modtool/tests/test_modtool.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/gr-utils/modtool/tests/test_modtool.py b/gr-utils/modtool/tests/test_modtool.py
+index dce14af11..7b3a525ba 100644
+--- a/gr-utils/modtool/tests/test_modtool.py
++++ b/gr-utils/modtool/tests/test_modtool.py
+@@ -48,6 +48,8 @@ class TestModToolCore(unittest.TestCase):
+         self.f_newmod = False
+         self.srcdir = path.abspath(path.join(path.dirname(
+             path.realpath(__file__)), '../templates/gr-newmod'))
++        if not os.path.exists(self.srcdir):
++            self.srcdir = "/usr/share/gnuradio/modtool/templates/gr-newmod/"
+ 
+     @classmethod
+     def setUpClass(cls):
+-- 
+2.52.0
+

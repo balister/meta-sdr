@@ -232,6 +232,7 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://0001-Compiler-flags-include-build-system-paths.patch \
            file://0001-Add-a-sane-default-path-to-the-qa_wavfile-test.patch \
            file://0001-qa_type_conversions.py-This-test-fails-on-a-ZCU104-a.patch \
+           file://0001-If-we-can-t-find-gr-newmod-in-the-test-directory-try.patch \
            file://run-ptest \
           "
 
