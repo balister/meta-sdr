@@ -22,8 +22,8 @@ SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
            file://run-ptest \
           "
-SRC_URI:append_ettus-e300 = "file://volk_config"
-SRC_URI:append_zynqmp-zcu104-sdt-full = "file://volk_config"
+SRC_URI:append:ettus-e300 = "file://volk_config"
+SRC_URI:append:zynqmp-zcu104-sdt-full = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
