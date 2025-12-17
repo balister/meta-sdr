@@ -229,6 +229,9 @@ GITHUB_USER = "gnuradio"
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-Remove-paths-from-pc-files-that-contain-build-system.patch \
            file://0001-Don-t-use-the-value-of-PYTHON_EXECTUABLE-probed-at-b.patch \
+           file://0001-Add-a-sane-default-path-to-the-qa_wavfile-test.patch \
+           file://0001-qa_type_conversions.py-This-test-fails-on-a-ZCU104-a.patch \
+           file://0001-If-we-can-t-find-gr-newmod-in-the-test-directory-try.patch \
            file://run-ptest \
           "
 
@@ -258,6 +261,7 @@ do_install_ptest() {
     find . -name "qa*sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name test_modtool_test.sh -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name "gr_fec_rstest" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${B}||g" {} \;
     find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${S}||g" {} \;
 
@@ -267,5 +271,6 @@ do_install_ptest() {
     find . -name "*.alist" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name file_taps_loader.py -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name test_16bit_1chunk.wav -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -name test_16bit_1chunk_normal.wav -exec cp --parents {} ${D}${PTEST_PATH} \;
     find . -name test_modtool.py -exec cp --parents {} ${D}${PTEST_PATH} \;
 }
