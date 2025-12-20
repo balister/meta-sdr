@@ -3,7 +3,7 @@ HOMEPAGE = "http://libvolk.org"
 LICENSE = "LGPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=3000208d539ec061b899bce1d9ce9404"
 
-DEPENDS = "python3-mako-native python3-six-native"
+DEPENDS = "python3-mako-native python3-six-native fmt"
 
 inherit python3native cmake pkgconfig ptest
 
@@ -27,7 +27,7 @@ SRC_URI:append:zynqmp-zcu104-sdt-full = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "0870df6cdbca3523256a1a94e323411de507e58e"
+SRCREV = "0425a4345c0ca015ba8904aed3302f2bdcf316ff"
 
 PACKAGES += "${PN}-modtool"
 
