@@ -27,7 +27,7 @@ SRC_URI:append:zynqmp-zcu104-sdt-full = "file://volk_config"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "34543dc4c870303b56fd73c1d0a40b57a2119151"
+SRCREV = "cda245e2bdd192c4a02c00dd9f525136a61e724d"
 
 PACKAGES += "${PN}-modtool"
 
