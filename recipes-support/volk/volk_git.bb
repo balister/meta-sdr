@@ -25,7 +25,7 @@ SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
 SRC_URI:append:ettus-e300 = "file://volk_config"
 SRC_URI:append:zynqmp-zcu104-sdt-full = "file://volk_config"
 
-SRCREV = "cda245e2bdd192c4a02c00dd9f525136a61e724d"
+SRCREV = "511fff053e190316919733fb148b70946f139a9e"
 
 PACKAGES += "${PN}-modtool"
 
