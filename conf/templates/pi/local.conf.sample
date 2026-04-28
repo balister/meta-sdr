@@ -27,6 +27,8 @@ EXTRA_IMAGE_FEATURES += "allow-empty-password empty-root-password \
                    allow-root-login"
 CMDLINE:append = " quiet"
 
+PACKAGECONFIG:remove:pn-systemd = "osc-context"
+EXTRA_IMAGE_FEATURES:remove:raspberrypi5 = "tools-profile"
 
 #
 # Parallelism Options
