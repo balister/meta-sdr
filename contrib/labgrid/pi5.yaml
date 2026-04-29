@@ -1,0 +1,23 @@
+targets:
+  main:
+    resources:
+      RemotePlace:
+        name: pi5
+    drivers:
+      SerialDriver: {}
+      NetworkPowerDriver:
+        delay: 3.0
+      USBStorageDriver: {}
+      USBSDMuxDriver: {}
+      ShellDriver:
+        prompt: 'root@[\w\-]+:[^ ]+ '
+        login_prompt: ' login:'
+        username: 'root'
+      PI5Strategy: {}
+images:
+  sd_image: images/image.wic.bz2
+
+imports:
+ - PI5Strategy.py
+
+
