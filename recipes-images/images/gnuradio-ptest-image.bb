@@ -3,6 +3,7 @@ environment suitable for building GNURadio out of tree blocks installed."
 
 CORE_IMAGE_EXTRA_INSTALL:append = "ptest-runner gnuradio-ptest volk-ptest \
                                    "
+CORE_IMAGE_EXTRA_INSTALL:append:raspberrypi5 = "fftw-ptest"
 
 EXTRA_IMAGE_FEATURES += "tools-debug tools-profile \
                   "
