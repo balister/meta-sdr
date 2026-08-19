@@ -7,7 +7,6 @@ BBFILES ?= ""
 
 BBLAYERS ?= " \
   ##COREBASE##/meta \
-  ##COREBASE##/../meta-xilinx/meta-xilinx-bsp \
   ##COREBASE##/../meta-xilinx/meta-microblaze \
   ##COREBASE##/../meta-xilinx/meta-xilinx-core \
   ##COREBASE##/../meta-xilinx/meta-xilinx-standalone \
@@ -17,7 +16,6 @@ BBLAYERS ?= " \
   ##COREBASE##/../meta-amd-adaptive-socs/meta-amd-adaptive-socs-bsp \
   ##COREBASE##/../meta-arm/meta-arm \
   ##COREBASE##/../meta-arm/meta-arm-toolchain \
-  ##COREBASE##/../meta-virtualization \
   ##COREBASE##/../meta-openembedded/meta-oe \
   ##COREBASE##/../meta-openembedded/meta-python \
   ##COREBASE##/../meta-openembedded/meta-filesystems \
