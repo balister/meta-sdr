@@ -18,7 +18,6 @@ export STAGING_LIBDIR
 #PV = "3.2.0"
 PV = "3.2.0+git${SRCPV}"
 SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
-           file://0001-tests-use-correct-fmt-include.patch \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
            file://run-ptest \
