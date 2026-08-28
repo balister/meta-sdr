@@ -19,6 +19,28 @@ DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 # at the host's own g++ (available via HOSTTOOLS) instead.
 EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DGNURADIO_PARSE_REGISTRATIONS_TOOL_CXX_COMPLILER=g++ -DGR_DATA_CACHE_DIR=/var/lib/gnuradio4/cache"
 
+# gnuradio_4_0_parse_registrations (installed to bindir above) is invoked at
+# configure time by downstream recipes (e.g. gnuradio4-blocks) via the path
+# GnuRadioBlockLibConfig.cmake computes from its own install prefix. bindir is
+# not part of the default SYSROOT_DIRS for a non-native recipe, so without
+# this the tool never reaches consumers' recipe-sysroot and configure fails
+# looking for it. It's the only thing this recipe installs to bindir, and
+# it's already forced to build as a host-native binary above, so staging all
+# of bindir is safe.
+SYSROOT_DIRS:append = " ${bindir}"
+
+# CMakeLists.txt unconditionally reinstalls the vir-simd headers it located
+# via find_path() alongside its own -dev package (install(DIRECTORY
+# ${vir-simd_SOURCE_DIR}/vir DESTINATION include)), duplicating the files
+# vir-simd-dev already installs and causing a sysroot file collision for
+# anything that DEPENDS on both. Strip the duplicate and depend on the real
+# package instead.
+do_install:append() {
+    rm -rf ${D}${includedir}/vir
+}
+
+RDEPENDS:${PN}-dev += "vir-simd-dev"
+
 FILES:${PN}-dev += "${libdir}/GnuRadioBlockLib"
 
 # libgnuradio-blocklib-core.so and libgnuradio-plugin.so are runtime-loaded
