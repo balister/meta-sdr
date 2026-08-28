@@ -17,7 +17,17 @@ DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 # picks up CMAKE_CXX_COMPILER, which under cross-compilation is the target
 # cross-compiler and produces a binary that cannot execute on the host -- point it
 # at the host's own g++ (available via HOSTTOOLS) instead.
-EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DGNURADIO_PARSE_REGISTRATIONS_TOOL_CXX_COMPLILER=g++ -DGR_DATA_CACHE_DIR=/var/lib/gnuradio4/cache"
+# WARNINGS_AS_ERRORS (default ON upstream) bakes -Werror plus a large
+# pedantic warning set into the INTERFACE_COMPILE_OPTIONS of the exported
+# gnuradio4::gnuradio-options target, which every downstream consumer
+# (gnuradio4-blocks, gnuradio4-incubator, gnuradio4-control-plane, ...)
+# transitively links against. That means -Werror applies not just to this
+# project's own code but to any header a consumer happens to include,
+# evaluated against whatever GCC version is in use -- e.g. it turned GCC 16
+# false positives inside vendored httplib.h/boost::beast headers into a hard
+# build failure for gnuradio4-control-plane. Disable it here so it never
+# leaks into consumers' builds.
+EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DGNURADIO_PARSE_REGISTRATIONS_TOOL_CXX_COMPLILER=g++ -DGR_DATA_CACHE_DIR=/var/lib/gnuradio4/cache -DWARNINGS_AS_ERRORS=OFF"
 
 # gnuradio_4_0_parse_registrations (installed to bindir above) is invoked at
 # configure time by downstream recipes (e.g. gnuradio4-blocks) via the path
