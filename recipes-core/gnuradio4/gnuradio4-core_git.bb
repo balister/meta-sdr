@@ -1,7 +1,10 @@
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
-SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=main"
+SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=main \
+           file://0001-Do-not-install-vir-simd-as-part-of-gnuradio4-core.patch \
+           "
+
 
 # Modify these as desired
 PV = "1.0+git"
@@ -38,16 +41,6 @@ EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DGNURADIO_PARSE_REGISTRATIONS_TOOL_CXX_COM
 # it's already forced to build as a host-native binary above, so staging all
 # of bindir is safe.
 SYSROOT_DIRS:append = " ${bindir}"
-
-# CMakeLists.txt unconditionally reinstalls the vir-simd headers it located
-# via find_path() alongside its own -dev package (install(DIRECTORY
-# ${vir-simd_SOURCE_DIR}/vir DESTINATION include)), duplicating the files
-# vir-simd-dev already installs and causing a sysroot file collision for
-# anything that DEPENDS on both. Strip the duplicate and depend on the real
-# package instead.
-do_install:append() {
-    rm -rf ${D}${includedir}/vir
-}
 
 RDEPENDS:${PN}-dev += "vir-simd-dev"
 
