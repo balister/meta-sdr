@@ -1,0 +1,18 @@
+Skip qa_FirDecimator: includes a header that doesn't exist upstream
+
+blocks/filter/include/gnuradio-4.0/filter/FirDecimator.hpp includes
+<gnuradio-4.0/algorithm/filter/FilterTool.hpp>, which is not present
+anywhere in the gr4-incubator tree at this commit (algorithm/ only
+provides pmt_converter). This breaks any build with ENABLE_TESTING=ON.
+Drop the one test target that pulls this header in until upstream adds
+the missing file.
+
+Upstream-Status: Pending
+
+diff --git a/blocks/filter/test/CMakeLists.txt b/blocks/filter/test/CMakeLists.txt
+index 7baf498..e69de29 100644
+--- a/blocks/filter/test/CMakeLists.txt
++++ b/blocks/filter/test/CMakeLists.txt
+@@ -1,2 +0,0 @@
+-gr4_incubator_add_ut_test(qa_FirDecimator qa_FirDecimator.cpp)
+-target_link_libraries(qa_FirDecimator PRIVATE gr4_incubator::blocks_filter_headers)
