@@ -1,0 +1,41 @@
+Allow overriding GR4CP_GNURADIO4_LIB_DIR for cross-compilation
+
+GR4CP_GNURADIO4_LIB_DIR is unconditionally derived from the directory
+containing the gnuradio4Config.cmake file that find_package() located.
+Under cross-compilation that file lives in the target sysroot staged
+under the build host's work directory, not the target's real install
+prefix, so this path (used to set GR4CP_DEFAULT_GNURADIO4_PLUGIN_DIR
+and bake a plugin search path into gr4cp_server/libgr4cp_core.a) ends
+up pointing at a build-host-only directory that doesn't exist on the
+deployed target.
+
+Let a cache variable override the derived value so a packager can
+point it at the real target install location instead.
+
+Upstream-Status: Pending
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d6a013c..fc94255 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -19,6 +19,7 @@ if(DEFINED ENV{GR4CP_GNURADIO4_PREFIX})
+     set(_gr4cp_default_gnuradio4_prefix "$ENV{GR4CP_GNURADIO4_PREFIX}")
+ endif()
+ set(GR4CP_GNURADIO4_PREFIX "${_gr4cp_default_gnuradio4_prefix}" CACHE PATH "Optional prefix containing gnuradio4Config.cmake; leave empty to use CMAKE_PREFIX_PATH/default package discovery")
++set(GR4CP_GNURADIO4_LIB_DIR "" CACHE PATH "Override the runtime library/plugin directory recorded for GNU Radio 4 discovery; leave empty to derive it from where gnuradio4Config.cmake was found (wrong under cross-compilation, where that is the sysroot, not the target install prefix)")
+
+ # Use ccache if found and enabled
+ find_program(CCACHE_PROGRAM ccache)
+@@ -141,8 +142,10 @@ if(GR4CP_ENABLE_GR4_CATALOG)
+             gr4cp_remove_imported_werror(gnuradio4::gnuradio-core)
+             gr4cp_remove_imported_werror(gnuradio4::gnuradio-blocklib-core)
+         endif()
+-        cmake_path(GET gnuradio4_DIR PARENT_PATH _gr4cp_gnuradio4_cmake_dir)
+-        cmake_path(GET _gr4cp_gnuradio4_cmake_dir PARENT_PATH GR4CP_GNURADIO4_LIB_DIR)
++        if(NOT GR4CP_GNURADIO4_LIB_DIR)
++            cmake_path(GET gnuradio4_DIR PARENT_PATH _gr4cp_gnuradio4_cmake_dir)
++            cmake_path(GET _gr4cp_gnuradio4_cmake_dir PARENT_PATH GR4CP_GNURADIO4_LIB_DIR)
++        endif()
+         message(STATUS "Building with GNU Radio 4-backed block catalog from ${GR4CP_GNURADIO4_LIB_DIR}")
+     else()
+         message(FATAL_ERROR "GNU Radio 4 is required for the block catalog. Set GR4CP_GNURADIO4_PREFIX to a working gnuradio4 installation.")

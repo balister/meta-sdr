@@ -1,0 +1,68 @@
+Defer gtest_discover_tests() to ctest run time under cross-compilation
+
+gtest_discover_tests()'s default POST_BUILD mode executes the freshly
+built test binary at build time (via --gtest_list_tests) to enumerate
+individual test cases. Under cross-compilation the binary is linked
+against the target sysroot's dynamic linker, which isn't present on
+the build host filesystem, so CMake's attempt to run it fails
+("Result: no such file or directory") and aborts the ninja build.
+
+Passing DISCOVERY_MODE PRE_TEST defers discovery to when ctest itself
+is invoked (on the target, or under emulation), which this OE recipe
+never does during do_compile, so it removes the host-exec attempt
+entirely without changing test behavior when ctest does run.
+
+Upstream-Status: Pending
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d6a013c..dd16a85 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -369,9 +369,9 @@ if(NOT EMSCRIPTEN)
+
+     include(GoogleTest)
+     if(GR4CP_HAVE_GNURADIO4)
+-        gtest_discover_tests(gr4cp_smoke_test PROPERTIES ENVIRONMENT "${_gr4cp_test_env}")
++        gtest_discover_tests(gr4cp_smoke_test PROPERTIES ENVIRONMENT "${_gr4cp_test_env}" DISCOVERY_MODE PRE_TEST)
+     else()
+-        gtest_discover_tests(gr4cp_smoke_test)
++        gtest_discover_tests(gr4cp_smoke_test DISCOVERY_MODE PRE_TEST)
+     endif()
+
+
+@@ -392,9 +392,9 @@ if(NOT EMSCRIPTEN)
+     )
+
+     if(GR4CP_HAVE_GNURADIO4)
+-        gtest_discover_tests(gr4cp_core_test PROPERTIES ENVIRONMENT "${_gr4cp_test_env}")
++        gtest_discover_tests(gr4cp_core_test PROPERTIES ENVIRONMENT "${_gr4cp_test_env}" DISCOVERY_MODE PRE_TEST)
+     else()
+-        gtest_discover_tests(gr4cp_core_test)
++        gtest_discover_tests(gr4cp_core_test DISCOVERY_MODE PRE_TEST)
+     endif()
+
+     add_executable(gr4cp_http_test
+@@ -410,9 +410,9 @@ if(NOT EMSCRIPTEN)
+     )
+
+     if(GR4CP_HAVE_GNURADIO4)
+-        gtest_discover_tests(gr4cp_http_test PROPERTIES ENVIRONMENT "${_gr4cp_test_env}")
++        gtest_discover_tests(gr4cp_http_test PROPERTIES ENVIRONMENT "${_gr4cp_test_env}" DISCOVERY_MODE PRE_TEST)
+     else()
+-        gtest_discover_tests(gr4cp_http_test)
++        gtest_discover_tests(gr4cp_http_test DISCOVERY_MODE PRE_TEST)
+     endif()
+
+     add_executable(gr4cp_cli_test
+@@ -433,9 +433,9 @@ if(NOT EMSCRIPTEN)
+     )
+
+     if(GR4CP_HAVE_GNURADIO4)
+-        gtest_discover_tests(gr4cp_cli_test PROPERTIES ENVIRONMENT "${_gr4cp_test_env}")
++        gtest_discover_tests(gr4cp_cli_test PROPERTIES ENVIRONMENT "${_gr4cp_test_env}" DISCOVERY_MODE PRE_TEST)
+     else()
+-        gtest_discover_tests(gr4cp_cli_test)
++        gtest_discover_tests(gr4cp_cli_test DISCOVERY_MODE PRE_TEST)
+     endif()
+
+     install(TARGETS gr4cp_server gr4cp_cli_exec
