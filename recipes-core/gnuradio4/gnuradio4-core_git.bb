@@ -3,6 +3,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=main \
            file://0001-Do-not-install-vir-simd-as-part-of-gnuradio4-core.patch \
+           file://0002-bench-do-not-use-march-native-when-cross-compiling.patch \
            "
 
 
@@ -31,6 +32,7 @@ DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 # build failure for gnuradio4-control-plane. Disable it here so it never
 # leaks into consumers' builds.
 EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DGNURADIO_PARSE_REGISTRATIONS_TOOL_CXX_COMPLILER=g++ -DGR_DATA_CACHE_DIR=/var/lib/gnuradio4/cache -DWARNINGS_AS_ERRORS=OFF"
+CXXFLAGS += " -Wno-psabi"
 
 # gnuradio_4_0_parse_registrations (installed to bindir above) is invoked at
 # configure time by downstream recipes (e.g. gnuradio4-blocks) via the path
@@ -41,6 +43,20 @@ EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DGNURADIO_PARSE_REGISTRATIONS_TOOL_CXX_COM
 # it's already forced to build as a host-native binary above, so staging all
 # of bindir is safe.
 SYSROOT_DIRS:append = " ${bindir}"
+
+# gnuradio_4_0_parse_registrations is a host-native ELF (see comment above), so
+# the target strip tool (aarch64-oe-linux-strip here) cannot recognise its
+# architecture. do_package strips everything under PKGD regardless of FILES
+# assignment, and do_populate_sysroot has no per-file exemption, so skip both.
+INHIBIT_PACKAGE_STRIP_FILES = "${PKGD}${bindir}/gnuradio_4_0_parse_registrations"
+INHIBIT_SYSROOT_STRIP = "1"
+
+# The default FILES:${PN} = "${bindir}/* ..." glob (bitbake.conf) sweeps this
+# host-native binary into the target package too -- it is otherwise harmless
+# there (wrong-arch ELF the target just can't execute), but do_package_qa
+# flags it as an architecture mismatch and as missing RDEPENDS for the glibc
+# it was linked against on the host. Both are expected for a host tool.
+INSANE_SKIP:${PN} += "arch file-rdeps"
 
 RDEPENDS:${PN}-dev += "vir-simd-dev"
 
