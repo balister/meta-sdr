@@ -7,7 +7,9 @@
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
-SRC_URI = "git://github.com/gnuradio/gnuradio4-library.git;protocol=https;branch=main"
+SRC_URI = "git://github.com/gnuradio/gnuradio4-library.git;protocol=https;branch=main \
+           file://0001-algorithm-benchmarks-do-not-use-march-native-when-cr.patch \
+           "
 
 # Modify these as desired
 PV = "1.0+git"

@@ -1,0 +1,40 @@
+From ca408684634c3f90061e391248f00d2bdf03c36f Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@opensdr.com>
+Date: Sat, 29 Aug 2026 18:29:34 -0400
+Subject: [PATCH] algorithm/benchmarks: do not use -march=native when
+ cross-compiling
+
+add_gr_benchmark() unconditionally passes -march=native to every
+non-Emscripten benchmark target. Under cross-compilation the target
+compiler only accepts -march=armv8-a[.N]; 'native' is rejected
+outright, breaking any cross build with ENABLE_TESTING/ENABLE_EXAMPLES
+enabled (which pulls in algorithm/benchmarks via
+algorithm/CMakeLists.txt).
+
+Skip the -march=native flag when CMAKE_CROSSCOMPILING, same as is
+already done for EMSCRIPTEN in gnuradio4-core's equivalent benchmark
+CMakeLists.
+
+Upstream-Status: Pending
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ algorithm/benchmarks/CMakeLists.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/algorithm/benchmarks/CMakeLists.txt b/algorithm/benchmarks/CMakeLists.txt
+index a25a1c1..ac17d76 100644
+--- a/algorithm/benchmarks/CMakeLists.txt
++++ b/algorithm/benchmarks/CMakeLists.txt
+@@ -20,6 +20,8 @@ function(add_gr_benchmark BM_NAME)
+       target_compile_options(${BM_NAME} PRIVATE -mrelaxed-simd)
+       target_link_options(${BM_NAME} PRIVATE -mrelaxed-simd)
+     endif()
++  elseif(CMAKE_CROSSCOMPILING)
++    target_compile_options(${BM_NAME} PRIVATE -O2)
+   else()
+     target_compile_options(${BM_NAME} PRIVATE -O2 -march=native)
+   endif()
+-- 
+2.55.0
+
