@@ -2,14 +2,13 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=main \
-           file://0001-Do-not-install-vir-simd-as-part-of-gnuradio4-core.patch \
            file://0002-bench-do-not-use-march-native-when-cross-compiling.patch \
            "
 
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "e73cbd185ebcec1b11054da4b0e63d11b6fe6abb"
+SRCREV = "657ef622258b77d2b6a9e432f24de103e809434b"
 
 # NOTE: unable to map the following CMake package dependencies: TBB ut httplib Python3
 inherit cmake pkgconfig
