@@ -1,0 +1,24 @@
+#!/bin/sh
+# Run the gnuradio4-core unit tests (boost-ext-ut binaries built by
+# -DENABLE_TESTING=ON) and report results in the PASS/FAIL format
+# ptest-runner expects.
+#
+# These are run directly rather than through ctest/CTestTestfile.cmake:
+# CTest's relative-path executable lookup does not resolve against the
+# invoking directory, so a CTestTestfile.cmake copied out of the build tree
+# can no longer find its test binaries once ${B} is stripped out of it.
+
+RET=0
+
+for t in core/test/qa_* meta/test/qa_*; do
+    [ -x "$t" ] || continue
+    name=$(basename "$t")
+    if "./$t"; then
+        echo "PASS: $name"
+    else
+        echo "FAIL: $name"
+        RET=1
+    fi
+done
+
+exit $RET

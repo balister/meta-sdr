@@ -3,6 +3,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=main \
            file://0002-bench-do-not-use-march-native-when-cross-compiling.patch \
+           file://run-ptest \
            "
 
 
@@ -11,7 +12,7 @@ PV = "1.0+git"
 SRCREV = "657ef622258b77d2b6a9e432f24de103e809434b"
 
 # NOTE: unable to map the following CMake package dependencies: TBB ut httplib Python3
-inherit cmake pkgconfig
+inherit cmake pkgconfig ptest
 DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 
 # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
@@ -76,6 +77,27 @@ FILES:${PN} += "${libdir}/libgnuradio-blocklib-core.so ${libdir}/libgnuradio-plu
 # matching toolchain is deployed there too.
 INSANE_SKIP:${PN}-dev += "buildpaths"
 INSANE_SKIP:${PN}-staticdev += "buildpaths"
+
+# EXTRA_OECMAKE above already builds the qa_* unit test binaries (part of the
+# default ninja "all" target under core/test and meta/test) as a side effect
+# of -DENABLE_TESTING=ON, so do_compile_ptest needs no override -- just stage
+# the already-built binaries for run-ptest.
+do_install_ptest() {
+    install -d ${D}${PTEST_PATH}/core/test ${D}${PTEST_PATH}/meta/test
+
+    # qa_SubGraphAssets is excluded: it has TESTS_SOURCE_PATH (the recipe's
+    # build-host ${S}/core/test) compiled in to locate its "assets" fixture
+    # directory, and it binds a fixed local TCP port to run an embedded HTTP
+    # server -- neither works once the binary is relocated onto the target
+    # for ptest.
+    for t in ${B}/core/test/qa_*; do
+        case $(basename ${t}) in
+            qa_SubGraphAssets) continue ;;
+        esac
+        install -m 0755 ${t} ${D}${PTEST_PATH}/core/test/
+    done
+    install -m 0755 ${B}/meta/test/qa_* ${D}${PTEST_PATH}/meta/test/
+}
 
 BBCLASSEXTEND = "native"
 
