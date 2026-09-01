@@ -1,14 +1,10 @@
-SUMMARY = "A console-only image with a development/debug \
-environment suitable for building GNURadio out of tree blocks installed."
+SUMMARY = "A console-only image for running gnuradio4 related ptests"
 
-CORE_IMAGE_EXTRA_INSTALL:append = "ptest-runner gnuradio-ptest volk-ptest \
+CORE_IMAGE_EXTRA_INSTALL:append = "ptest-runner gnuradio4-core-ptest \
                                    "
-CORE_IMAGE_EXTRA_INSTALL:append:raspberrypi5 = "fftw-ptest"
-
 EXTRA_IMAGE_FEATURES += "tools-debug tools-profile \
                   "
-
 LICENSE = "MIT"
 
-require gnuradio-image.bb
+require gnuradio4-image.bb
 
