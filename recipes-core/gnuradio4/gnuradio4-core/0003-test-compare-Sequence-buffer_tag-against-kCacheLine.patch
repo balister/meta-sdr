@@ -1,0 +1,46 @@
+From 9628116a91bfcea3b69e41bad4a820ae508eea91 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@opensdr.com>
+Date: Wed, 2 Sep 2026 05:04:21 -0400
+Subject: [PATCH] test: compare Sequence/buffer_tag against kCacheLine, not
+ hardcoded 64
+
+alignof(Sequence) and sizeof(buffer_tag) both derive from gr::kCacheLine
+(alignas(kCacheLine)), which is architecture-dependent: on this aarch64
+GCC target std::hardware_destructive_interference_size resolves to 256,
+not 64, so the hardcoded 64UZ literal (already known to need an
+__APPLE__ exception) fails there too. Compare against kCacheLine itself
+so the test verifies the actual invariant on every platform.
+
+Upstream-Status: Pending
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ core/test/qa_buffer.cpp | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/core/test/qa_buffer.cpp b/core/test/qa_buffer.cpp
+index d3803fc..d96d437 100644
+--- a/core/test/qa_buffer.cpp
++++ b/core/test/qa_buffer.cpp
+@@ -100,9 +100,7 @@ const boost::ut::suite SequenceTests = [] {
+ 
+     "Sequence"_test = [] {
+         using namespace gr;
+-#if not defined(__APPLE__)
+-        expect(eq(alignof(Sequence), 64UZ));
+-#endif
++        expect(eq(alignof(Sequence), kCacheLine));
+         expect(eq(0UZ, kInitialCursorValue));
+         expect(nothrow([] { Sequence(); }));
+         expect(nothrow([] { Sequence(2); }));
+@@ -620,9 +618,7 @@ const boost::ut::suite StreamTagConcept = [] {
+             int64_t     index;
+             std::string data;
+         };
+-#if not defined(__APPLE__)
+-        expect(eq(sizeof(buffer_tag), 64UZ)) << "tag size";
+-#endif
++        expect(eq(sizeof(buffer_tag), gr::kCacheLine)) << "tag size";
+         BufferLike auto buffer    = CircularBuffer<int32_t>(1024);
+         BufferLike auto tagBuffer = CircularBuffer<buffer_tag>(32);
+         expect(ge(buffer.size(), 1024u));

@@ -3,6 +3,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=main \
            file://0002-bench-do-not-use-march-native-when-cross-compiling.patch \
+           file://0003-test-compare-Sequence-buffer_tag-against-kCacheLine.patch \
            file://run-ptest \
            "
 
