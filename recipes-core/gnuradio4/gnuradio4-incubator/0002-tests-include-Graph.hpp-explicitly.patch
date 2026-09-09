@@ -1,0 +1,48 @@
+Tests: include gnuradio-4.0/Graph.hpp explicitly
+
+blocks/basic/test/qa_Converters.cpp, blocks/channel/test/qa_Converters.cpp
+and blocks/sigmf/test/qa_SigMfSource.cpp all use gr::Graph without
+including its header, relying on it arriving transitively through
+another gnuradio-4.0 header. gnuradio4-core's headers were made
+self-sufficient (each installed header can now be included on its
+own), which dropped that transitive include and leaves gr::Graph an
+incomplete type here, breaking the build. Include Graph.hpp directly.
+
+Upstream-Status: Pending
+
+diff --git a/blocks/basic/test/qa_Converters.cpp b/blocks/basic/test/qa_Converters.cpp
+index 4d2f0ea..663126e 100644
+--- a/blocks/basic/test/qa_Converters.cpp
++++ b/blocks/basic/test/qa_Converters.cpp
+@@ -1,6 +1,7 @@
+ #include <boost/ut.hpp>
+
+ #include <gnuradio-4.0/basic/Converters.hpp>
++#include <gnuradio-4.0/Graph.hpp>
+ #include <gnuradio-4.0/Value.hpp>
+ #include <gnuradio-4.0/Tensor.hpp>
+
+diff --git a/blocks/channel/test/qa_Converters.cpp b/blocks/channel/test/qa_Converters.cpp
+index 7b6899c..6795ea3 100644
+--- a/blocks/channel/test/qa_Converters.cpp
++++ b/blocks/channel/test/qa_Converters.cpp
+@@ -1,6 +1,7 @@
+ #include <boost/ut.hpp>
+
+ #include <gnuradio-4.0/basic/Converters.hpp>
++#include <gnuradio-4.0/Graph.hpp>
+ #include <gnuradio-4.0/Value.hpp>
+ #include <gnuradio-4.0/Tensor.hpp>
+
+diff --git a/blocks/sigmf/test/qa_SigMfSource.cpp b/blocks/sigmf/test/qa_SigMfSource.cpp
+index d2c5bcc..b7fa7c5 100644
+--- a/blocks/sigmf/test/qa_SigMfSource.cpp
++++ b/blocks/sigmf/test/qa_SigMfSource.cpp
+@@ -1,6 +1,7 @@
+ #include <boost/ut.hpp>
+
+ #include <gnuradio-4.0/sigmf/SigMfSource.hpp>
++#include <gnuradio-4.0/Graph.hpp>
+
+ #include <chrono>
+ #include <complex>
