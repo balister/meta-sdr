@@ -1,0 +1,51 @@
+#!/bin/sh
+# Run the gnuradio4-control-plane gtest binaries and report results in the
+# PASS/FAIL format ptest-runner expects.
+#
+# These are run directly rather than through ctest: gtest_discover_tests()
+# is patched (0001-defer-gtest-discovery-to-test-time.patch) to defer
+# per-testcase discovery to ctest run time, which this recipe never invokes,
+# and ctest's relative-path executable lookup doesn't resolve once ${B} is
+# stripped out of a copied CTestTestfile.cmake anyway (same reasoning as
+# gnuradio4-library/gnuradio4-blocks).
+#
+# CMakeLists.txt's _gr4cp_test_env normally supplies
+# GNURADIO4_PLUGIN_DIRECTORIES to ctest so gr4cp_core_test's GNU Radio
+# 4-backed block catalog can find its plugins; set it here too since we
+# bypass ctest.
+export GNURADIO4_PLUGIN_DIRECTORIES="/usr/lib/gnuradio-4/plugins:/usr/lib"
+
+# Each test spins up gr4cp::api::HttpServer on its own std::jthread, binds a
+# loopback socket, and hits it with an httplib client from the main thread.
+# The *first* time a given one of these binaries does that (i.e. the first
+# time in that binary's own process lifetime, not just once per boot -- each
+# binary needs this separately, confirmed by gr4cp_http_test still hanging on
+# its own first test even after gr4cp_smoke_test and gr4cp_core_test had
+# already run), it hangs indefinitely; every following call in the same
+# process completes in well under 100ms. Neither setsid nor stdin/session
+# setup make a difference, and the binaries are only a few MB so it isn't a
+# cold page-cache effect. Burn through it per binary with a disposable,
+# bounded warm-up run before the real one -- `timeout` isn't available in
+# this image, hence the manual background+kill.
+warmup() {
+    ./"$1" >/dev/null 2>&1 &
+    warmup_pid=$!
+    sleep 3
+    kill -9 "$warmup_pid" 2>/dev/null
+    wait "$warmup_pid" 2>/dev/null
+}
+
+RET=0
+
+for t in gr4cp_smoke_test gr4cp_core_test gr4cp_http_test gr4cp_cli_test; do
+    [ -x "./$t" ] || continue
+    warmup "$t"
+    if "./$t"; then
+        echo "PASS: $t"
+    else
+        echo "FAIL: $t"
+        RET=1
+    fi
+done
+
+exit $RET

@@ -1,0 +1,46 @@
+Allow overriding the gr4cp-cli path baked into gr4cp_cli_test
+
+gr4cp_cli_test invokes gr4cp-cli via a GR4CP_CLI_EXECUTABLE compile
+definition unconditionally set to $<TARGET_FILE:gr4cp_cli_exec>, i.e.
+the freshly built binary's absolute build-tree path. Under
+cross-compilation that path lives under the build host's work
+directory and never exists on whatever system the test binary is
+later run on (ptest included), so gr4cp_cli_test fails outright and,
+worse, the build-host path baked into the binary trips OE's
+buildpaths QA check.
+
+Let a cache variable override the derived value, same pattern as
+0002-allow-overriding-gnuradio4-lib-dir.patch's GR4CP_GNURADIO4_LIB_DIR,
+so a packager can point it at the real installed gr4cp-cli path
+instead.
+
+Upstream-Status: Pending
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2eacad9..b484519 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -20,6 +20,7 @@ if(DEFINED ENV{GR4CP_GNURADIO4_PREFIX})
+ endif()
+ set(GR4CP_GNURADIO4_PREFIX "${_gr4cp_default_gnuradio4_prefix}" CACHE PATH "Optional prefix containing gnuradio4Config.cmake; leave empty to use CMAKE_PREFIX_PATH/default package discovery")
+ set(GR4CP_GNURADIO4_LIB_DIR "" CACHE PATH "Override the runtime library/plugin directory recorded for GNU Radio 4 discovery; leave empty to derive it from where gnuradio4Config.cmake was found (wrong under cross-compilation, where that is the sysroot, not the target install prefix)")
++set(GR4CP_CLI_TEST_EXECUTABLE "" CACHE FILEPATH "Override the gr4cp-cli path gr4cp_cli_test invokes; leave empty to use the just-built $<TARGET_FILE:gr4cp_cli_exec> (wrong under cross-compilation, where that is a build-host-only path that won't exist once the test binary is deployed to run elsewhere)")
+
+ # Use ccache if found and enabled
+ find_program(CCACHE_PROGRAM ccache)
+@@ -430,9 +431,14 @@ if(NOT EMSCRIPTEN)
+             Threads::Threads
+     )
+
++    if(GR4CP_CLI_TEST_EXECUTABLE)
++        set(_gr4cp_cli_test_executable "${GR4CP_CLI_TEST_EXECUTABLE}")
++    else()
++        set(_gr4cp_cli_test_executable "$<TARGET_FILE:gr4cp_cli_exec>")
++    endif()
+     target_compile_definitions(gr4cp_cli_test
+         PRIVATE
+-            GR4CP_CLI_EXECUTABLE="$<TARGET_FILE:gr4cp_cli_exec>"
++            GR4CP_CLI_EXECUTABLE="${_gr4cp_cli_test_executable}"
+     )
+
+     if(GR4CP_HAVE_GNURADIO4)
