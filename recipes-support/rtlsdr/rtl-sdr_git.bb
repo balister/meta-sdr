@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
 DEPENDS = "libusb1"
 
-PV = "2.0.2"
+PV = "2.0.3"
 
 SRC_URI = "git://gitea.osmocom.org/sdr/rtl-sdr.git;branch=master;protocol=https \
           "
-SRCREV = "619ac3186ea0ffc092615e1f59f7397e5e6f668c"
+SRCREV = "797f8143266d983c56d8f35d2d442527529dd8a5"
 
 inherit autotools pkgconfig lib_package
 
