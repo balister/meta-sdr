@@ -1,0 +1,31 @@
+#!/bin/sh
+# Run the gnuradio4-blocks unit tests (boost-ext-ut / plain-main binaries
+# built by the upstream default -DENABLE_TESTING=ON) and report results in
+# the PASS/FAIL format ptest-runner expects.
+#
+# These are run directly rather than through ctest/CTestTestfile.cmake:
+# CTest's relative-path executable lookup does not resolve against the
+# invoking directory, so a CTestTestfile.cmake copied out of the build tree
+# can no longer find its test binaries once ${B} is stripped out of it.
+
+RET=0
+
+# qa_KnownSharedLibBlocks links directly against the per-block Shared .so's
+# (libGrTestingBlocksShared.so etc), which are installed under
+# /usr/lib/gnuradio-4/plugins/ for gr::PluginLoader's dlopen() scanning
+# rather than under the ld.so default search path, so the dynamic linker
+# can't resolve them at process startup without help.
+export LD_LIBRARY_PATH="/usr/lib/gnuradio-4/plugins${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+for t in blocks/*/test/qa_*; do
+    [ -x "$t" ] || continue
+    name=$(basename "$t")
+    if "./$t"; then
+        echo "PASS: $name"
+    else
+        echo "FAIL: $name"
+        RET=1
+    fi
+done
+
+exit $RET
