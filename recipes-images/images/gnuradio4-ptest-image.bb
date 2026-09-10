@@ -15,6 +15,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     gnuradio4-incubator \
     gnuradio4-control-plane \
     gnuradio4-core-ptest \
+    gnuradio4-library-ptest \
     ptest-runner \
     "
 
