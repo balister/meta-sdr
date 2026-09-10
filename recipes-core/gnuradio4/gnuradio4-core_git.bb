@@ -2,6 +2,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=main \
+           file://0001-Fix-qa-test-for-case-when-buffer-is-larger-than-requ.patch \
            file://run-ptest \
            "
 

@@ -1,0 +1,32 @@
+From 14e9188d8c2099701ca633126e2ed850c191dfbf Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Thu, 10 Sep 2026 09:58:33 -0400
+Subject: [PATCH] Fix qa test for case when buffer is larger than requested.
+
+Poking through the code I found ge used in similar situations and
+comments suggest that they expect it is possible to be allocated a
+larger buffer than you request.
+
+Upstream-Status: Pending
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ core/test/qa_buffer.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/test/qa_buffer.cpp b/core/test/qa_buffer.cpp
+index b956744..fa40852 100644
+--- a/core/test/qa_buffer.cpp
++++ b/core/test/qa_buffer.cpp
+@@ -1202,7 +1202,7 @@ const boost::ut::suite<"non power of two"> _nonPo2 = [] {
+ 
+         auto buffer = TestBuffer(1024); // Should remain power of 2
+ 
+-        expect(eq(buffer.size(), 1024UZ));
++        expect(ge(buffer.size(), 1024UZ));
+         expect(std::has_single_bit(buffer.size())) << "Power-of-2 sizes should be preserved for performance";
+ 
+         auto writer = buffer.new_writer();
+-- 
+2.55.0
+
