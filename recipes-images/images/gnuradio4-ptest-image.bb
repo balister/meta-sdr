@@ -7,13 +7,14 @@ IMAGE_FEATURES += "splash ssh-server-openssh \
                    allow-root-login post-install-logging \
                   "
 
-EXTRA_IMAGE_FEATURES += "package-management ptest-pkgs"
+EXTRA_IMAGE_FEATURES += "package-management"
 
 LICENSE = "MIT"
 
 CORE_IMAGE_EXTRA_INSTALL = "\
     gnuradio4-incubator \
     gnuradio4-control-plane \
+    gnuradio4-core-ptest \
     ptest-runner \
     "
 
