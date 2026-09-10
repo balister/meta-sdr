@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-library.git;protocol=https;branch
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "d60e12f8575a571da045ca4a20ba12344b094ba3"
+SRCREV = "d2e913982673308992ec48ed9f6bdaf3d28d532f"
 
 # NOTE: unable to map the following CMake package dependencies: gnuradio4 ut httplib
 inherit cmake pkgconfig ptest
