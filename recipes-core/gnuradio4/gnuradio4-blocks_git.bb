@@ -26,10 +26,16 @@ DEPENDS = "boost-ext-ut gnuradio4-library cpp-httplib"
 # nothing to add here.
 EXTRA_OECMAKE = ""
 
-# blocks/sdr (qa_RTL2832Source, qa_Soapy*) only gets added as a CMake
-# subdirectory when a SoapySDR target is found; this recipe doesn't DEPENDS
-# on soapysdr, so that directory is never configured/built and needs no
-# handling here.
+# GR4_ENABLE_SDR (default OFF upstream) gates the find_package(SoapySDR)
+# call in CMakeLists.txt, which in turn gates blocks/sdr's `if(TARGET
+# SoapySDR)` block (RTL2832 + Soapy source/sink blocks, plus
+# qa_RTL2832Source/qa_Soapy* under blocks/sdr/test picked up automatically
+# by do_install_ptest's blocks/*/test glob below). Off by default here too,
+# to match upstream and avoid silently growing every image's DEPENDS;
+# enable with PACKAGECONFIG:append:pn-gnuradio4-blocks = " soapysdr".
+PACKAGECONFIG ??= ""
+PACKAGECONFIG[soapysdr] = "-DGR4_ENABLE_SDR=ON,-DGR4_ENABLE_SDR=OFF,soapysdr"
+
 do_install_ptest() {
     for d in ${B}/blocks/*/test; do
         [ -d "$d" ] || continue
