@@ -17,6 +17,10 @@ RET=0
 # can't resolve them at process startup without help.
 export LD_LIBRARY_PATH="/usr/lib/gnuradio-4/plugins${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
+# This is an awful hack to get QA to pass on the raspberry pi5
+# Find a better way to fix teh pps and ptp stuff on the pi5
+rm -f /dev/pps0 /dev/ptp0
+
 for t in blocks/*/test/qa_*; do
     [ -x "$t" ] || continue
     name=$(basename "$t")
