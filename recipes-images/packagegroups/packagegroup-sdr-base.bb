@@ -33,8 +33,6 @@ RDEPENDS:packagegroup-sdr-base-extended = "\
     ${@bb.utils.contains('IMAGE_FEATURES', 'ssh-server-openssh', 'openssh-sftp openssh-sftp-server', '', d)} \
     procps \
     protobuf \
-    ntp \
-    ntp-utils \
     linux-firmware \
     libsodium \
     sqlite3 \
