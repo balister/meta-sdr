@@ -12,6 +12,7 @@ EXTRA_IMAGE_FEATURES += "package-management"
 LICENSE = "MIT"
 
 CORE_IMAGE_EXTRA_INSTALL = "\
+    soapyrtlsdr \
     gnuradio4-incubator \
     gnuradio4-control-plane \
     gnuradio4-core-ptest \
