@@ -8,13 +8,12 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-library.git;protocol=https;branch=main \
-           file://0001-algorithm-benchmarks-do-not-use-march-native-when-cr.patch \
            file://run-ptest \
            "
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "d2e913982673308992ec48ed9f6bdaf3d28d532f"
+SRCREV = "15d1dbe1f86e9b3834bfe4210039ac55620f1a60"
 
 # NOTE: unable to map the following CMake package dependencies: gnuradio4 ut httplib
 inherit cmake pkgconfig ptest
