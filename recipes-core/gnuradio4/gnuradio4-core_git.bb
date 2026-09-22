@@ -61,14 +61,15 @@ do_install_ptest() {
     # directory, and it binds a fixed local TCP port to run an embedded HTTP
     # server -- neither works once the binary is relocated onto the target
     # for ptest.
-    # qa_PluginBlockLibrary and qa_PluginRegistration are excluded for the
-    # same reason: they have TESTS_BINARY_PATH (the recipe's build-host
-    # ${B}/core/test) compiled in to locate the plugin .so fixtures that
-    # core/test/plugins/CMakeLists.txt builds next to them, and those
-    # fixtures are never installed alongside the ptest binaries.
+    # qa_PluginBlockLibrary, qa_PluginRegistration and qa_PluginAbiVersion
+    # are excluded for the same reason: they have TESTS_BINARY_PATH (the
+    # recipe's build-host ${B}/core/test) compiled in to locate the plugin
+    # .so fixtures that core/test/plugins/CMakeLists.txt builds next to
+    # them, and those fixtures are never installed alongside the ptest
+    # binaries.
     for t in ${B}/core/test/qa_*; do
         case $(basename ${t}) in
-            qa_SubGraphAssets|qa_PluginBlockLibrary|qa_PluginRegistration) continue ;;
+            qa_SubGraphAssets|qa_PluginBlockLibrary|qa_PluginRegistration|qa_PluginAbiVersion) continue ;;
         esac
         install -m 0755 ${t} ${D}${PTEST_PATH}/core/test/
     done
