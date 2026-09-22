@@ -25,7 +25,7 @@ SRC_URI = "git://github.com/gnuradio/gr4-incubator.git;protocol=https;branch=mai
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "dd31b1ade39b74d5703d04d94c4cc196a86a44b0"
+SRCREV = "db00f52b1bc9d193709113ac9d096377490051e2"
 
 # cmake/Dependencies.cmake in this repo pulls in imgui/implot/glfw3/OpenGL,
 # SoapySDR, rtaudio and CLI11 only when ENABLE_EXAMPLES is on -- and
