@@ -9,31 +9,42 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=dca174369926f2d6038aaf9ee5698d26"
 # subpath=blocks sparse-checks-out just this subdirectory; its default
 # destsuffix ("blocks/", the subpath's basename) doesn't match the recipe's
 # default S (${UNPACKDIR}/${BP}), so S is set explicitly below.
-SRC_URI = "git://github.com/gnuradio/gnuradio4-studio.git;protocol=https;branch=main;subpath=blocks"
+SRC_URI = "git://github.com/gnuradio/gnuradio4-studio.git;protocol=https;branch=main;subpath=blocks \
+           file://run-ptest \
+           "
 
 PV = "0.1.0+git"
 SRCREV = "006923a25f031e7c7cbae634ecaca4c5c75e3280"
 
 S = "${UNPACKDIR}/blocks"
 
-inherit cmake pkgconfig
+inherit cmake pkgconfig ptest
 
-# Neither boost nor gnuradio4-library appear in blocks/studio's own
-# CMakeLists.txt DEPENDS, but the headers need both directly:
+# None of these appear in blocks/studio's own CMakeLists.txt DEPENDS, but the
+# headers/tests need them directly:
 #  - boost (boost::beast, header-only) for StudioWebSocketTransport.hpp's
 #    websocket transport support.
 #  - gnuradio4-library for StudioPowerSpectrumSink.hpp's
 #    <gnuradio-4.0/algorithm/fourier/fft.hpp> (the header-only algorithm
 #    library gnuradio4-core itself doesn't provide).
-DEPENDS = "gnuradio4-core gnuradio4-library cpp-httplib openssl boost"
+#  - gnuradio4-blocks for the qa_* tests' <gnuradio-4.0/testing/NullSources.hpp>,
+#    which they include straight off the default system include path (same
+#    issue as gnuradio4-incubator's qa_ZmqBlocks.cpp).
+DEPENDS = "gnuradio4-core gnuradio4-library gnuradio4-blocks cpp-httplib openssl boost"
 
 # ENABLE_TESTING is this project's own (non-standard) gate for its test/
 # subdirectory; it defaults OFF (no CTest/BUILD_TESTING here), matching the
-# other gnuradio4-* recipes' EXTRA_OECMAKE convention. The qa_* binaries this
-# enables aren't wired up for ptest here (they run only via ctest, which sets
-# GNURADIO4_PLUGIN_DIRECTORIES to the build-tree plugin path per test) --
-# left OFF to avoid building test binaries that go nowhere.
-EXTRA_OECMAKE = "-DENABLE_TESTING=OFF"
+# other gnuradio4-* recipes' EXTRA_OECMAKE convention. Turning it on builds
+# the qa_* binaries (blocks/studio/test) that do_install_ptest below stages.
+EXTRA_OECMAKE = "-DENABLE_TESTING=ON"
+
+# EXTRA_OECMAKE above already builds the qa_* test binaries (part of the
+# default ninja "all" target as a side effect of -DENABLE_TESTING=ON), so
+# do_compile_ptest needs no override -- just stage them for run-ptest.
+do_install_ptest() {
+    install -d ${D}${PTEST_PATH}/studio/test
+    install -m 0755 ${B}/studio/test/qa_* ${D}${PTEST_PATH}/studio/test/
+}
 
 # Gr4StudioBlocksPlugin is a runtime-loaded plugin module
 # (PluginLoader.hpp), not a link-time-only dev artifact: it has no
