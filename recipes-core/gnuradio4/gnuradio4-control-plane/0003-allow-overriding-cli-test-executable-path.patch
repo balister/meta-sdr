@@ -17,7 +17,7 @@ instead.
 Upstream-Status: Pending
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 2eacad9..b484519 100644
+index 88b365b..37d2a18 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -20,6 +20,7 @@ if(DEFINED ENV{GR4CP_GNURADIO4_PREFIX})
@@ -25,10 +25,10 @@ index 2eacad9..b484519 100644
  set(GR4CP_GNURADIO4_PREFIX "${_gr4cp_default_gnuradio4_prefix}" CACHE PATH "Optional prefix containing gnuradio4Config.cmake; leave empty to use CMAKE_PREFIX_PATH/default package discovery")
  set(GR4CP_GNURADIO4_LIB_DIR "" CACHE PATH "Override the runtime library/plugin directory recorded for GNU Radio 4 discovery; leave empty to derive it from where gnuradio4Config.cmake was found (wrong under cross-compilation, where that is the sysroot, not the target install prefix)")
 +set(GR4CP_CLI_TEST_EXECUTABLE "" CACHE FILEPATH "Override the gr4cp-cli path gr4cp_cli_test invokes; leave empty to use the just-built $<TARGET_FILE:gr4cp_cli_exec> (wrong under cross-compilation, where that is a build-host-only path that won't exist once the test binary is deployed to run elsewhere)")
+ set(GR4CP_EXTRA_PLUGIN_DIRECTORIES "" CACHE STRING "Colon-separated plugin directories to search in addition to the ones under the gnuradio4 prefix, for a block library installed under its own prefix")
+ set(GR4CP_PLUGIN_DIRECTORIES "" CACHE STRING "Colon-separated plugin directories that replace the ones derived from the gnuradio4 prefix; use it when only a subset of an installation should be loaded")
 
- # Use ccache if found and enabled
- find_program(CCACHE_PROGRAM ccache)
-@@ -430,9 +431,14 @@ if(NOT EMSCRIPTEN)
+@@ -440,9 +441,14 @@ if(NOT EMSCRIPTEN)
              Threads::Threads
      )
 

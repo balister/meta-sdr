@@ -15,7 +15,7 @@ point it at the real target install location instead.
 Upstream-Status: Pending
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d6a013c..fc94255 100644
+index 42152d4..88b365b 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -19,6 +19,7 @@ if(DEFINED ENV{GR4CP_GNURADIO4_PREFIX})
@@ -23,10 +23,10 @@ index d6a013c..fc94255 100644
  endif()
  set(GR4CP_GNURADIO4_PREFIX "${_gr4cp_default_gnuradio4_prefix}" CACHE PATH "Optional prefix containing gnuradio4Config.cmake; leave empty to use CMAKE_PREFIX_PATH/default package discovery")
 +set(GR4CP_GNURADIO4_LIB_DIR "" CACHE PATH "Override the runtime library/plugin directory recorded for GNU Radio 4 discovery; leave empty to derive it from where gnuradio4Config.cmake was found (wrong under cross-compilation, where that is the sysroot, not the target install prefix)")
+ set(GR4CP_EXTRA_PLUGIN_DIRECTORIES "" CACHE STRING "Colon-separated plugin directories to search in addition to the ones under the gnuradio4 prefix, for a block library installed under its own prefix")
+ set(GR4CP_PLUGIN_DIRECTORIES "" CACHE STRING "Colon-separated plugin directories that replace the ones derived from the gnuradio4 prefix; use it when only a subset of an installation should be loaded")
 
- # Use ccache if found and enabled
- find_program(CCACHE_PROGRAM ccache)
-@@ -141,8 +142,10 @@ if(GR4CP_ENABLE_GR4_CATALOG)
+@@ -143,8 +144,10 @@ if(GR4CP_ENABLE_GR4_CATALOG)
              gr4cp_remove_imported_werror(gnuradio4::gnuradio-core)
              gr4cp_remove_imported_werror(gnuradio4::gnuradio-blocklib-core)
          endif()
