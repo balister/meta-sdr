@@ -15,6 +15,7 @@ DISTRO_FEATURES:append = " opengl x11"
 
 PACKAGECONFIG:pn-gnuradio = "grc zeromq logging"
 PACKAGECONFIG:pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
+PACKAGECONFIG:pn-gnuradio4-blocks = "soapysdr"
 
 LICENSE_FLAGS_ACCEPTED:append = "synaptics-killswitch"
 
