@@ -57,6 +57,8 @@ do_install_ptest() {
             install -m 0755 ${t} ${D}${PTEST_PATH}/blocks/${comp}/test/
         done
     done
+    install -d ${D}${PTEST_PATH}/blocks/sdr/test/soapy_modules
+    install -m 755 ${B}/blocks/sdr/test/soapy_modules/gr-sdr-loopback.so ${D}${PTEST_PATH}/blocks/sdr/test/soapy_modules
 }
 
 # libGr*Shared.so under plugins/ are runtime-loaded plugin modules
