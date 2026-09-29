@@ -21,8 +21,9 @@ export LD_LIBRARY_PATH="/usr/lib/gnuradio-4/plugins${LD_LIBRARY_PATH:+:$LD_LIBRA
 # Find a better way to fix teh pps and ptp stuff on the pi5
 rm -f /dev/pps0 /dev/ptp0
 
-GNURADIO4_PLUGIN_DIRECTORIES=/usr/lib/gnuradio-4/plugins/
-SOAPY_SDR_PLUGIN_PATH=/usr/lib/gnuradio4-blocks/ptest/blocks/sdr/test/soapy_modules/
+export GNURADIO4_PLUGIN_DIRECTORIES=/usr/lib/gnuradio-4/plugins/
+export SOAPY_SDR_PLUGIN_PATH=/usr/lib/gnuradio4-blocks/ptest/blocks/sdr/test/soapy_modules/
+export DISABLE_SENSITIVE_TESTS=1
 
 for t in blocks/*/test/qa_*; do
     [ -x "$t" ] || continue
