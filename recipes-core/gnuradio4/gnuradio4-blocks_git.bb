@@ -52,7 +52,7 @@ do_install_ptest() {
                 # blocks/basic/ directory. We run the binaries directly
                 # instead of through ctest, so that variable is never set
                 # and the build-tree path wouldn't exist on target anyway.
-                qa_apptest_LoadingPlainBlocklibs) continue ;;
+                qa_apptest_LoadingPlainBlocklibs qa_SoapySource) continue ;;
             esac
             install -m 0755 ${t} ${D}${PTEST_PATH}/blocks/${comp}/test/
         done
