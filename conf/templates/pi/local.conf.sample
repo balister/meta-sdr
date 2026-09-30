@@ -17,6 +17,8 @@ PACKAGECONFIG:pn-gnuradio = "grc zeromq logging"
 PACKAGECONFIG:pn-gr-osmosdr = "rtl-sdr hackrf rfspace"
 PACKAGECONFIG:pn-gnuradio4-blocks = "soapysdr"
 
+BBMASK = "gqrx"
+
 LICENSE_FLAGS_ACCEPTED:append = "synaptics-killswitch"
 
 ERROR_QA:remove = "version-going-backwards"
