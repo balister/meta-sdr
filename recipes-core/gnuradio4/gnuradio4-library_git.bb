@@ -25,6 +25,11 @@ DEPENDS = "gnuradio4-core boost-ext-ut cpp-httplib"
 # below are already built by the ordinary do_compile -- nothing to add here.
 EXTRA_OECMAKE = ""
 
+# Upstream builds with -Werror -Wcast-align. SimdFFT.hpp casts float*/double*
+# to simd<T, _Fixed<4>>*, which GCC only warns about on strict-alignment
+# targets such as riscv64, so the build breaks there but not on x86/arm.
+TARGET_CXXFLAGS:append:riscv64 = " -Wno-error=cast-align"
+
 # gnuradio-algorithm is a header-only (CMake INTERFACE) library: ${PN} ships
 # no runtime files and is never produced as a package (see the empty
 # packages-split/gnuradio4-library directory), so ptest.bbclass's default
