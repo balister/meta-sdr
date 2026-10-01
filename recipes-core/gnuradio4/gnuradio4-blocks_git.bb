@@ -57,8 +57,12 @@ do_install_ptest() {
             install -m 0755 ${t} ${D}${PTEST_PATH}/blocks/${comp}/test/
         done
     done
-    install -d ${D}${PTEST_PATH}/blocks/sdr/test/soapy_modules
-    install -m 755 ${B}/blocks/sdr/test/soapy_modules/gr-sdr-loopback.so ${D}${PTEST_PATH}/blocks/sdr/test/soapy_modules
+    # The loopback Soapy module used by the qa_Soapy* tests is only built
+    # with GR4_ENABLE_SDR=ON.
+    if ${@bb.utils.contains('PACKAGECONFIG', 'soapysdr', 'true', 'false', d)}; then
+        install -d ${D}${PTEST_PATH}/blocks/sdr/test/soapy_modules
+        install -m 755 ${B}/blocks/sdr/test/soapy_modules/gr-sdr-loopback.so ${D}${PTEST_PATH}/blocks/sdr/test/soapy_modules
+    fi
 }
 
 # libGr*Shared.so under plugins/ are runtime-loaded plugin modules
