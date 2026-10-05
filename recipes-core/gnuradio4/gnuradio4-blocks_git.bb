@@ -8,12 +8,13 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=main \
+           file://0001-sdr-let-the-tests-find-their-soapy-directories-outsi.patch \
            file://run-ptest \
            "
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "5d20139bc95bc5ef3679e324454460d0807cf949"
+SRCREV = "3326ce183853b14697705337db22d4bf7c1e7c7f"
 
 # NOTE: unable to map the following CMake package dependencies: ut gnuradio4Library SoapySDR httplib gnuradio4 GnuRadioBlockLib
 inherit cmake pkgconfig ptest
@@ -33,8 +34,14 @@ EXTRA_OECMAKE = ""
 # by do_install_ptest's blocks/*/test glob below). Off by default here too,
 # to match upstream and avoid silently growing every image's DEPENDS;
 # enable with PACKAGECONFIG:append:pn-gnuradio4-blocks = " soapysdr".
+#
+# qa_SoapyRaiiWrapper and qa_SoapyIntegration compile in the directory they
+# point SOAPY_SDR_PLUGIN_PATH/SOAPY_SDR_ROOT at (soapy_modules and
+# soapy_empty_root) and override the environment with it, so point
+# GR_SDR_TEST_RUNTIME_DIR (added by the 0001 patch) at where
+# do_install_ptest puts those directories rather than the build tree.
 PACKAGECONFIG ??= ""
-PACKAGECONFIG[soapysdr] = "-DGR4_ENABLE_SDR=ON,-DGR4_ENABLE_SDR=OFF,soapysdr"
+PACKAGECONFIG[soapysdr] = "-DGR4_ENABLE_SDR=ON -DGR_SDR_TEST_RUNTIME_DIR=${PTEST_PATH}/blocks/sdr/test,-DGR4_ENABLE_SDR=OFF,soapysdr"
 
 do_install_ptest() {
     for d in ${B}/blocks/*/test; do
@@ -52,7 +59,7 @@ do_install_ptest() {
                 # blocks/basic/ directory. We run the binaries directly
                 # instead of through ctest, so that variable is never set
                 # and the build-tree path wouldn't exist on target anyway.
-                qa_apptest_LoadingPlainBlocklibs|qa_SoapySource) continue ;;
+                qa_apptest_LoadingPlainBlocklibs) continue ;;
             esac
             install -m 0755 ${t} ${D}${PTEST_PATH}/blocks/${comp}/test/
         done
@@ -62,6 +69,9 @@ do_install_ptest() {
     if ${@bb.utils.contains('PACKAGECONFIG', 'soapysdr', 'true', 'false', d)}; then
         install -d ${D}${PTEST_PATH}/blocks/sdr/test/soapy_modules
         install -m 755 ${B}/blocks/sdr/test/soapy_modules/gr-sdr-loopback.so ${D}${PTEST_PATH}/blocks/sdr/test/soapy_modules
+        # empty on purpose: the Soapy tests set SOAPY_SDR_ROOT to it so that
+        # SoapySDR loads the loopback module alone, not the target's modules.
+        install -d ${D}${PTEST_PATH}/blocks/sdr/test/soapy_empty_root
     fi
 }
 

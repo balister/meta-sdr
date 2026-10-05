@@ -1,0 +1,70 @@
+From 361ac5016005c798a6a8c0b5edb34d64e2a8a69d Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Sun, 4 Oct 2026 12:46:49 -0400
+Subject: [PATCH] sdr: let the tests find their soapy directories outside the
+ build tree
+
+qa_SoapySource, qa_SoapyRaiiWrapper and qa_SoapyIntegration compile in
+the build-tree paths of soapy_modules and soapy_empty_root, and set
+SOAPY_SDR_PLUGIN_PATH and SOAPY_SDR_ROOT to them at start. A test
+installed apart from the build tree, such as a packaged test run on a
+cross-compiled target, then looks for the loopback module in a
+directory that does not exist there, and its binaries carry the build
+host's paths.
+
+Add a GR_SDR_TEST_RUNTIME_DIR cache variable naming the directory that
+holds soapy_modules and soapy_empty_root when the tests run. It
+defaults to the build tree, so a build-tree ctest run is unchanged.
+
+Upstream-Status: Pending
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ blocks/sdr/test/CMakeLists.txt | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/blocks/sdr/test/CMakeLists.txt b/blocks/sdr/test/CMakeLists.txt
+index b239260..dd666f1 100644
+--- a/blocks/sdr/test/CMakeLists.txt
++++ b/blocks/sdr/test/CMakeLists.txt
+@@ -80,8 +80,16 @@ if(TARGET SoapySDR)
+   set(SOAPY_MODULE_DIR ${CMAKE_CURRENT_BINARY_DIR}/soapy_modules)
+   set(SOAPY_EMPTY_ROOT ${CMAKE_CURRENT_BINARY_DIR}/soapy_empty_root)
+   file(MAKE_DIRECTORY ${SOAPY_EMPTY_ROOT})
+-  target_compile_definitions(qa_SoapySource PRIVATE GR_SDR_TEST_SOAPY_MODULE_DIR="${SOAPY_MODULE_DIR}"
+-                                                    GR_SDR_TEST_SOAPY_EMPTY_ROOT="${SOAPY_EMPTY_ROOT}")
++  # the test programs look for soapy_modules and soapy_empty_root under GR_SDR_TEST_RUNTIME_DIR. It defaults to the build
++  # tree. A test installed apart from the build tree, e.g. a packaged test on a cross-compiled target, names its install
++  # directory here.
++  set(GR_SDR_TEST_RUNTIME_DIR
++      ${CMAKE_CURRENT_BINARY_DIR}
++      CACHE PATH "Directory holding soapy_modules and soapy_empty_root when the sdr tests run")
++  set(SOAPY_RUNTIME_MODULE_DIR ${GR_SDR_TEST_RUNTIME_DIR}/soapy_modules)
++  set(SOAPY_RUNTIME_EMPTY_ROOT ${GR_SDR_TEST_RUNTIME_DIR}/soapy_empty_root)
++  target_compile_definitions(qa_SoapySource PRIVATE GR_SDR_TEST_SOAPY_MODULE_DIR="${SOAPY_RUNTIME_MODULE_DIR}"
++                                                    GR_SDR_TEST_SOAPY_EMPTY_ROOT="${SOAPY_RUNTIME_EMPTY_ROOT}")
+   if(SOAPY_CXX_ABI_COMPATIBLE)
+     add_dependencies(qa_SoapySource gr-sdr-loopback)
+     add_custom_command(
+@@ -175,8 +183,8 @@ if(TARGET SoapySDR)
+     add_test(NAME qa_SoapyRaiiWrapper COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR}
+                                               ${CMAKE_CURRENT_BINARY_DIR}/qa_SoapyRaiiWrapper)
+     # loads the loopback module alone, as qa_SoapySource does. It names no other driver.
+-    target_compile_definitions(qa_SoapyRaiiWrapper PRIVATE GR_SDR_TEST_SOAPY_MODULE_DIR="${SOAPY_MODULE_DIR}"
+-                                                           GR_SDR_TEST_SOAPY_EMPTY_ROOT="${SOAPY_EMPTY_ROOT}")
++    target_compile_definitions(qa_SoapyRaiiWrapper PRIVATE GR_SDR_TEST_SOAPY_MODULE_DIR="${SOAPY_RUNTIME_MODULE_DIR}"
++                                                           GR_SDR_TEST_SOAPY_EMPTY_ROOT="${SOAPY_RUNTIME_EMPTY_ROOT}")
+     set_tests_properties(
+       qa_SoapyRaiiWrapper
+       PROPERTIES
+@@ -205,8 +213,8 @@ if(TARGET SoapySDR)
+                                               ${CMAKE_CURRENT_BINARY_DIR}/qa_SoapyIntegration)
+     # The test loads the loopback module alone, as qa_SoapySource does. Its LimeSDR cases run only in a direct run with
+     # GR_SDR_TEST_HARDWARE=1.
+-    target_compile_definitions(qa_SoapyIntegration PRIVATE GR_SDR_TEST_SOAPY_MODULE_DIR="${SOAPY_MODULE_DIR}"
+-                                                           GR_SDR_TEST_SOAPY_EMPTY_ROOT="${SOAPY_EMPTY_ROOT}")
++    target_compile_definitions(qa_SoapyIntegration PRIVATE GR_SDR_TEST_SOAPY_MODULE_DIR="${SOAPY_RUNTIME_MODULE_DIR}"
++                                                           GR_SDR_TEST_SOAPY_EMPTY_ROOT="${SOAPY_RUNTIME_EMPTY_ROOT}")
+     set_tests_properties(
+       qa_SoapyIntegration
+       PROPERTIES
