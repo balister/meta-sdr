@@ -19,6 +19,9 @@ export GR_CONF_CONTROLPORT_ON=False
 # which would otherwise prefix our PASS/FAIL line for the C++ tests.
 export BOOST_TEST_COLOR_OUTPUT=no
 
+# The gr-qtgui QA tests create Qt widgets; there is no display on target.
+export QT_QPA_PLATFORM=offscreen
+
 # Python's unittest reports failing test cases with its own "FAIL: ..." and
 # "ERROR: ..." lines, which ptest log parsers would mistake for results, so
 # indent each test's output before printing the real result line.

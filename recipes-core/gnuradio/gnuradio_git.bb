@@ -8,9 +8,12 @@ DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
            python3-mako-native git-native gmp libsndfile1 \
            python3-packaging-native"
 
-#Available PACKAGECONFIG options are grc uhd logging orc ctrlport zeromq staticlibs
+#Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
 PACKAGECONFIG ??= "grc zeromq"
 
+# qtgui needs meta-qt6 (qtbase, qtsvg) and the qwt-qt6 and python3-pyqt6
+# recipes in meta-sdr's dynamic-layers/qt6-layer.
+PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qtbase qtsvg qwt-qt6"
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, , "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
@@ -20,6 +23,7 @@ PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq pyt
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
 inherit setuptools3-base cmake pkgconfig python3native mime mime-xdg ptest
+inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui', 'qt6-cmake', '', d)}
 
 export BUILD_SYS
 export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
@@ -35,6 +39,8 @@ RRECOMMENDS:${PN} = "${GR_PACKAGES}"
 RDEPENDS:${PN}-grc = "python3-mako python3-pyyaml python3-pygobject gtk+3 cairo adwaita-icon-theme"
 
 RDEPENDS:${PN}-zeromq = "python3-pyzmq"
+
+RDEPENDS:${PN}-qtgui = "python3-pyqt6"
 
 C_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
@@ -63,6 +69,7 @@ GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-doc gnuradio-zeromq \
             "
 GR_PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'gnuradio-ptest', '', d)}"
+GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
 
 PACKAGES = "gnuradio-dbg gnuradio-staticdev gnuradio-dev ${GR_PACKAGES} gnuradio"
@@ -226,13 +233,11 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://0001-Add-a-sane-default-path-to-the-qa_wavfile-test.patch \
            file://0001-qa_type_conversions.py-This-test-fails-on-a-ZCU104-a.patch \
            file://0001-If-we-can-t-find-gr-newmod-in-the-test-directory-try.patch \
+           file://0001-gr-qtgui-Don-t-build-the-fosphor-display-against-Ope.patch \
            file://run-ptest \
           "
 
-# gr-qtgui requires Qt6, Qwt (Qt6) and PyQt6 upstream; Qt5 support was
-# removed, so keep it disabled until a qtgui PACKAGECONFIG for Qt6 is added.
 EXTRA_OECMAKE = "\
-                 -DENABLE_GR_QTGUI=OFF \
                  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                  -DPYBIND11_PYTHONLIBS_OVERWRITE=0 \
                  -DENABLE_GR_ATSC=FALSE \
@@ -298,3 +303,5 @@ do_install_ptest() {
 }
 
 RDEPENDS:${PN}-ptest += "python3-unittest"
+# run-ptest runs the qtgui QA tests on Qt's offscreen platform plugin
+RDEPENDS:${PN}-ptest += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui', 'qtbase-plugins', '', d)}"

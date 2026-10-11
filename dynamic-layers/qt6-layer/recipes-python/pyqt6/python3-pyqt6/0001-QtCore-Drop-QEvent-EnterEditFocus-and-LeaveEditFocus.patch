@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Sun, 11 Oct 2026 12:00:00 -0400
+Subject: [PATCH] QtCore: Drop QEvent::EnterEditFocus and LeaveEditFocus
+
+Qt 6.13 removed these keypad-navigation event types, so the generated
+QEvent wrapper fails to compile against it:
+
+  sipQtCoreQEvent.cpp:624:57: error: 'EnterEditFocus' is not a member of 'QEvent'
+
+Upstream-Status: Inappropriate [PyQt6 6.11 targets Qt <= 6.11; drop once PyQt6 supports Qt 6.13]
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+--- a/sip/QtCore/qcoreevent.sip
++++ b/sip/QtCore/qcoreevent.sip
+@@ -200,8 +200,6 @@
+         PlatformSurface,
+         TabletTrackingChange,
+         GraphicsSceneLeave,
+-        EnterEditFocus,
+-        LeaveEditFocus,
+ %If (Qt_6_6_0 -)
+         DevicePixelRatioChange,
+ %End
