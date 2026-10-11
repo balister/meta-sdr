@@ -13,7 +13,7 @@
 
 DISTRO_FEATURES:append = " opengl x11"
 
-BBMASK = "rtimulib gqrx"
+BBMASK = "rtimulib"
 MACHINE_EXTRA_RRECOMMENDS:remove_ettus-e300 = "rtimulib rtimulib-conf"
 
 #
