@@ -8,12 +8,9 @@ DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
            python3-mako-native git-native gmp libsndfile1 \
            python3-packaging-native"
 
-#Available PACKAGECONFIG options are qtgui5 grc uhd logging orc ctrlport zeromq staticlibs
-PACKAGECONFIG ??= "qtgui5 grc zeromq"
+#Available PACKAGECONFIG options are grc uhd logging orc ctrlport zeromq staticlibs
+PACKAGECONFIG ??= "grc zeromq"
 
-PACKAGECONFIG[qtgui5] = "-DENABLE_GR_QTGUI=ON \
-                 ,-DENABLE_GR_QTGUI=OFF,qtbase qwt-qt5 python3-pyqt5 \
-                 ,python3-pyqt5"
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, , "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
 PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
@@ -23,7 +20,6 @@ PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq pyt
 PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
 inherit setuptools3-base cmake pkgconfig python3native mime mime-xdg ptest
-inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui5',' cmake_qt5', '', d)}
 
 export BUILD_SYS
 export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
@@ -67,8 +63,6 @@ GR_PACKAGES = "gnuradio-analog gnuradio-audio gnuradio-blocks \
             gnuradio-doc gnuradio-zeromq \
             "
 GR_PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'gnuradio-ptest', '', d)}"
-GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui4', 'gnuradio-qtgui', '', d)}"
-GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'qtgui5', 'gnuradio-qtgui', '', d)}"
 GR_PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'grc', 'gnuradio-grc', '', d)}"
 
 PACKAGES = "gnuradio-dbg gnuradio-staticdev gnuradio-dev ${GR_PACKAGES} gnuradio"
@@ -220,7 +214,7 @@ PV = "3.10.12.0+git${SRCPV}"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV = "dc812a58372edafee22fe811c07f422ad811fb8d"
+SRCREV = "7a45079b1d42ba7b94b50f23c1414c8d2f334622"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
@@ -235,7 +229,10 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://run-ptest \
           "
 
+# gr-qtgui requires Qt6, Qwt (Qt6) and PyQt6 upstream; Qt5 support was
+# removed, so keep it disabled until a qtgui PACKAGECONFIG for Qt6 is added.
 EXTRA_OECMAKE = "\
+                 -DENABLE_GR_QTGUI=OFF \
                  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                  -DPYBIND11_PYTHONLIBS_OVERWRITE=0 \
                  -DENABLE_GR_ATSC=FALSE \
