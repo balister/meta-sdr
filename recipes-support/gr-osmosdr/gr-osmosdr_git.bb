@@ -27,5 +27,8 @@ EXTRA_OECMAKE = "-DENABLE_DEFAULT=OFF -DENABLE_PYTHON=ON"
 PV = "0.2.4"
 
 SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
+           file://0001-CMakeLists.txt-Don-t-require-the-Boost-system-compon.patch \
+           file://0002-Use-the-keyword-form-of-GR_REGISTER_COMPONENT.patch \
+           file://0003-lib-Install-the-library-without-GR_LIBRARY_FOO.patch \
           "
 SRCREV = "82d6b6db78c829ddf7511826bd2b64be2bc189d5"

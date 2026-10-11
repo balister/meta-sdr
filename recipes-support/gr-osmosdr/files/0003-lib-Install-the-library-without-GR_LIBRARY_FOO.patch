@@ -1,0 +1,55 @@
+From 75318d189e56233dfe83b54c51b4a9ec4252283a Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@opensdr.com>
+Date: Sun, 11 Oct 2026 13:10:39 -0400
+Subject: [PATCH] lib: Install the library without GR_LIBRARY_FOO
+
+On GNU Radio's main branch GR_LIBRARY_FOO only registers the target
+with the active component and no longer installs it, so the library,
+its exported targets and its CMake config were silently dropped. Inline
+the install rules GR_LIBRARY_FOO had in GNU Radio 3.10.
+
+Upstream-Status: Inappropriate [GNU Radio main branch only]
+Signed-off-by: Philip Balister <philip@opensdr.com>
+---
+ lib/CMakeLists.txt | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 60e649a..71d4d1c 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -284,5 +284,29 @@ target_link_libraries(gnuradio-osmosdr ${gr_osmosdr_libs})
+ ########################################################################
+ # Install built library files
+ ########################################################################
+-include(GrMiscUtils)
+-GR_LIBRARY_FOO(gnuradio-osmosdr)
++set_target_properties(gnuradio-osmosdr PROPERTIES SOVERSION ${LIBVER})
++set_target_properties(gnuradio-osmosdr PROPERTIES VERSION ${VERSION})
++
++install(
++    TARGETS gnuradio-osmosdr
++    EXPORT gnuradio-osmosdr-export
++    LIBRARY DESTINATION ${GR_LIBRARY_DIR} # .so/.dylib file
++    ARCHIVE DESTINATION ${GR_LIBRARY_DIR} # .lib file
++    RUNTIME DESTINATION ${GR_RUNTIME_DIR} # .dll file
++)
++
++install(
++    EXPORT gnuradio-osmosdr-export
++    FILE gnuradio-osmosdrTargets.cmake
++    NAMESPACE gnuradio::
++    DESTINATION ${GR_CMAKE_DIR})
++
++include(CMakePackageConfigHelpers)
++set(TARGET gnuradio-osmosdr)
++set(TARGET_DEPENDENCIES)
++configure_package_config_file(
++    ${PROJECT_SOURCE_DIR}/cmake/Modules/targetConfig.cmake.in
++    ${CMAKE_CURRENT_BINARY_DIR}/cmake/Modules/gnuradio-osmosdrConfig.cmake
++    INSTALL_DESTINATION ${GR_CMAKE_DIR})
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/Modules/gnuradio-osmosdrConfig.cmake
++        DESTINATION ${GR_CMAKE_DIR})
+-- 
+2.56.0
+

@@ -1,0 +1,194 @@
+From 2988dd298836112a7edbbd123da29bd8eefe9ba3 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@opensdr.com>
+Date: Sun, 11 Oct 2026 13:09:16 -0400
+Subject: [PATCH] Use the keyword form of GR_REGISTER_COMPONENT
+
+gr-osmosdr picks up GrComponent.cmake from the installed GNU Radio.
+GNU Radio's main branch changed GR_REGISTER_COMPONENT to take NAME, VAR
+and REQUIRED_TPLS keywords, so the positional calls here make
+cmake_dependent_option fail. NO_INSTALL keeps the components from
+becoming GNU Radio's active install component.
+
+Upstream-Status: Inappropriate [GNU Radio main branch only]
+Signed-off-by: Philip Balister <philip@opensdr.com>
+---
+ CMakeLists.txt     |  5 +----
+ lib/CMakeLists.txt | 34 +++++++++++++++++-----------------
+ 2 files changed, 18 insertions(+), 21 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d2adbcb..36b2265 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -184,10 +184,7 @@ find_package(Doxygen)
+ find_package(PythonLibs 3)
+ find_package(pybind11)
+ 
+-GR_REGISTER_COMPONENT("Python support" ENABLE_PYTHON
+-    PYTHONLIBS_FOUND
+-    pybind11_FOUND
+-)
++GR_REGISTER_COMPONENT(NAME "Python support" VAR ENABLE_PYTHON NO_INSTALL REQUIRED_TPLS PYTHONLIBS_FOUND pybind11_FOUND)
+ 
+ ########################################################################
+ # Install directories
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index f2b453a..60e649a 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -128,7 +128,7 @@ set_source_files_properties(
+ ########################################################################
+ # Setup IQBalance component
+ ########################################################################
+-GR_REGISTER_COMPONENT("Osmocom IQ Imbalance Correction" ENABLE_IQBALANCE gnuradio-iqbalance_FOUND)
++GR_REGISTER_COMPONENT(NAME "Osmocom IQ Imbalance Correction" VAR ENABLE_IQBALANCE NO_INSTALL REQUIRED_TPLS gnuradio-iqbalance_FOUND)
+ if(ENABLE_IQBALANCE)
+     add_definitions(-DHAVE_IQBALANCE=1)
+     target_include_directories(gnuradio-osmosdr PRIVATE ${gnuradio-iqbalance_INCLUDE_DIRS})
+@@ -138,7 +138,7 @@ endif(ENABLE_IQBALANCE)
+ ########################################################################
+ # Setup FCD component
+ ########################################################################
+-GR_REGISTER_COMPONENT("FUNcube Dongle" ENABLE_FCD GNURADIO_FUNCUBE_FOUND)
++GR_REGISTER_COMPONENT(NAME "FUNcube Dongle" VAR ENABLE_FCD NO_INSTALL REQUIRED_TPLS GNURADIO_FUNCUBE_FOUND)
+ if(ENABLE_FCD)
+     add_subdirectory(fcd)
+ endif(ENABLE_FCD)
+@@ -146,7 +146,7 @@ endif(ENABLE_FCD)
+ ########################################################################
+ # Setup File component
+ ########################################################################
+-GR_REGISTER_COMPONENT("IQ File Source & Sink" ENABLE_FILE gnuradio-blocks_FOUND)
++GR_REGISTER_COMPONENT(NAME "IQ File Source & Sink" VAR ENABLE_FILE NO_INSTALL REQUIRED_TPLS gnuradio-blocks_FOUND)
+ if(ENABLE_FILE)
+     add_subdirectory(file)
+ endif(ENABLE_FILE)
+@@ -154,7 +154,7 @@ endif(ENABLE_FILE)
+ ########################################################################
+ # Setup RTL component
+ ########################################################################
+-GR_REGISTER_COMPONENT("Osmocom RTLSDR" ENABLE_RTL LIBRTLSDR_FOUND)
++GR_REGISTER_COMPONENT(NAME "Osmocom RTLSDR" VAR ENABLE_RTL NO_INSTALL REQUIRED_TPLS LIBRTLSDR_FOUND)
+ if(ENABLE_RTL)
+     add_subdirectory(rtl)
+ endif(ENABLE_RTL)
+@@ -162,7 +162,7 @@ endif(ENABLE_RTL)
+ ########################################################################
+ # Setup RTL_TCP component
+ ########################################################################
+-GR_REGISTER_COMPONENT("RTLSDR TCP Client" ENABLE_RTL_TCP gnuradio-blocks_FOUND)
++GR_REGISTER_COMPONENT(NAME "RTLSDR TCP Client" VAR ENABLE_RTL_TCP NO_INSTALL REQUIRED_TPLS gnuradio-blocks_FOUND)
+ if(ENABLE_RTL_TCP)
+     add_subdirectory(rtl_tcp)
+ endif(ENABLE_RTL_TCP)
+@@ -170,7 +170,7 @@ endif(ENABLE_RTL_TCP)
+ ########################################################################
+ # Setup UHD component
+ ########################################################################
+-GR_REGISTER_COMPONENT("Ettus USRP Devices" ENABLE_UHD UHD_FOUND gnuradio-uhd_FOUND)
++GR_REGISTER_COMPONENT(NAME "Ettus USRP Devices" VAR ENABLE_UHD NO_INSTALL REQUIRED_TPLS UHD_FOUND gnuradio-uhd_FOUND)
+ if(ENABLE_UHD)
+     add_subdirectory(uhd)
+ endif(ENABLE_UHD)
+@@ -178,7 +178,7 @@ endif(ENABLE_UHD)
+ ########################################################################
+ # Setup MiriSDR component
+ ########################################################################
+-GR_REGISTER_COMPONENT("Osmocom MiriSDR" ENABLE_MIRI LIBMIRISDR_FOUND)
++GR_REGISTER_COMPONENT(NAME "Osmocom MiriSDR" VAR ENABLE_MIRI NO_INSTALL REQUIRED_TPLS LIBMIRISDR_FOUND)
+ if(ENABLE_MIRI)
+     add_subdirectory(miri)
+ endif(ENABLE_MIRI)
+@@ -187,7 +187,7 @@ endif(ENABLE_MIRI)
+ # Setup SDRplay component
+ ########################################################################
+ if(ENABLE_NONFREE)
+-GR_REGISTER_COMPONENT("SDRplay RSP (NONFREE)" ENABLE_SDRPLAY LIBSDRPLAY_FOUND)
++GR_REGISTER_COMPONENT(NAME "SDRplay RSP (NONFREE)" VAR ENABLE_SDRPLAY NO_INSTALL REQUIRED_TPLS LIBSDRPLAY_FOUND)
+ if(ENABLE_SDRPLAY)
+     add_subdirectory(sdrplay)
+ endif(ENABLE_SDRPLAY)
+@@ -196,7 +196,7 @@ endif(ENABLE_NONFREE)
+ ########################################################################
+ # Setup HackRF component
+ ########################################################################
+-GR_REGISTER_COMPONENT("HackRF & rad1o Badge" ENABLE_HACKRF LIBHACKRF_FOUND)
++GR_REGISTER_COMPONENT(NAME "HackRF & rad1o Badge" VAR ENABLE_HACKRF NO_INSTALL REQUIRED_TPLS LIBHACKRF_FOUND)
+ if(ENABLE_HACKRF)
+     add_subdirectory(hackrf)
+ endif(ENABLE_HACKRF)
+@@ -204,7 +204,7 @@ endif(ENABLE_HACKRF)
+ ########################################################################
+ # Setup bladeRF component
+ ########################################################################
+-GR_REGISTER_COMPONENT("nuand bladeRF" ENABLE_BLADERF LIBBLADERF_FOUND)
++GR_REGISTER_COMPONENT(NAME "nuand bladeRF" VAR ENABLE_BLADERF NO_INSTALL REQUIRED_TPLS LIBBLADERF_FOUND)
+ if(ENABLE_BLADERF)
+     add_subdirectory(bladerf)
+ endif(ENABLE_BLADERF)
+@@ -212,7 +212,7 @@ endif(ENABLE_BLADERF)
+ ########################################################################
+ # Setup RFSPACE component
+ ########################################################################
+-GR_REGISTER_COMPONENT("RFSPACE Receivers" ENABLE_RFSPACE)
++GR_REGISTER_COMPONENT(NAME "RFSPACE Receivers" VAR ENABLE_RFSPACE NO_INSTALL)
+ if(ENABLE_RFSPACE)
+     add_subdirectory(rfspace)
+ endif(ENABLE_RFSPACE)
+@@ -220,7 +220,7 @@ endif(ENABLE_RFSPACE)
+ ########################################################################
+ # Setup AIRSPY component
+ ########################################################################
+-GR_REGISTER_COMPONENT("AIRSPY Receiver" ENABLE_AIRSPY LIBAIRSPY_FOUND)
++GR_REGISTER_COMPONENT(NAME "AIRSPY Receiver" VAR ENABLE_AIRSPY NO_INSTALL REQUIRED_TPLS LIBAIRSPY_FOUND)
+ if(ENABLE_AIRSPY)
+     add_subdirectory(airspy)
+ endif(ENABLE_AIRSPY)
+@@ -228,7 +228,7 @@ endif(ENABLE_AIRSPY)
+ ########################################################################
+ # Setup AIRSPYHF component
+ ########################################################################
+-GR_REGISTER_COMPONENT("AIRSPY HF+ Receiver" ENABLE_AIRSPYHF LIBAIRSPYHF_FOUND)
++GR_REGISTER_COMPONENT(NAME "AIRSPY HF+ Receiver" VAR ENABLE_AIRSPYHF NO_INSTALL REQUIRED_TPLS LIBAIRSPYHF_FOUND)
+ if(ENABLE_AIRSPYHF)
+     add_subdirectory(airspyhf)
+ endif(ENABLE_AIRSPYHF)
+@@ -236,7 +236,7 @@ endif(ENABLE_AIRSPYHF)
+ ########################################################################
+ # Setup SoapySDR component
+ ########################################################################
+-GR_REGISTER_COMPONENT("SoapySDR support" ENABLE_SOAPY SoapySDR_FOUND)
++GR_REGISTER_COMPONENT(NAME "SoapySDR support" VAR ENABLE_SOAPY NO_INSTALL REQUIRED_TPLS SoapySDR_FOUND)
+ if(ENABLE_SOAPY)
+     add_subdirectory(soapy)
+ endif(ENABLE_SOAPY)
+@@ -244,7 +244,7 @@ endif(ENABLE_SOAPY)
+ ########################################################################
+ # Setup Red Pitaya component
+ ########################################################################
+-GR_REGISTER_COMPONENT("Red Pitaya SDR" ENABLE_REDPITAYA)
++GR_REGISTER_COMPONENT(NAME "Red Pitaya SDR" VAR ENABLE_REDPITAYA NO_INSTALL)
+ if(ENABLE_REDPITAYA)
+     add_subdirectory(redpitaya)
+ endif(ENABLE_REDPITAYA)
+@@ -252,7 +252,7 @@ endif(ENABLE_REDPITAYA)
+ ########################################################################
+ # Setup FreeSRP component
+ ########################################################################
+-GR_REGISTER_COMPONENT("FreeSRP support" ENABLE_FREESRP LIBFREESRP_FOUND)
++GR_REGISTER_COMPONENT(NAME "FreeSRP support" VAR ENABLE_FREESRP NO_INSTALL REQUIRED_TPLS LIBFREESRP_FOUND)
+ if(ENABLE_FREESRP)
+     add_subdirectory(freesrp)
+ endif(ENABLE_FREESRP)
+@@ -260,7 +260,7 @@ endif(ENABLE_FREESRP)
+ ########################################################################
+ # Setup XTRX component
+ ########################################################################
+-GR_REGISTER_COMPONENT("XTRX SDR" ENABLE_XTRX LIBXTRX_FOUND)
++GR_REGISTER_COMPONENT(NAME "XTRX SDR" VAR ENABLE_XTRX NO_INSTALL REQUIRED_TPLS LIBXTRX_FOUND)
+ if(ENABLE_XTRX)
+     add_subdirectory(xtrx)
+ endif(ENABLE_XTRX)
+-- 
+2.56.0
+
