@@ -8,8 +8,10 @@ URI: git://github.com/openembedded/meta-openembedded.git
 branch: master
 revision: HEAD
 
-URI: https://github.com/meta-qt5/meta-qt5.git
-branch: master
+Optional, for the gnuradio qtgui PACKAGECONFIG (Qt6):
+
+URI: https://code.qt.io/yocto/meta-qt6.git
+branch: dev
 revision: HEAD
 
 From meta-openembedded, you need the following layers:

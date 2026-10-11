@@ -23,5 +23,5 @@ BBLAYERS ?= " \
   ##COREBASE##/../meta-openembedded/meta-multimedia \
   ##COREBASE##/../meta-xilinx-minimal \
   ##COREBASE##/../meta-sdr \
-  ##COREBASE##/../meta-qt5 \
+  ##COREBASE##/../meta-qt6 \
   "
