@@ -1,4 +1,57 @@
 #!/bin/sh
+# Run the gnuradio QA tests and report results in the PASS/FAIL format
+# ptest-runner expects.
+#
+# These are run directly rather than through ctest/CTestTestfile.cmake:
+# when cross compiling, GrTest.cmake never registers the C++ QA binaries
+# with ctest, and the CTestTestfile.cmake files copied out of the build tree
+# still refer to their test binaries/scripts by build-tree paths.
 
-ctest CTestTestfile.cmake
+RET=0
+TOP=$(pwd)
 
+# The environment GrTest.cmake sets for native test runs; it leaves these
+# out of the generated *_test.sh wrappers when cross compiling.
+export GR_DONT_LOAD_PREFS=1
+export GR_CONF_CONTROLPORT_ON=False
+
+# Boost.Test ends its report with a color reset sequence and no newline,
+# which would otherwise prefix our PASS/FAIL line for the C++ tests.
+export BOOST_TEST_COLOR_OUTPUT=no
+
+# Python's unittest reports failing test cases with its own "FAIL: ..." and
+# "ERROR: ..." lines, which ptest log parsers would mistake for results, so
+# indent each test's output before printing the real result line.
+LOG=$(mktemp)
+trap 'rm -f "$LOG"' EXIT
+
+run_test() {
+    name=$1
+    shift
+    if "$@" > "$LOG" 2>&1; then
+        result=PASS
+    else
+        result=FAIL
+        RET=1
+    fi
+    sed 's/^/    /' "$LOG"
+    echo "$result: $name"
+}
+
+# C++ QA tests
+for t in $(find . -type f \( -name "*_qa_*.cc" -o -name gr_fec_rstest \) | sort); do
+    [ -x "$t" ] || continue
+    run_test "$(basename "$t")" "$t"
+done
+
+# Python QA tests: run each from its own directory, which is where it looks
+# for its helper modules and fixture files.
+for t in $(find . -type f \( -name "qa_*.py" -o -name "test_modtool.py" \) | sort); do
+    dir=$(dirname "$t")
+    name=$(basename "$t")
+    cd "$dir"
+    run_test "$name" python3 -B "$name"
+    cd "$TOP"
+done
+
+exit $RET

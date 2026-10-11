@@ -255,22 +255,49 @@ do_install:append() {
     find ${D} -name "*.pyo" -exec rm {} \;
 }
 
+# ENABLE_TESTING (default ON upstream) already builds the C++ QA binaries
+# (<component>_qa_*.cc, named after their source file, and gr_fec_rstest) as
+# part of the ordinary do_compile, and generates a <test>_test.sh wrapper next
+# to each Python QA test in the build tree. When cross compiling, GrTest.cmake
+# never registers the C++ binaries with ctest, and each wrapper is reduced to
+# a bare "python3 -B <script>" with no environment, so rather than shipping
+# the CTestTestfile.cmake files and running ctest on target, stage the test
+# binaries and scripts in a tree mirroring ${B} and have run-ptest run them
+# directly -- the same approach as the gnuradio4-* recipes.
 do_install_ptest() {
-    mkdir -p ${D}${PTEST_PATH}
     cd ${B}
-    find . -name "qa*sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name test_modtool_test.sh -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name "gr_fec_rstest" -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${B}||g" {} \;
-    find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${S}||g" {} \;
 
+    # Python QA tests: install exactly the scripts the generated wrappers
+    # run (the last word of each wrapper's command line), so tests upstream
+    # disabled in CMake stay disabled here too.
+    for sh in $(find . -name "*_test.sh"); do
+        dir=$(dirname ${sh})
+        py=$(sed -n 2p ${sh} | awk '{print $NF}')
+        install -d ${D}${PTEST_PATH}/${dir}
+        install -m 0644 ${S}/${dir}/${py} ${D}${PTEST_PATH}/${dir}/
+    done
+
+    # C++ QA tests
+    for t in $(find . -type f -perm -u+x \( -name "*_qa_*.cc" -o -name gr_fec_rstest \)); do
+        install -d ${D}${PTEST_PATH}/$(dirname ${t})
+        install -m 0755 ${t} ${D}${PTEST_PATH}/$(dirname ${t})/
+    done
+
+    # Helper modules and fixture files the Python QA tests load relative to
+    # their own directory (run-ptest runs each test from its directory):
+    # _qa_helper*.py and file_taps_loader.py are imported as local modules,
+    # qa_wavfile reads its .wav/.mp3 inputs from the current directory (see
+    # 0001-Add-a-sane-default-path-to-the-qa_wavfile-test.patch), and
+    # qa_fecapi_ldpc reads ../../ldpc_alist/*.alist.
     cd ${S}
-    find . -name "qa*py" -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name "_qa*py" -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name "*.alist" -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name file_taps_loader.py -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name test_16bit_1chunk.wav -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name test_16bit_1chunk_normal.wav -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find . -name test_modtool.py -exec cp --parents {} ${D}${PTEST_PATH} \;
+    for f in gr-fec/python/fec/_qa_helper*.py \
+             gr-filter/python/filter/file_taps_loader.py \
+             gr-blocks/python/blocks/test_16bit_1chunk.wav \
+             gr-blocks/python/blocks/test_16bit_1chunk_normal.wav \
+             gr-blocks/python/blocks/test_no_info_frame.mp3 \
+             gr-fec/ldpc_alist/*.alist; do
+        install -D -m 0644 ${f} ${D}${PTEST_PATH}/${f}
+    done
 }
+
+RDEPENDS:${PN}-ptest += "python3-unittest"
