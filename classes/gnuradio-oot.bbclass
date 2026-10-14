@@ -16,6 +16,10 @@ EXTRA_OECMAKE:append = " \
     -DENABLE_DOXYGEN=OFF \
     "
 
+do_install:append() {
+        install -Dm 0755 ${B}/lib/*.so* ${D}${libdir}/
+}
+
 INSANE_SKIP:${PN}:append = " dev-so already-stripped"
 FILES_SOLIBSDEV = ""
 FILES:${PN} += " \
