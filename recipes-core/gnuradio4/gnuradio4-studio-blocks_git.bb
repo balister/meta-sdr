@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-studio.git;protocol=https;branch=
            "
 
 PV = "0.1.0+git"
-SRCREV = "1ac1cdac517e4654c4515492a9fa544fb0492502"
+SRCREV = "9087dd5c94815883d198dd5bbb0ee1a9ac1d20a3"
 
 S = "${UNPACKDIR}/blocks"
 
