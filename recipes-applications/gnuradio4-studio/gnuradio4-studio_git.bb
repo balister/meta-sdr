@@ -203,7 +203,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-studio.git;protocol=https;branch=
            "
 
 PV = "0.1.0+git"
-SRCREV = "006923a25f031e7c7cbae634ecaca4c5c75e3280"
+SRCREV = "9087dd5c94815883d198dd5bbb0ee1a9ac1d20a3"
 
 inherit npm
 
