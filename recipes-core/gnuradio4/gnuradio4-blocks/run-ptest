@@ -17,10 +17,6 @@ RET=0
 # can't resolve them at process startup without help.
 export LD_LIBRARY_PATH="/usr/lib/gnuradio-4/plugins${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
-# This is an awful hack to get QA to pass on the raspberry pi5
-# Find a better way to fix teh pps and ptp stuff on the pi5
-rm -f /dev/pps0 /dev/ptp0
-
 export GNURADIO4_PLUGIN_DIRECTORIES=/usr/lib/gnuradio-4/plugins/
 export SOAPY_SDR_PLUGIN_PATH=/usr/lib/gnuradio4-blocks/ptest/blocks/sdr/test/soapy_modules/
 export DISABLE_SENSITIVE_TESTS=1

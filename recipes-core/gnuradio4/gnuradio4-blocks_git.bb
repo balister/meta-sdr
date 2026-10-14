@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "3326ce183853b14697705337db22d4bf7c1e7c7f"
+SRCREV = "df6af22118d16ffbda1e223922fb5795f68ef1fa"
 
 # NOTE: unable to map the following CMake package dependencies: ut gnuradio4Library SoapySDR httplib gnuradio4 GnuRadioBlockLib
 inherit cmake pkgconfig ptest
@@ -29,8 +29,8 @@ EXTRA_OECMAKE = ""
 
 # GR4_ENABLE_SDR (default OFF upstream) gates the find_package(SoapySDR)
 # call in CMakeLists.txt, which in turn gates blocks/sdr's `if(TARGET
-# SoapySDR)` block (RTL2832 + Soapy source/sink blocks, plus
-# qa_RTL2832Source/qa_Soapy* under blocks/sdr/test picked up automatically
+# SoapySDR)` block (Soapy source/sink blocks, plus qa_Soapy* under
+# blocks/sdr/test picked up automatically
 # by do_install_ptest's blocks/*/test glob below). Off by default here too,
 # to match upstream and avoid silently growing every image's DEPENDS;
 # enable with PACKAGECONFIG:append:pn-gnuradio4-blocks = " soapysdr".
