@@ -1,0 +1,61 @@
+From: Philip Balister <philip@balister.org>
+Subject: [PATCH] BlockingBackoff: enter work() through traverseBlockListAsWork()
+
+gnuradio4-core 39f9ce3 ("scheduler: a stop or a pause reaches blocks
+between their work() calls") replaced the scheduler's boolean
+_workQuiescenceRequested with the counter _nWorkQuiescenceRequests and
+added traverseBlockListAsWork() for schedulers that supply their own
+poolWorker(). BlockingBackoff open-coded the old quiescence handshake and
+no longer compiles. Use the helper, which also records the working
+scheduler for the thread as core's own workers now do.
+
+Upstream-Status: Pending
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+--- a/schedulers/include/gnuradio-4.0/scheduler/BlockingBackoff.hpp	2026-10-13 17:39:54.192778234 -0400
++++ b/schedulers/include/gnuradio-4.0/scheduler/BlockingBackoff.hpp	2026-10-13 17:40:00.520426084 -0400
+@@ -8,6 +8,7 @@
+ #include <format>
+ #include <iterator>
+ #include <memory>
++#include <optional>
+ #include <ranges>
+ #include <thread>
+ #include <tuple>
+@@ -108,26 +109,16 @@
+             }
+ 
+             if (activeState == RUNNING) {
+-                if (gr::atomic_ref(this->_workQuiescenceRequested).load_acquire()) {
+-                    std::this_thread::yield();
+-                } else {
+-                    gr::atomic_ref(this->_nWorkersInWork).fetch_add(1UZ);
+-                    if (gr::atomic_ref(this->_workQuiescenceRequested).load_acquire()) {
+-                        gr::atomic_ref(this->_nWorkersInWork).fetch_sub(1UZ);
+-                    } else {
+-                        const gr::work::Result result = this->traverseBlockListOnce(localBlockList);
+-                        gr::atomic_ref(this->_nWorkersInWork).fetch_sub(1UZ);
+-
+-                        if (result.status == gr::work::Status::DONE) {
+-                            break;
+-                        }
+-                        if (result.status == gr::work::Status::ERROR) {
+-                            this->emitErrorMessageIfAny("LifecycleState (ERROR)", this->changeStateTo(ERROR));
+-                            break;
+-                        }
+-
+-                        updateBackoff(result.performed_work, inactiveCycleCount, backoffUs);
++                if (const std::optional<gr::work::Result> result = this->traverseBlockListAsWork(localBlockList)) {
++                    if (result->status == gr::work::Status::DONE) {
++                        break;
++                    }
++                    if (result->status == gr::work::Status::ERROR) {
++                        this->emitErrorMessageIfAny("LifecycleState (ERROR)", this->changeStateTo(ERROR));
++                        break;
+                     }
++
++                    updateBackoff(result->performed_work, inactiveCycleCount, backoffUs);
+                 }
+             } else if (activeState == PAUSED) {
+                 std::this_thread::sleep_for(std::chrono::milliseconds(this->timeout_ms.value));

@@ -21,7 +21,9 @@ LIC_FILES_CHKSUM = "file://blocks/analog/LICENSE;md5=8ea682db15fffa46d31a4badd40
 
 SRC_URI = "git://github.com/gnuradio/gr4-incubator.git;protocol=https;branch=main \
            file://0001-blocks-filter-skip-broken-qa_FirDecimator-test.patch \
-           file://0002-tests-include-Graph.hpp-explicitly.patch"
+           file://0002-tests-include-Graph.hpp-explicitly.patch \
+           file://0003-BlockingBackoff-enter-work-through-traverseBlockList.patch \
+           "
 
 # Modify these as desired
 PV = "1.0+git"
