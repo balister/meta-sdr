@@ -1,0 +1,24 @@
+From: Philip Balister <philip@balister.org>
+Subject: [PATCH] qa_SchedulerLifecycle: build without the cross-object library cases
+
+The GR_TEST_WITH_BLOCK_LIBRARY cases load the cross_object_library fixture
+from TESTS_BINARY_PATH, the build-host ${B}/core/test path compiled into the
+binary. That path does not exist once the test is installed on the target
+for ptest, and it trips the buildpaths QA check. Drop the define so the rest
+of the test still builds and runs; upstream already builds it this way when
+block plugins are disabled.
+
+Upstream-Status: Inappropriate [oe-specific ptest packaging]
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+--- a/core/test/CMakeLists.txt	2026-10-13 16:11:30.665023010 -0400
++++ b/core/test/CMakeLists.txt	2026-10-13 16:11:30.673269420 -0400
+@@ -205,7 +205,6 @@
+ 
+   # the cases with blocks or a scheduler from a shared object load that object
+   add_dependencies(qa_SchedulerLifecycle cross_object_library)
+-  target_compile_definitions(qa_SchedulerLifecycle PRIVATE GR_TEST_WITH_BLOCK_LIBRARY)
+ 
+   # the cases compare the values that a shared object's code reads with the program's
+   add_ut_test(qa_SharedObjectState)
