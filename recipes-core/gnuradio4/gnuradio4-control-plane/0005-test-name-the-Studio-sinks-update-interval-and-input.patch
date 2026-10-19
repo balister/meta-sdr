@@ -1,0 +1,68 @@
+From 87dda0cced03ebdd5d921a5fc8c8a7bdc2bc323b Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Mon, 19 Oct 2026 11:58:51 -0400
+Subject: [PATCH] test: name the Studio sinks' update interval and input count
+ as declared
+
+The Studio compatibility graphs set poll_ms on StudioSeriesSink and
+StudioWaterfallSink and channels on StudioSeriesSink. Neither sink
+declares them: gr4-studio renamed poll_ms to update_ms, and the series
+sink counts its inputs in n_inputs. The graph loader used to move such
+a key into the block's meta_information, so the sinks ran at their
+defaults. gnuradio4-core 7f43a66 makes the loader refuse it, and the
+four Studio compatibility tests fail to prepare their session:
+
+  block 'series0' of type 'gr::studio::StudioSeriesSink<float32>'
+  declares no setting named 'poll_ms'; the nearest are 'update_ms', ...
+
+Name them update_ms and n_inputs.
+
+Upstream-Status: Pending
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ test/gr4_runtime_manager_test.cpp | 6 +++---
+ test/http_api_test.cpp            | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/test/gr4_runtime_manager_test.cpp b/test/gr4_runtime_manager_test.cpp
+index ae67bff..89e6e54 100644
+--- a/test/gr4_runtime_manager_test.cpp
++++ b/test/gr4_runtime_manager_test.cpp
+@@ -120,9 +120,9 @@ std::string compatibility_studio_http_series_graph_yaml() {
+       stream:
+         transport: "http_poll"
+         payload_format: "series-window-json-v1"
+-      poll_ms: 250
++      update_ms: 250
+       window_size: 64
+-      channels: 1
++      n_inputs: 1
+ connections:
+   - ["src0", "out", "series0", "in#0"]
+ )";
+@@ -146,7 +146,7 @@ std::string compatibility_studio_http_waterfall_graph_yaml() {
+       stream:
+         transport: "http_poll"
+         payload_format: "waterfall-spectrum-json-v1"
+-      poll_ms: 250
++      update_ms: 250
+       fft_size: 32
+       sample_rate: 1000.0
+       time_span: 0.256
+diff --git a/test/http_api_test.cpp b/test/http_api_test.cpp
+index c403fbf..88e7c1f 100644
+--- a/test/http_api_test.cpp
++++ b/test/http_api_test.cpp
+@@ -289,9 +289,9 @@ std::string compatibility_studio_http_poll_graph() {
+       stream:
+         transport: "http_poll"
+         payload_format: "series-window-json-v1"
+-      poll_ms: 250
++      update_ms: 250
+       window_size: 64
+-      channels: 1
++      n_inputs: 1
+ connections:
+   - ["src0", "out", "series0", "in#0"]
+ )";

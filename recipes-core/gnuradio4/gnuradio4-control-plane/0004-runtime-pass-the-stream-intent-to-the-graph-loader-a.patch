@@ -1,0 +1,96 @@
+From e35755ceef1ef7aabcaeb31a7cffafeace30d8ab Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Mon, 19 Oct 2026 11:52:54 -0400
+Subject: [PATCH] runtime: pass the stream intent to the graph loader as
+ meta_information
+
+gnuradio4-core's graph loader now refuses a parameter the block does not
+declare ("graph loader: refuse a file parameter the block does not
+declare", gnuradio4-core 7f43a66). The control plane reads a sink's
+stream intent from its parameters -- the nested stream map, or the flat
+stream_id and payload_format keys -- and left them there when it handed
+the graph to gr::loadGrc. No Studio sink declares those keys, so a graph
+that requests a managed stream fails to prepare:
+
+  block 'series0' of type 'gr::studio::StudioSeriesSink<float32>'
+  declares no setting named 'stream'
+
+Move the stream map, and the flat keys of a block that gets a stream
+binding, under the block's meta_information, where the loader expects a
+key the block does not declare. The planning of the stream bindings
+reads the session's own graph text and is unchanged.
+
+Upstream-Status: Pending
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ src/runtime/gr4_runtime_manager.cpp | 42 +++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+diff --git a/src/runtime/gr4_runtime_manager.cpp b/src/runtime/gr4_runtime_manager.cpp
+index 7505a09..c6d7526 100644
+--- a/src/runtime/gr4_runtime_manager.cpp
++++ b/src/runtime/gr4_runtime_manager.cpp
+@@ -521,6 +521,45 @@ bool normalize_connection(gr::pmt::Value& connection) {
+     return true;
+ }
+ 
++// The runtime's graph loader refuses a parameter the block does not declare; a key the control plane reads for itself
++// belongs under the block's meta_information, which the loader restores onto the block.
++bool move_parameter_to_meta_information(gr::property_map& block, gr::property_map& parameters, std::string_view name) {
++    const std::pmr::string key(name);
++    const auto it = parameters.find(key);
++    if (it == parameters.end()) {
++        return false;
++    }
++
++    gr::property_map meta_information;
++    if (const auto meta_it = block.find("meta_information"); meta_it != block.end()) {
++        if (const auto* existing = meta_it->second.get_if<gr::property_map>(); existing != nullptr) {
++            meta_information = *existing;
++        }
++    }
++    meta_information.insert_or_assign(key, it->second);
++    parameters.erase(it);
++    block["meta_information"] = meta_information;
++    return true;
++}
++
++bool move_stream_intent_to_meta_information(gr::property_map& block) {
++    const auto parameters_it = block.find("parameters");
++    if (parameters_it == block.end()) {
++        return false;
++    }
++    const auto* existing = parameters_it->second.get_if<gr::property_map>();
++    if (existing == nullptr) {
++        return false;
++    }
++
++    auto parameters = *existing;
++    if (!move_parameter_to_meta_information(block, parameters, "stream")) {
++        return false;
++    }
++    block["parameters"] = parameters;
++    return true;
++}
++
+ bool inject_stream_bindings(gr::property_map& root, const std::vector<domain::RuntimeStreamBinding>& bindings) {
+     if (bindings.empty()) {
+         return false;
+@@ -569,6 +608,8 @@ bool inject_stream_bindings(gr::property_map& root, const std::vector<domain::Ru
+             }
+             parameters["endpoint"] = binding.internal.endpoint;
+             parameters["transport"] = binding.plan.transport;
++            move_parameter_to_meta_information(*block, parameters, "stream_id");
++            move_parameter_to_meta_information(*block, parameters, "payload_format");
+             (*block)["parameters"] = parameters;
+             injected_stream_ids.insert(binding.plan.stream_id);
+             changed = true;
+@@ -598,6 +639,7 @@ std::string normalize_graph_content(std::string_view content, const std::vector<
+                 if (auto* block = block_value.get_if<gr::property_map>(); block != nullptr) {
+                     const auto before = *block;
+                     normalize_block(*block);
++                    move_stream_intent_to_meta_information(*block);
+                     changed = changed || (*block != before);
+                 }
+             }
