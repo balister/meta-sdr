@@ -24,13 +24,14 @@ inherit cmake pkgconfig ptest
 # headers/tests need them directly:
 #  - boost (boost::beast, header-only) for StudioWebSocketTransport.hpp's
 #    websocket transport support.
-#  - gnuradio4-library for StudioPowerSpectrumSink.hpp's
+#  - gnuradio4-blocks for StudioPowerSpectrumSink.hpp's
 #    <gnuradio-4.0/algorithm/fourier/fft.hpp> (the header-only algorithm
-#    library gnuradio4-core itself doesn't provide).
-#  - gnuradio4-blocks for the qa_* tests' <gnuradio-4.0/testing/NullSources.hpp>,
-#    which they include straight off the default system include path (same
-#    issue as gnuradio4-incubator's qa_ZmqBlocks.cpp).
-DEPENDS = "gnuradio4-core gnuradio4-library gnuradio4-blocks cpp-httplib openssl boost"
+#    library gnuradio4-core itself doesn't provide, built and installed by
+#    gnuradio4-blocks) and for the qa_* tests'
+#    <gnuradio-4.0/testing/NullSources.hpp>, which they include straight off
+#    the default system include path (same issue as gnuradio4-incubator's
+#    qa_ZmqBlocks.cpp).
+DEPENDS = "gnuradio4-core gnuradio4-blocks cpp-httplib openssl boost"
 
 # ENABLE_TESTING is this project's own (non-standard) gate for its test/
 # subdirectory; it defaults OFF (no CTest/BUILD_TESTING here), matching the

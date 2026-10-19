@@ -21,7 +21,7 @@ export GNURADIO4_PLUGIN_DIRECTORIES=/usr/lib/gnuradio-4/plugins/
 export SOAPY_SDR_PLUGIN_PATH=/usr/lib/gnuradio4-blocks/ptest/blocks/sdr/test/soapy_modules/
 export DISABLE_SENSITIVE_TESTS=1
 
-for t in blocks/*/test/qa_*; do
+for t in library/algorithm/test/qa_* blocks/*/test/qa_*; do
     [ -x "$t" ] || continue
     name=$(basename "$t")
     if "./$t"; then

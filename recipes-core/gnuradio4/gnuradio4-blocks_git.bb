@@ -14,18 +14,27 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "df6af22118d16ffbda1e223922fb5795f68ef1fa"
+SRCREV = "212952ae88bc6faab337611560b84f16204c1016"
 
-# NOTE: unable to map the following CMake package dependencies: ut gnuradio4Library SoapySDR httplib gnuradio4 GnuRadioBlockLib
+# NOTE: unable to map the following CMake package dependencies: ut SoapySDR httplib gnuradio4 GnuRadioBlockLib
 inherit cmake pkgconfig ptest
 
-DEPENDS = "boost-ext-ut gnuradio4-library cpp-httplib"
+# The header-only algorithm library (gnuradio4::gnuradio-algorithm, the
+# gnuradio4Library package) used to be the separate gnuradio4-library
+# recipe; upstream now builds it in-tree under library/ and installs it
+# from here.
+DEPENDS = "boost-ext-ut gnuradio4-core cpp-httplib"
 
 # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
-# ENABLE_TESTING defaults to ON upstream, so the blocks/*/test/qa_* binaries
-# below are already built by the ordinary do_compile as a side effect --
-# nothing to add here.
+# ENABLE_TESTING defaults to ON upstream, so the blocks/*/test/qa_* and
+# library/algorithm/test/qa_* binaries below are already built by the
+# ordinary do_compile as a side effect -- nothing to add here.
 EXTRA_OECMAKE = ""
+
+# Upstream builds with -Werror -Wcast-align. SimdFFT.hpp casts float*/double*
+# to simd<T, _Fixed<4>>*, which GCC only warns about on strict-alignment
+# targets such as riscv64, so the build breaks there but not on x86/arm.
+TARGET_CXXFLAGS:append:riscv64 = " -Wno-error=cast-align"
 
 # GR4_ENABLE_SDR (default OFF upstream) gates the find_package(SoapySDR)
 # call in CMakeLists.txt, which in turn gates blocks/sdr's `if(TARGET
@@ -64,6 +73,8 @@ do_install_ptest() {
             install -m 0755 ${t} ${D}${PTEST_PATH}/blocks/${comp}/test/
         done
     done
+    install -d ${D}${PTEST_PATH}/library/algorithm/test
+    install -m 0755 ${B}/library/algorithm/test/qa_* ${D}${PTEST_PATH}/library/algorithm/test/
     # The loopback Soapy module used by the qa_Soapy* tests is only built
     # with GR4_ENABLE_SDR=ON.
     if ${@bb.utils.contains('PACKAGECONFIG', 'soapysdr', 'true', 'false', d)}; then

@@ -7,7 +7,7 @@
 # per-testcase discovery to ctest run time, which this recipe never invokes,
 # and ctest's relative-path executable lookup doesn't resolve once ${B} is
 # stripped out of a copied CTestTestfile.cmake anyway (same reasoning as
-# gnuradio4-library/gnuradio4-blocks).
+# gnuradio4-blocks).
 #
 # CMakeLists.txt's _gr4cp_test_env normally supplies
 # GNURADIO4_PLUGIN_DIRECTORIES to ctest so gr4cp_core_test's GNU Radio
