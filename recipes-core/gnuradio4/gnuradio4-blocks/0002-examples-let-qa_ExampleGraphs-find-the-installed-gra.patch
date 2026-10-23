@@ -1,0 +1,46 @@
+From f0de926225ff17b9443d9e0a7d174cb20375413b Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Fri, 23 Oct 2026 12:40:50 -0400
+Subject: [PATCH] examples: let qa_ExampleGraphs find the installed graphs
+ outside the build tree
+
+qa_ExampleGraphs compiles in the path of the prefix that ctest installs
+the example graphs into, inside the build tree, and its install-layout
+case reads the graphs from there. A test installed apart from the build
+tree, such as a packaged test run on a cross-compiled target, then
+looks for the graphs in a directory that does not exist there, and its
+binary carries the build host's paths.
+
+Add a GR4_EXAMPLE_GRAPHS_TEST_DIR cache variable naming the directory
+that holds the installed graphs when the test runs. It defaults to the
+ctest install prefix, so a build-tree ctest run is unchanged.
+
+Upstream-Status: Pending
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ blocks/examples/test/CMakeLists.txt | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/blocks/examples/test/CMakeLists.txt b/blocks/examples/test/CMakeLists.txt
+index f80be63..ba27ce6 100644
+--- a/blocks/examples/test/CMakeLists.txt
++++ b/blocks/examples/test/CMakeLists.txt
+@@ -49,8 +49,12 @@ else()
+   set_tests_properties(qa_ExampleGraphsInstall PROPERTIES FIXTURES_SETUP gr4_example_graphs_installed)
+   set_tests_properties(qa_ExampleGraphsInstall PROPERTIES TIMEOUT 60)
+   set_tests_properties(qa_ExampleGraphs PROPERTIES FIXTURES_REQUIRED gr4_example_graphs_installed)
+-  target_compile_definitions(
+-    qa_ExampleGraphs
+-    PRIVATE INSTALLED_EXAMPLE_GRAPHS_PATH="${GR4_EXAMPLE_GRAPHS_TEST_PREFIX}/${GR4_EXAMPLE_GRAPHS_INSTALL_DIR}")
++  # the qa reads the installed files from GR4_EXAMPLE_GRAPHS_TEST_DIR. It defaults to the prefix ctest installs into. A
++  # test installed apart from the build tree, e.g. a packaged test on a cross-compiled target, names the directory the
++  # graphs are installed to there.
++  set(GR4_EXAMPLE_GRAPHS_TEST_DIR
++      "${GR4_EXAMPLE_GRAPHS_TEST_PREFIX}/${GR4_EXAMPLE_GRAPHS_INSTALL_DIR}"
++      CACHE PATH "Directory holding the installed example graphs when qa_ExampleGraphs runs")
++  target_compile_definitions(qa_ExampleGraphs PRIVATE INSTALLED_EXAMPLE_GRAPHS_PATH="${GR4_EXAMPLE_GRAPHS_TEST_DIR}")
+ endif()
+ set_tests_properties(qa_ExampleGraphs PROPERTIES TIMEOUT 60)
+-- 
+2.56.0
+

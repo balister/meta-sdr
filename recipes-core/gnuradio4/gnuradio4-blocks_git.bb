@@ -9,12 +9,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=main \
            file://0001-sdr-let-the-tests-find-their-soapy-directories-outsi.patch \
+           file://0002-examples-let-qa_ExampleGraphs-find-the-installed-gra.patch \
            file://run-ptest \
            "
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "212952ae88bc6faab337611560b84f16204c1016"
+SRCREV = "8f588c0ad5f395a5b719af714fa96a7d9b0b3afe"
 
 # NOTE: unable to map the following CMake package dependencies: ut SoapySDR httplib gnuradio4 GnuRadioBlockLib
 inherit cmake pkgconfig ptest
@@ -29,7 +30,12 @@ DEPENDS = "boost-ext-ut gnuradio4-core cpp-httplib"
 # ENABLE_TESTING defaults to ON upstream, so the blocks/*/test/qa_* and
 # library/algorithm/test/qa_* binaries below are already built by the
 # ordinary do_compile as a side effect -- nothing to add here.
-EXTRA_OECMAKE = ""
+#
+# qa_ExampleGraphs' install-layout case reads the example graphs from
+# GR4_EXAMPLE_GRAPHS_TEST_DIR (added by the 0002 patch), which defaults to
+# a ctest install prefix in the build tree; point it at where ${PN}
+# installs them on the target.
+EXTRA_OECMAKE = "-DGR4_EXAMPLE_GRAPHS_TEST_DIR=${datadir}/gnuradio-4.0/examples"
 
 # Upstream builds with -Werror -Wcast-align. SimdFFT.hpp casts float*/double*
 # to simd<T, _Fixed<4>>*, which GCC only warns about on strict-alignment
@@ -91,6 +97,11 @@ do_install_ptest() {
 # SONAME/version, so default packaging rules for a nested libdir
 # subdirectory don't pick them up. Same pattern as gnuradio4-core.
 FILES:${PN} += "${libdir}/gnuradio-4/plugins/*Shared.so"
+
+# The example graphs (blocks/examples) install as data that gr::loadGrc
+# reads, outside the default ${datadir}/${BPN}. qa_ExampleGraphs reads them
+# from here too (see EXTRA_OECMAKE above).
+FILES:${PN} += "${datadir}/gnuradio-4.0/examples"
 FILES:${PN}-staticdev += "${libdir}/gnuradio-4/plugins/*Static.a"
 
 # The block-registration code generator (gnuradio_4_0_parse_registrations)
