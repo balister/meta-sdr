@@ -7,5 +7,5 @@ add_image_version_info() {
 	echo "Image: ${PN}" >> ${IMAGE_ROOTFS}/etc/version-image 
 }
 
-ROOTFS_POSTPROCESS_COMMAND += "add_image_version_info ; "
+ROOTFS_POSTPROCESS_COMMAND += "add_image_version_info"
 
