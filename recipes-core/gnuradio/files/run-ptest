@@ -42,7 +42,7 @@ run_test() {
 }
 
 # C++ QA tests
-for t in $(find . -type f \( -name "*_qa_*.cc" -o -name gr_fec_rstest \) | sort); do
+for t in $(find . -type f \( -name "*_qa_*" -o -name gr_fec_rstest \) ! -name "*.py" | sort); do
     [ -x "$t" ] || continue
     run_test "$(basename "$t")" "$t"
 done

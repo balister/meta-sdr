@@ -216,12 +216,12 @@ python populate_packages:prepend() {
         d.appendVar('RDEPENDS:'+pn+'-dev', ' '+' '.join(pkgs))
 }
 
-PV = "3.10.12.0+git${SRCPV}"
+PV = "3.11.0.0+git"
 #PV = "3.10.0.0"
 
 FILESPATHPKG:prepend = "gnuradio-git:"
 
-SRCREV = "7a45079b1d42ba7b94b50f23c1414c8d2f334622"
+SRCREV = "ec1bf153c9222eca81f59d4e063e73d525a51a1a"
 
 # Make it easy to test against branches
 GIT_BRANCH = "main"
@@ -258,9 +258,9 @@ do_install:append() {
 }
 
 # ENABLE_TESTING (default ON upstream) already builds the C++ QA binaries
-# (<component>_qa_*.cc, named after their source file, and gr_fec_rstest) as
-# part of the ordinary do_compile, and generates a <test>_test.sh wrapper next
-# to each Python QA test in the build tree. When cross compiling, GrTest.cmake
+# (<component>_qa_*, mostly named after their source file including its .cc,
+# and gr_fec_rstest) as part of the ordinary do_compile, and generates a
+# <test>_test.sh wrapper next to each Python QA test in the build tree. When cross compiling, GrTest.cmake
 # never registers the C++ binaries with ctest, and each wrapper is reduced to
 # a bare "python3 -B <script>" with no environment, so rather than shipping
 # the CTestTestfile.cmake files and running ctest on target, stage the test
@@ -280,7 +280,7 @@ do_install_ptest() {
     done
 
     # C++ QA tests
-    for t in $(find . -type f -perm -u+x \( -name "*_qa_*.cc" -o -name gr_fec_rstest \)); do
+    for t in $(find . -type f -perm -u+x \( -name "*_qa_*" -o -name gr_fec_rstest \) ! -name "*.py"); do
         install -d ${D}${PTEST_PATH}/$(dirname ${t})
         install -m 0755 ${t} ${D}${PTEST_PATH}/$(dirname ${t})/
     done
