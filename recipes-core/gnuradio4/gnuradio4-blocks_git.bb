@@ -15,7 +15,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "8f588c0ad5f395a5b719af714fa96a7d9b0b3afe"
+SRCREV = "13e2356243187b1eb34fa5f3996257ddc3579c5b"
 
 # NOTE: unable to map the following CMake package dependencies: ut SoapySDR httplib gnuradio4 GnuRadioBlockLib
 inherit cmake pkgconfig ptest
