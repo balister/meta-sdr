@@ -1,0 +1,172 @@
+Name blocks in their gr::blocks::<family> namespace
+
+gnuradio4-blocks removed the compatibility aliases that let downstream
+code name blocks as gr::basic::X and gr::testing::X (upstream commit
+a9cc695, "blocks: one namespace per family, the compatibility aliases
+removed"). Every block now lives only in gr::blocks::<family>, so the
+zeromq and BlockingBackoff tests, soapy_capture and the FM demodulator
+example no longer compile. Rename them to gr::blocks::testing:: and
+gr::blocks::basic::.
+
+Upstream-Status: Pending
+
+--- a/blocks/soapysdr/apps/soapy_capture.cpp
++++ b/blocks/soapysdr/apps/soapy_capture.cpp
+@@ -64,7 +64,7 @@
+         {"max_overflow_count", static_cast<gr::Size_t>(max_overflow)},
+     });
+ 
+-    auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>({
++    auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>({
+         {"n_samples_max", static_cast<gr::Size_t>(n_samples)},
+     });
+ 
+--- a/blocks/zeromq/test/qa_ZmqBlocks.cpp
++++ b/blocks/zeromq/test/qa_ZmqBlocks.cpp
+@@ -683,7 +683,7 @@
+             {"timeout", gr::pmt::Value(25)},
+             {"bind", gr::pmt::Value(true)},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>(make_props({
+             {"n_samples_max", gr::pmt::Value(n_samples)},
+         }));
+ 
+@@ -780,7 +780,7 @@
+             {"timeout", gr::pmt::Value(25)},
+             {"bind", gr::pmt::Value(true)},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<float>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<float>>(make_props({
+             {"n_samples_max", gr::pmt::Value(static_cast<gr::Size_t>(1))},
+         }));
+ 
+@@ -831,7 +831,7 @@
+             {"timeout", gr::pmt::Value(25)},
+             {"bind", gr::pmt::Value(true)},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>(make_props({
+             {"n_samples_max", gr::pmt::Value(static_cast<gr::Size_t>(16))},
+         }));
+ 
+@@ -859,7 +859,7 @@
+             {"timeout", gr::pmt::Value(25)},
+             {"bind", gr::pmt::Value(true)},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>(make_props({
+             {"n_samples_max", gr::pmt::Value(static_cast<gr::Size_t>(1))},
+         }));
+ 
+@@ -926,7 +926,7 @@
+             {"bind", gr::pmt::Value(true)},
+             {"key", gr::pmt::Value(key)},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>(make_props({
+             {"n_samples_max", gr::pmt::Value(static_cast<gr::Size_t>(3))},
+         }));
+ 
+@@ -957,7 +957,7 @@
+             {"bind", gr::pmt::Value(true)},
+             {"key", gr::pmt::Value(subscribe_key)},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>(make_props({
+             {"n_samples_max", gr::pmt::Value(static_cast<gr::Size_t>(2))},
+         }));
+ 
+@@ -986,7 +986,7 @@
+             {"bind", gr::pmt::Value(true)},
+             {"key", gr::pmt::Value(std::string("telemetry."))},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>(make_props({
+             {"n_samples_max", gr::pmt::Value(static_cast<gr::Size_t>(1))},
+         }));
+ 
+@@ -1015,7 +1015,7 @@
+             {"bind", gr::pmt::Value(true)},
+             {"key", gr::pmt::Value(std::string())},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>(make_props({
+             {"n_samples_max", gr::pmt::Value(static_cast<gr::Size_t>(2))},
+         }));
+ 
+@@ -1043,7 +1043,7 @@
+             {"timeout", gr::pmt::Value(100)},
+             {"bind", gr::pmt::Value(true)},
+         }));
+-        auto& sink = fg.emplaceBlock<gr::testing::CountingSink<T>>(make_props({
++        auto& sink = fg.emplaceBlock<gr::blocks::testing::CountingSink<T>>(make_props({
+             {"n_samples_max", gr::pmt::Value(static_cast<gr::Size_t>(5))},
+         }));
+ 
+--- a/examples/fm_demodulator_imgui.cpp
++++ b/examples/fm_demodulator_imgui.cpp
+@@ -258,7 +258,7 @@
+         audio_sink.settings().setStaged(make_props({{"ignore_tag_sample_rate", gr::pmt::Value(true)}}));
+     }
+ 
+-    auto& audio_probe = fg.emplaceBlock<gr::basic::DataSink<TR>>(make_props({
++    auto& audio_probe = fg.emplaceBlock<gr::blocks::basic::DataSink<TR>>(make_props({
+         {"name", gr::pmt::Value(std::string("audio_probe"))},
+         {"signal_name", gr::pmt::Value(std::string("audio"))},
+         {"sample_rate", gr::pmt::Value(static_cast<float>(audio_rate))},
+@@ -328,12 +328,12 @@
+     const char* glsl_version = "#version 330";
+     ImGui_ImplOpenGL3_Init(glsl_version);
+ 
+-    gr::basic::PollerConfig poll_config;
+-    poll_config.overflowPolicy = gr::basic::OverflowPolicy::Drop;
++    gr::blocks::basic::PollerConfig poll_config;
++    poll_config.overflowPolicy = gr::blocks::basic::OverflowPolicy::Drop;
+     poll_config.minRequiredSamples = 64;
+     poll_config.maxRequiredSamples = 1024;
+ 
+-    auto poller = gr::basic::globalDataSinkRegistry().getStreamingPoller<TR>(gr::basic::DataSinkQuery::signalName("audio"), poll_config);
++    auto poller = gr::blocks::basic::globalDataSinkRegistry().getStreamingPoller<TR>(gr::blocks::basic::DataSinkQuery::signalName("audio"), poll_config);
+ 
+     std::vector<float> plot_buffer;
+     plot_buffer.reserve(8192);
+@@ -357,7 +357,7 @@
+         glfwPollEvents();
+ 
+         if (!poller) {
+-            poller = gr::basic::globalDataSinkRegistry().getStreamingPoller<TR>(gr::basic::DataSinkQuery::signalName("audio"), poll_config);
++            poller = gr::blocks::basic::globalDataSinkRegistry().getStreamingPoller<TR>(gr::blocks::basic::DataSinkQuery::signalName("audio"), poll_config);
+         }
+         if (poller) {
+             std::ignore = poller->process([&](std::span<const float> samples) {
+--- a/schedulers/test/qa_BlockingBackoff.cpp
++++ b/schedulers/test/qa_BlockingBackoff.cpp
+@@ -12,9 +12,9 @@
+ 
+     "finite graph completes"_test = [] {
+         gr::Graph graph;
+-        auto&     source = graph.emplaceBlock<gr::testing::CountingSource<float>>(gr::property_map{{"n_samples_max", gr::Size_t(32)}});
+-        auto&     copy   = graph.emplaceBlock<gr::testing::Copy<float>>();
+-        auto&     sink   = graph.emplaceBlock<gr::testing::CountingSink<float>>(gr::property_map{{"n_samples_max", gr::Size_t(32)}});
++        auto&     source = graph.emplaceBlock<gr::blocks::testing::CountingSource<float>>(gr::property_map{{"n_samples_max", gr::Size_t(32)}});
++        auto&     copy   = graph.emplaceBlock<gr::blocks::testing::Copy<float>>();
++        auto&     sink   = graph.emplaceBlock<gr::blocks::testing::CountingSink<float>>(gr::property_map{{"n_samples_max", gr::Size_t(32)}});
+ 
+         expect(graph.connect<"out", "in">(source, copy).has_value());
+         expect(graph.connect<"out", "in">(copy, sink).has_value());
+@@ -47,10 +47,10 @@
+ 
+     "multi threaded plan creates more than one job list"_test = [] {
+         gr::Graph graph;
+-        auto&     sourceA = graph.emplaceBlock<gr::testing::CountingSource<float>>(gr::property_map{{"n_samples_max", gr::Size_t(8)}});
+-        auto&     sinkA   = graph.emplaceBlock<gr::testing::CountingSink<float>>(gr::property_map{{"n_samples_max", gr::Size_t(8)}});
+-        auto&     sourceB = graph.emplaceBlock<gr::testing::CountingSource<float>>(gr::property_map{{"n_samples_max", gr::Size_t(8)}});
+-        auto&     sinkB   = graph.emplaceBlock<gr::testing::CountingSink<float>>(gr::property_map{{"n_samples_max", gr::Size_t(8)}});
++        auto&     sourceA = graph.emplaceBlock<gr::blocks::testing::CountingSource<float>>(gr::property_map{{"n_samples_max", gr::Size_t(8)}});
++        auto&     sinkA   = graph.emplaceBlock<gr::blocks::testing::CountingSink<float>>(gr::property_map{{"n_samples_max", gr::Size_t(8)}});
++        auto&     sourceB = graph.emplaceBlock<gr::blocks::testing::CountingSource<float>>(gr::property_map{{"n_samples_max", gr::Size_t(8)}});
++        auto&     sinkB   = graph.emplaceBlock<gr::blocks::testing::CountingSink<float>>(gr::property_map{{"n_samples_max", gr::Size_t(8)}});
+ 
+         expect(graph.connect<"out", "in">(sourceA, sinkA).has_value());
+         expect(graph.connect<"out", "in">(sourceB, sinkB).has_value());
