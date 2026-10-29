@@ -18,7 +18,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-control-plane.git;protocol=https;
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "155f11aec5aa44225ee161a332af5c619cf7eeea"
+SRCREV = "7e5c00b9a9b7ec4c85a354ed824cb8194341355a"
 
 DEPENDS = "zlib boost gnuradio4-core cpp-httplib nlohmann-json googletest"
 
