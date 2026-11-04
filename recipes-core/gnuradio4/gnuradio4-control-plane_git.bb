@@ -8,17 +8,13 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9547a0c375a0c21052f9ea55d9b4c604"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-control-plane.git;protocol=https;branch=main \
-           file://0001-defer-gtest-discovery-to-test-time.patch \
-           file://0002-allow-overriding-gnuradio4-lib-dir.patch \
-           file://0003-allow-overriding-cli-test-executable-path.patch \
-           file://0004-runtime-pass-the-stream-intent-to-the-graph-loader-a.patch \
-           file://0005-test-name-the-Studio-sinks-update-interval-and-input.patch \
+           file://0001-test-allow-overriding-the-paths-the-tests-run-and-lo.patch \
            file://run-ptest \
            "
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "7e5c00b9a9b7ec4c85a354ed824cb8194341355a"
+SRCREV = "93e6f1eda19e07cf42beb7b2cce4614a270fc7f3"
 
 DEPENDS = "zlib boost gnuradio4-core cpp-httplib nlohmann-json googletest"
 
@@ -34,25 +30,29 @@ inherit cmake pkgconfig ptest
 # since it only strips gnuradio-core/gnuradio-blocklib-core, not the actual
 # gnuradio-options target that carried the flag.
 #
-# GR4CP_GNURADIO4_LIB_DIR (see 0002 patch) is derived by upstream from where
-# gnuradio4Config.cmake was found, i.e. this recipe's own recipe-sysroot --
-# baking a nonexistent build-host path into gr4cp_server/libgr4cp_core.a as
-# the runtime plugin search dir. Point it at the real target install path.
+# gtest_discover_tests() runs each test binary at build time to list its
+# cases, which can't work for target binaries. PRE_TEST defers that to ctest,
+# which this recipe never runs (run-ptest runs the binaries directly).
 #
-# GR4CP_CLI_TEST_EXECUTABLE (see 0003 patch) is likewise derived by upstream
-# from the just-built gr4cp-cli's build-tree path, baked into gr4cp_cli_test
-# as the command it shells out to. Point it at gr4cp-cli's real installed
-# path instead -- gr4cp-cli ships in the main package, which
-# gnuradio4-control-plane-ptest RDEPENDS on by default via ptest.bbclass.
-EXTRA_OECMAKE = "-DGR4CP_GNURADIO4_LIB_DIR=${libdir} -DGR4CP_CLI_TEST_EXECUTABLE=${bindir}/gr4cp-cli"
+# The tests run gr4cp_server and gr4cp-cli and load the gr4cp_broken_plugin
+# module and gnuradio-shared-state by build-tree paths compiled into them
+# (see the 0001 patch). Point them at where those files are on the target.
+EXTRA_OECMAKE = "-DCMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST \
+                 -DGR4CP_SERVER_TEST_EXECUTABLE=${bindir}/gr4cp_server \
+                 -DGR4CP_CLI_TEST_EXECUTABLE=${bindir}/gr4cp-cli \
+                 -DGR4CP_BROKEN_PLUGIN_TEST_LIBRARY=${PTEST_PATH}/libgr4cp_broken_plugin.so \
+                 -DGR4CP_CORE_TEST_LIBRARY=${libdir}/libgnuradio-shared-state.so \
+                "
 
-# The four gr4cp_*_test gtest binaries are already built by the ordinary
+# The gr4cp_*_test gtest binaries are already built by the ordinary
 # do_compile (not gated behind any CMake option), so no do_compile_ptest
-# override is needed -- just stage them for run-ptest.
+# override is needed -- just stage them, and the plugin gr4cp_core_test
+# loads, for run-ptest.
 do_install_ptest() {
     install -d ${D}${PTEST_PATH}
-    for t in gr4cp_smoke_test gr4cp_core_test gr4cp_http_test gr4cp_cli_test; do
+    for t in gr4cp_smoke_test gr4cp_core_test gr4cp_http_test gr4cp_wasm_api_test gr4cp_cli_test; do
         install -m 0755 ${B}/${t} ${D}${PTEST_PATH}/
     done
+    install -m 0755 ${B}/libgr4cp_broken_plugin.so ${D}${PTEST_PATH}/
 }
 

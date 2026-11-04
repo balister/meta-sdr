@@ -3,8 +3,9 @@
 # PASS/FAIL format ptest-runner expects.
 #
 # These are run directly rather than through ctest: gtest_discover_tests()
-# is patched (0001-defer-gtest-discovery-to-test-time.patch) to defer
-# per-testcase discovery to ctest run time, which this recipe never invokes,
+# is set to defer per-testcase discovery to ctest run time
+# (CMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST), which this recipe
+# never invokes,
 # and ctest's relative-path executable lookup doesn't resolve once ${B} is
 # stripped out of a copied CTestTestfile.cmake anyway (same reasoning as
 # gnuradio4-blocks).
@@ -37,15 +38,37 @@ warmup() {
 
 RET=0
 
-for t in gr4cp_smoke_test gr4cp_core_test gr4cp_http_test gr4cp_cli_test; do
-    [ -x "./$t" ] || continue
-    warmup "$t"
-    if "./$t"; then
-        echo "PASS: $t"
+# run <name> <binary> [gtest args...]
+run() {
+    name=$1
+    t=$2
+    shift 2
+    if "./$t" "$@"; then
+        echo "PASS: $name"
     else
-        echo "FAIL: $t"
+        echo "FAIL: $name"
         RET=1
     fi
+}
+
+for t in gr4cp_smoke_test gr4cp_core_test gr4cp_http_test gr4cp_wasm_api_test gr4cp_cli_test; do
+    [ -x "./$t" ] || continue
+    warmup "$t"
+    case "$t" in
+    gr4cp_core_test)
+        # ctest runs every case in a process of its own; run-ptest runs a
+        # binary's cases in one. PluginLoaderTest's
+        # StartupPassesOverACoreLibraryBesideThePlugins expects the installed
+        # block libraries to register when it loads them, which they don't
+        # once an earlier case in the same process has loaded them. Give
+        # that suite a process of its own.
+        run "$t" "$t" --gtest_filter=-PluginLoaderTest.*
+        run "$t-PluginLoaderTest" "$t" --gtest_filter=PluginLoaderTest.*
+        ;;
+    *)
+        run "$t" "$t"
+        ;;
+    esac
 done
 
 exit $RET
