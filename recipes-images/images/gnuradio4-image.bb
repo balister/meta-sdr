@@ -12,7 +12,6 @@ EXTRA_IMAGE_FEATURES += "package-management"
 LICENSE = "MIT"
 
 CORE_IMAGE_EXTRA_INSTALL = "\
-    gnuradio4-incubator \
     gnuradio4-control-plane \
     "
 
