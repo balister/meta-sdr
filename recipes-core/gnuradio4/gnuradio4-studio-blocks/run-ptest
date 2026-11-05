@@ -13,7 +13,7 @@
 # reflection-based block registration lookup can find Gr4StudioBlocksPlugin;
 # set it here too since we bypass ctest, pointing at where the plugin is
 # actually installed instead.
-export GNURADIO4_PLUGIN_DIRECTORIES="/usr/lib/gnuradio-4/plugins:/usr/lib"
+export GNURADIO4_PLUGIN_DIRECTORIES="/usr/lib/gnuradio-4/plugins"
 
 RET=0
 

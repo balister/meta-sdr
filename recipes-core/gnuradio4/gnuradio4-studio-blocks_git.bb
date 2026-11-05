@@ -47,13 +47,21 @@ do_install_ptest() {
     install -m 0755 ${B}/studio/test/qa_* ${D}${PTEST_PATH}/studio/test/
 }
 
+# PluginHelpers.cmake installs Gr4StudioBlocksPlugin straight into
+# ${libdir}; move it next to gnuradio4-blocks' plugins, the directory
+# gr::PluginLoader scans by default.
+do_install:append() {
+    install -d ${D}${libdir}/gnuradio-4/plugins
+    mv ${D}${libdir}/libGr4StudioBlocksPlugin.so ${D}${libdir}/gnuradio-4/plugins/
+}
+
 # Gr4StudioBlocksPlugin is a runtime-loaded plugin module
 # (PluginLoader.hpp), not a link-time-only dev artifact: it has no
 # SONAME/version, so default packaging rules for an unversioned .so would
 # otherwise claim it into the -dev package. Same pattern as gnuradio4-core
 # and gnuradio4-blocks.
 FILES_SOLIBSDEV = ""
-FILES:${PN} += "${libdir}/libGr4StudioBlocksPlugin.so"
+FILES:${PN} += "${libdir}/gnuradio-4/plugins/libGr4StudioBlocksPlugin.so"
 
 # The block-registration code generator (gnuradio_4_0_parse_registrations)
 # bakes the absolute build-time source path into #include lines and comments
