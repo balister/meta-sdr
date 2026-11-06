@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=
            file://0001-sdr-let-the-tests-find-their-soapy-directories-outsi.patch \
            file://0002-examples-let-qa_ExampleGraphs-find-the-installed-gra.patch \
            file://run-ptest \
+           file://gen-graph-tests.py \
            "
 
 # Modify these as desired
@@ -36,6 +37,14 @@ DEPENDS = "boost-ext-ut gnuradio4-core cpp-httplib"
 # a ctest install prefix in the build tree; point it at where ${PN}
 # installs them on the target.
 EXTRA_OECMAKE = "-DGR4_EXAMPLE_GRAPHS_TEST_DIR=${datadir}/gnuradio-4.0/examples"
+
+# gr_add_graph_test() registers the graph-file tests only when it finds
+# rungraph under the core installation, and the recipe-sysroot holds no
+# target binaries, so a cross build registers none. Hand it the path rungraph
+# has on the target: find_program() does not search when the variable is
+# already set. do_install_ptest turns the registered cases into a list
+# run-ptest runs.
+EXTRA_OECMAKE += "-D_rungraph=${bindir}/rungraph"
 
 # Upstream builds with -Werror -Wcast-align. SimdFFT.hpp casts float*/double*
 # to simd<T, _Fixed<4>>*, which GCC only warns about on strict-alignment
@@ -79,6 +88,8 @@ do_install_ptest() {
             install -m 0755 ${t} ${D}${PTEST_PATH}/blocks/${comp}/test/
         done
     done
+    # The graph-file cases, and the graphs they read (see EXTRA_OECMAKE).
+    python3 ${UNPACKDIR}/gen-graph-tests.py ${B} ${S} ${bindir}/rungraph ${D}${PTEST_PATH}
     install -d ${D}${PTEST_PATH}/library/algorithm/test
     install -m 0755 ${B}/library/algorithm/test/qa_* ${D}${PTEST_PATH}/library/algorithm/test/
     # The loopback Soapy module used by the qa_Soapy* tests is only built
@@ -97,6 +108,9 @@ do_install_ptest() {
 # SONAME/version, so default packaging rules for a nested libdir
 # subdirectory don't pick them up. Same pattern as gnuradio4-core.
 FILES:${PN} += "${libdir}/gnuradio-4/plugins/*Shared.so"
+
+# The graph-file cases run core's rungraph.
+RDEPENDS:${PN}-ptest += "gnuradio4-core"
 
 # The example graphs (blocks/examples) install as data that gr::loadGrc
 # reads, outside the default ${datadir}/${BPN}. qa_ExampleGraphs reads them

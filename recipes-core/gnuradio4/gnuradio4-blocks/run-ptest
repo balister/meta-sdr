@@ -32,4 +32,45 @@ for t in library/algorithm/test/qa_* blocks/*/test/qa_*; do
     fi
 done
 
+# The graph-file cases ctest runs through core's rungraph
+# (gr_add_graph_test()), listed in graph-tests.sh by do_install_ptest.
+# rungraph finds every installed plugin rather than the few ctest names; the
+# environment above covers it. A case passes when rungraph exits with 0
+# (pass), exits nonzero (fail), or prints a line matching the pattern
+# (match; ctest ignores the exit status there). `timeout` isn't in this
+# image, so a watchdog kills a case that runs past its ctest timeout, given
+# four times the time under qemu's TCG.
+out=$(mktemp)
+graph_test() {
+    name=$1 expect=$2 limit=$(($3 * 4)) pattern=$4
+    shift 4
+    rungraph "$@" >"$out" 2>&1 &
+    pid=$!
+    (
+        sleep "$limit" &
+        trap 'kill $!; exit' TERM
+        wait $!
+        kill -9 "$pid"
+    ) >/dev/null 2>&1 &
+    watchdog=$!
+    wait "$pid"
+    rc=$?
+    kill "$watchdog" 2>/dev/null
+    wait "$watchdog" 2>/dev/null
+    case $expect in
+    pass) [ "$rc" -eq 0 ] ;;
+    fail) [ "$rc" -ne 0 ] && [ "$rc" -ne 137 ] ;;
+    match) grep -qE -e "$pattern" "$out" ;;
+    esac
+    if [ $? -eq 0 ]; then
+        echo "PASS: $name"
+    else
+        echo "FAIL: $name (rungraph exited $rc)"
+        tail -n 20 "$out"
+        RET=1
+    fi
+}
+[ -f graph-tests.sh ] && . ./graph-tests.sh
+rm -f "$out"
+
 exit $RET
