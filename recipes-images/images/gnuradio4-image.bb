@@ -1,4 +1,4 @@
-SUMMARY = "An image to help build test gnuradio4 recipes"
+SUMMARY = "An image to run gnuradio4 headless, with a remote gr4-studio"
 
 require version-image.inc
 
@@ -13,6 +13,10 @@ LICENSE = "MIT"
 
 CORE_IMAGE_EXTRA_INSTALL = "\
     gnuradio4-control-plane \
+    gnuradio4-blocks \
+    gnuradio4-studio-blocks \
+    soapyrtlsdr \
+    rtl-sdr-bin \
     "
 
 SDK_NAME = "${BPN}-${MACHINE}"
