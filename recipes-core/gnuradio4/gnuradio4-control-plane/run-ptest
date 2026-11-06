@@ -16,6 +16,13 @@
 # bypass ctest.
 export GNURADIO4_PLUGIN_DIRECTORIES="/usr/lib/gnuradio-4/plugins"
 
+# The tests take the programs they run and the libraries they load from the
+# environment, which ctest would otherwise set to build-tree paths.
+export GR4CP_SERVER_EXECUTABLE=/usr/bin/gr4cp_server
+export GR4CP_CLI_EXECUTABLE=/usr/bin/gr4cp-cli
+export GR4CP_BROKEN_PLUGIN_LIBRARY=$(pwd)/libgr4cp_broken_plugin.so
+export GR4CP_CORE_LIBRARY=/usr/lib/libgnuradio-shared-state.so
+
 # Each test spins up gr4cp::api::HttpServer on its own std::jthread, binds a
 # loopback socket, and hits it with an httplib client from the main thread.
 # The *first* time a given one of these binaries does that (i.e. the first
