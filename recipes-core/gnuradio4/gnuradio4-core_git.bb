@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=ma
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "2d3481cce258d199ee1ac73323398d2cd8fe1aab"
+SRCREV = "f411905afa565bde0e4eaeb66cb6f454899e60ae"
 
 # NOTE: unable to map the following CMake package dependencies: TBB ut httplib Python3
 inherit cmake pkgconfig ptest
@@ -27,7 +27,7 @@ DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 # false positives inside vendored httplib.h/boost::beast headers into a hard
 # build failure for gnuradio4-control-plane. Disable it here so it never
 # leaks into consumers' builds.
-EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DGR_DATA_CACHE_DIR=/var/lib/gnuradio4/cache -DWARNINGS_AS_ERRORS=OFF"
+EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DWARNINGS_AS_ERRORS=OFF"
 CXXFLAGS += " -Wno-psabi"
 
 RDEPENDS:${PN}-dev += "vir-simd-dev"
