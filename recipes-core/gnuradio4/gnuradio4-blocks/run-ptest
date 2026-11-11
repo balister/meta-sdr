@@ -20,6 +20,9 @@ export LD_LIBRARY_PATH="/usr/lib/gnuradio-4/plugins${LD_LIBRARY_PATH:+:$LD_LIBRA
 export GNURADIO4_PLUGIN_DIRECTORIES=/usr/lib/gnuradio-4/plugins/
 export SOAPY_SDR_PLUGIN_PATH=/usr/lib/gnuradio4-blocks/ptest/blocks/sdr/test/soapy_modules/
 export DISABLE_SENSITIVE_TESTS=1
+# qa_ExampleGraphs' install-layout case reads the installed example graphs
+# from the directory this names (ctest sets it to a build-tree prefix).
+export INSTALLED_EXAMPLE_GRAPHS_PATH=/usr/share/gnuradio-4.0/examples
 
 for t in library/algorithm/test/qa_* blocks/*/test/qa_*; do
     [ -x "$t" ] || continue
