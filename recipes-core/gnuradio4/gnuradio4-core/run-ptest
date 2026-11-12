@@ -13,6 +13,7 @@ RET=0
 for t in core/test/qa_* meta/test/qa_*; do
     [ -x "$t" ] || continue
     name=$(basename "$t")
+    [ "$name" = qa_PluginGlobalDefault ] && continue
     if "./$t"; then
         echo "PASS: $name"
     else
@@ -20,5 +21,18 @@ for t in core/test/qa_* meta/test/qa_*; do
         RET=1
     fi
 done
+
+# qa_PluginGlobalDefault checks the loader's default plugin directory,
+# ../plugins relative to where it runs, so like ctest run it in the empty
+# global_default_cwd next to core/test/plugins, with
+# GNURADIO4_PLUGIN_DIRECTORIES unset.
+if [ -x core/test/qa_PluginGlobalDefault ]; then
+    if (cd core/test/global_default_cwd && unset GNURADIO4_PLUGIN_DIRECTORIES && ../qa_PluginGlobalDefault); then
+        echo "PASS: qa_PluginGlobalDefault"
+    else
+        echo "FAIL: qa_PluginGlobalDefault"
+        RET=1
+    fi
+fi
 
 exit $RET

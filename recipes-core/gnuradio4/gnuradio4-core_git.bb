@@ -54,6 +54,12 @@ FILES:${PN} += "${libdir}/libgnuradio-blocklib-core.so ${libdir}/libgnuradio-plu
 INSANE_SKIP:${PN}-dev += "buildpaths"
 INSANE_SKIP:${PN}-staticdev += "buildpaths"
 
+# The core/test/plugins fixtures installed for qa_PluginGlobalDefault are
+# built from .cpp files the block-registration code generator writes with
+# the absolute build-time source path in #include lines and comments; those
+# end up in the debug-source package (same as gnuradio4-blocks).
+INSANE_SKIP:${PN}-src += "buildpaths"
+
 # EXTRA_OECMAKE above already builds the qa_* unit test binaries (part of the
 # default ninja "all" target under core/test and meta/test) as a side effect
 # of -DENABLE_TESTING=ON, so do_compile_ptest needs no override -- just stage
@@ -74,17 +80,22 @@ do_install_ptest() {
     # binaries. qa_SharedObjectState is excluded for the same reason: every
     # case loads the cross_object_library fixture from TESTS_BINARY_PATH.
     # qa_DeviceListing and qa_ErasedRuntime load plugin fixtures from
-    # TESTS_BINARY_PATH too, and qa_PluginGlobalDefault loads the same
-    # fixtures from ../plugins relative to the directory it runs in.
+    # TESTS_BINARY_PATH too.
     # (qa_SchedulerLifecycle's cases that need that fixture are compiled out
     # by 0002-qa_SchedulerLifecycle-build-without-the-cross-object.patch.)
     for t in ${B}/core/test/qa_*; do
         case $(basename ${t}) in
             qa_SubGraphAssets|qa_PluginBlockLibrary|qa_PluginRegistration|qa_PluginAbiVersion|qa_SharedObjectState| \
-            qa_DeviceListing|qa_ErasedRuntime|qa_PluginGlobalDefault) continue ;;
+            qa_DeviceListing|qa_ErasedRuntime) continue ;;
         esac
         install -m 0755 ${t} ${D}${PTEST_PATH}/core/test/
     done
+
+    # qa_PluginGlobalDefault loads the core/test/plugins fixtures from
+    # ../plugins, relative to the empty directory ctest runs it in
+    # (global_default_cwd); run-ptest runs it there the same way.
+    install -d ${D}${PTEST_PATH}/core/test/plugins ${D}${PTEST_PATH}/core/test/global_default_cwd
+    install -m 0755 ${B}/core/test/plugins/lib*.so ${D}${PTEST_PATH}/core/test/plugins/
     install -m 0755 ${B}/meta/test/qa_* ${D}${PTEST_PATH}/meta/test/
 }
 
