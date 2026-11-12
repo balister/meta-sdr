@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=ma
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "87036be616a4a2ff9781216daec5fbb2b305d550"
+SRCREV = "5dd7061879826e5ae27f5230138d22831cbb9c47"
 
 # NOTE: unable to map the following CMake package dependencies: TBB ut httplib Python3
 inherit cmake pkgconfig ptest
@@ -74,8 +74,8 @@ do_install_ptest() {
     # binaries. qa_SharedObjectState is excluded for the same reason: every
     # case loads the cross_object_library fixture from TESTS_BINARY_PATH.
     # qa_DeviceListing and qa_ErasedRuntime load plugin fixtures from
-    # TESTS_BINARY_PATH too, and qa_PluginGlobalDefault has the build-host
-    # ${B}/core/test/plugins compiled in as its installed plugin directory.
+    # TESTS_BINARY_PATH too, and qa_PluginGlobalDefault loads the same
+    # fixtures from ../plugins relative to the directory it runs in.
     # (qa_SchedulerLifecycle's cases that need that fixture are compiled out
     # by 0002-qa_SchedulerLifecycle-build-without-the-cross-object.patch.)
     for t in ${B}/core/test/qa_*; do
