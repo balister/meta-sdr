@@ -28,6 +28,13 @@ DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 # build failure for gnuradio4-control-plane. Disable it here so it never
 # leaks into consumers' builds.
 EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DWARNINGS_AS_ERRORS=OFF"
+
+# gr::kCacheLine falls back to std::hardware_destructive_interference_size,
+# which GCC reports as 32 on riscv64. The default allocator then only gives
+# 32-byte alignment, but the FFT code and qa_MemoryAllocators/qa_buffer
+# require 64 (and the U54 cores have 64-byte cache lines). The value is
+# exported as an INTERFACE define, so the gnuradio4-* consumers pick it up.
+EXTRA_OECMAKE:append:riscv64 = " -DGR_CACHE_LINE_SIZE=64"
 CXXFLAGS += " -Wno-psabi"
 
 RDEPENDS:${PN}-dev += "vir-simd-dev"
