@@ -9,7 +9,9 @@ targets:
         delay: 3.0
       USBStorageDriver: {}
       ShellDriver:
-        prompt: 'root@[\w\-]+:[^ ]+ '
+        # With bash, systemd's profile.d/80-systemd-osc-context.sh puts OSC 3008
+        # escape sequences in front of the prompt, so allow them before root@.
+        prompt: '(?:\x1b\][^\x1b]*\x1b\\)*root@[\w\-]+:[^ ]+ '
         login_prompt: ' login:'
         username: 'root'
         # HSS + U-Boot + kernel + systemd on the U54 cores is slow.

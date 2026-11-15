@@ -10,7 +10,9 @@ targets:
       USBStorageDriver: {}
       USBSDMuxDriver: {}
       ShellDriver:
-        prompt: 'root@[\w\-]+:[^ ]+ '
+        # With bash, systemd's profile.d/80-systemd-osc-context.sh puts OSC 3008
+        # escape sequences in front of the prompt, so allow them before root@.
+        prompt: '(?:\x1b\][^\x1b]*\x1b\\)*root@[\w\-]+:[^ ]+ '
         login_prompt: ' login:'
         username: 'root'
       PI5Strategy: {}
