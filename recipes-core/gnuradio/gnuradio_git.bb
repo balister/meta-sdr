@@ -8,7 +8,7 @@ DEPENDS = "volk gsl fftw python3 python3-six-native alsa-lib boost \
            python3-mako-native git-native gmp libsndfile1 \
            python3-packaging-native"
 
-#Available PACKAGECONFIG options are qtgui grc uhd logging orc ctrlport zeromq staticlibs
+#Available PACKAGECONFIG options are qtgui grc uhd ctrlport zeromq
 PACKAGECONFIG ??= "grc zeromq"
 
 # qtgui needs meta-qt6 (qtbase, qtsvg) and the qwt-qt6 and python3-pyqt6
@@ -16,11 +16,8 @@ PACKAGECONFIG ??= "grc zeromq"
 PACKAGECONFIG[qtgui] = "-DENABLE_GR_QTGUI=ON,-DENABLE_GR_QTGUI=OFF,qtbase qtsvg qwt-qt6"
 PACKAGECONFIG[grc] = "-DENABLE_GRC=ON,-DENABLE_GRC=OFF, , "
 PACKAGECONFIG[uhd] = "-DENABLE_GR_UHD=ON,-DENABLE_GR_UHD=OFF,uhd,"
-PACKAGECONFIG[logging] = "-DENABLE_GR_LOG=ON,-DENABLE_GR_LOG=OFF,log4cpp, "
-PACKAGECONFIG[orc] = "-DENABLE_ORC=ON,-DENABLE_ORC=OFF,orc, "
 PACKAGECONFIG[ctrlport] = "-DENABLE_GR_CTRLPORT=ON,-DENABLE_GR_CTRLPORT=OFF,thrift thrift-native, "
 PACKAGECONFIG[zeromq] = "-DENABLE_GR_ZEROMQ=ON,-DENABLE_GR_ZEROMQ=OFF,cppzmq python3-pyzmq, "
-PACKAGECONFIG[staticlibs] = "-DENABLE_STATIC_LIBS=ON,-DENABLE_STATIC_LIBS=OFF "
 
 inherit setuptools3-base cmake pkgconfig python3native mime mime-xdg ptest
 inherit ${@bb.utils.contains('PACKAGECONFIG', 'qtgui', 'qt6-cmake', '', d)}
@@ -237,20 +234,17 @@ SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};pro
            file://run-ptest \
           "
 
+# PYBIND11_PYTHONLIBS_OVERWRITE is read by pybind11's FindPythonLibsNew.cmake,
+# not by gnuradio: with it off, pybind11 keeps the target Python include and
+# library paths passed in by python3native instead of replacing them with the
+# build host's (-Werror=poison-system-directories otherwise).
 EXTRA_OECMAKE = "\
                  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                  -DPYBIND11_PYTHONLIBS_OVERWRITE=0 \
-                 -DENABLE_GR_ATSC=FALSE \
-                 -DENABLE_GR_FCD=OFF \
-                 -DENABLE_GR_WXGUI=OFF \
                  -DENABLE_GR_VIDEO_SDL=OFF \
                  -DENABLE_GR_DTV=OFF \
-                 -DENABLE_SPHINX=OFF -DENABLE_DOXYGEN=OFF \
-                 -DENABLE_ORC=OFF \
+                 -DENABLE_DOXYGEN=OFF \
                  -DENABLE_GR_VOCODER=OFF \
-                 -DENABLE_INTERNAL_VOLK=OFF \
-                 ${@bb.utils.contains('TUNE_FEATURES', 'neon', \
-                     '-Dhave_mfpu_neon=1', '-Dhave_mfpu_neon=0', d)} \
 "
 do_install:append() {
     find ${D} -name "*.pyc" -exec rm {} \;
