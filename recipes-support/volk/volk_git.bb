@@ -24,8 +24,8 @@ SRC_URI = "git://github.com/gnuradio/volk.git;branch=main;protocol=https;name=vo
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
            file://run-ptest \
           "
-SRC_URI:append:ettus-e300 = "file://volk_config"
-SRC_URI:append:zynqmp-zcu104-sdt-full = "file://volk_config"
+SRC_URI:append:ettus-e300 = " file://volk_config"
+SRC_URI:append:zynqmp-zcu104-sdt-full = " file://volk_config"
 
 SRCREV_volk = "453f289d93c641f53e1b139aef3373b089abe007"
 # v0.11.0, the version upstream volk fetches with FetchContent
@@ -44,9 +44,9 @@ FILES:${PN}-modtool = "${bindir}/volk_modtool \
 FILES:${PN}-dev += "${libdir}/cmake"
 
 do_install:append() {
-	if [ -e ${WORKDIR}/volk_config ]; then
+	if [ -e ${UNPACKDIR}/volk_config ]; then
 		install -d ${D}/${ROOT_HOME}/.volk
-		install -m 644 ${WORKDIR}/volk_config ${D}/${ROOT_HOME}/.volk
+		install -m 644 ${UNPACKDIR}/volk_config ${D}/${ROOT_HOME}/.volk
 	fi
 }
 
