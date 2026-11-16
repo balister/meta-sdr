@@ -43,6 +43,9 @@ FILES:${PN}-modtool = "${bindir}/volk_modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/volk_modtool"
 FILES:${PN}-dev += "${libdir}/cmake"
 
+# run-ptest uses ctest
+RDEPENDS:${PN}-ptest += "cmake"
+
 do_install:append() {
 	if [ -e ${UNPACKDIR}/volk_config ]; then
 		install -d ${D}/${ROOT_HOME}/.volk
