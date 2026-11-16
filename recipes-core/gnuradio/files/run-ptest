@@ -53,7 +53,13 @@ for t in $(find . -type f \( -name "qa_*.py" -o -name "test_modtool.py" \) | sor
     dir=$(dirname "$t")
     name=$(basename "$t")
     cd "$dir"
-    run_test "$name" python3 -B "$name"
+    if [ "$name" = qa_uncaught_exception.py ]; then
+        # The test expects its child to abort within 10 s. Writing a core
+        # dump to systemd-coredump takes longer than that on slow targets.
+        run_test "$name" sh -c 'ulimit -c 0; exec python3 -B "$1"' sh "$name"
+    else
+        run_test "$name" python3 -B "$name"
+    fi
     cd "$TOP"
 done
 
