@@ -1,12 +1,11 @@
 SUMMARY = "Libhackrf"
-HOMEPAGE = "https://github.com/mossmann/hackrf/wiki"
+HOMEPAGE = "https://github.com/greatscottgadgets/hackrf"
 LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://../COPYING;md5=1484b9683e3fc1dd9f5cf802a23fe67c"
 
 DEPENDS = "libusb fftw"
 
-# Didn't find any version information in the sources
-PV = "0.0.2"
+PV = "2026.01.3+git"
 
 inherit cmake pkgconfig
 
@@ -14,7 +13,4 @@ SRC_URI = "git://github.com/greatscottgadgets/hackrf.git;branch=main;protocol=ht
           "
 S = "${UNPACKDIR}/${BP}/host"
 
-SRCREV = "43e6f99fe8543094d18ff3a6550ed2066c398862"
-
-EXTRA_OECMAKE = "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
-
+SRCREV = "3a63b29953a3b763f428821e02110def9fb1cade"
