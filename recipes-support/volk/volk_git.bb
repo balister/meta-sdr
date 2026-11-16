@@ -1,7 +1,9 @@
 SUMMARY = "The Vector Optimized Library of Kernels"
 HOMEPAGE = "http://libvolk.org"
-LICENSE = "LGPL-3.0-only"
-LIC_FILES_CHKSUM = "file://COPYING;md5=3000208d539ec061b899bce1d9ce9404"
+LICENSE = "LGPL-3.0-only AND Apache-2.0"
+LIC_FILES_CHKSUM = "file://COPYING;md5=3000208d539ec061b899bce1d9ce9404 \
+                    file://cpu_features/LICENSE;md5=31a8379f6fe09baf921e654832ac5700 \
+                   "
 
 DEPENDS = "python3-mako-native python3-six-native fmt"
 
@@ -15,9 +17,9 @@ export BUILD_SYS
 export HOST_SYS = "${MULTIMACH_TARGET_SYS}"
 export STAGING_LIBDIR
 
-#PV = "3.2.0"
-PV = "3.2.0+git${SRCPV}"
-SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
+PV = "3.3.0+git"
+SRC_URI = "git://github.com/gnuradio/volk.git;branch=main;protocol=https;name=volk \
+           git://github.com/google/cpu_features.git;branch=main;protocol=https;name=cpu-features;destsuffix=${BP}/cpu_features \
            file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
            file://run-ptest \
@@ -25,7 +27,14 @@ SRC_URI = "gitsm://github.com/gnuradio/volk.git;branch=main;protocol=https \
 SRC_URI:append:ettus-e300 = "file://volk_config"
 SRC_URI:append:zynqmp-zcu104-sdt-full = "file://volk_config"
 
-SRCREV = "e73b4b442b162db2888e66a92ecbbf171e5497b8"
+SRCREV_volk = "453f289d93c641f53e1b139aef3373b089abe007"
+# v0.11.0, the version upstream volk fetches with FetchContent
+SRCREV_cpu-features = "81d13c49649f0714dd41fb56bb246398b6584085"
+SRCREV_FORMAT = "volk"
+
+# volk no longer has a cpu_features submodule; point FetchContent at our copy.
+# Keep it inside ${S} so the debug prefix map covers its sources.
+EXTRA_OECMAKE += "-DFETCHCONTENT_SOURCE_DIR_CPU_FEATURES=${S}/cpu_features"
 
 PACKAGES += "${PN}-modtool"
 
@@ -49,7 +58,7 @@ do_install:append() {
 do_install_ptest() {
     mkdir -p ${D}${PTEST_PATH}
     cd ${B}
-    find . -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
+    find . -path ./_deps -prune -o -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
     find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${B}||g" {} \;
     find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${S}||g" {} \;
 
