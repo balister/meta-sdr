@@ -1,7 +1,7 @@
-From 2988dd298836112a7edbbd123da29bd8eefe9ba3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Philip Balister <philip@opensdr.com>
 Date: Sun, 11 Oct 2026 13:09:16 -0400
-Subject: [PATCH] Use the keyword form of GR_REGISTER_COMPONENT
+Subject: [PATCH 2/3] Use the keyword form of GR_REGISTER_COMPONENT
 
 gr-osmosdr picks up GrComponent.cmake from the installed GNU Radio.
 GNU Radio's main branch changed GR_REGISTER_COMPONENT to take NAME, VAR
@@ -33,7 +33,7 @@ index d2adbcb..36b2265 100644
  ########################################################################
  # Install directories
 diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
-index f2b453a..60e649a 100644
+index 8673038..b9cdc78 100644
 --- a/lib/CMakeLists.txt
 +++ b/lib/CMakeLists.txt
 @@ -128,7 +128,7 @@ set_source_files_properties(
@@ -116,8 +116,8 @@ index f2b453a..60e649a 100644
 +GR_REGISTER_COMPONENT(NAME "HackRF & rad1o Badge" VAR ENABLE_HACKRF NO_INSTALL REQUIRED_TPLS LIBHACKRF_FOUND)
  if(ENABLE_HACKRF)
      add_subdirectory(hackrf)
- endif(ENABLE_HACKRF)
-@@ -204,7 +204,7 @@ endif(ENABLE_HACKRF)
+     if(PC_LIBHACKRF_VERSION VERSION_GREATER_EQUAL "0.7")
+@@ -210,7 +210,7 @@ endif(ENABLE_HACKRF)
  ########################################################################
  # Setup bladeRF component
  ########################################################################
@@ -126,7 +126,7 @@ index f2b453a..60e649a 100644
  if(ENABLE_BLADERF)
      add_subdirectory(bladerf)
  endif(ENABLE_BLADERF)
-@@ -212,7 +212,7 @@ endif(ENABLE_BLADERF)
+@@ -218,7 +218,7 @@ endif(ENABLE_BLADERF)
  ########################################################################
  # Setup RFSPACE component
  ########################################################################
@@ -135,7 +135,7 @@ index f2b453a..60e649a 100644
  if(ENABLE_RFSPACE)
      add_subdirectory(rfspace)
  endif(ENABLE_RFSPACE)
-@@ -220,7 +220,7 @@ endif(ENABLE_RFSPACE)
+@@ -226,7 +226,7 @@ endif(ENABLE_RFSPACE)
  ########################################################################
  # Setup AIRSPY component
  ########################################################################
@@ -144,7 +144,7 @@ index f2b453a..60e649a 100644
  if(ENABLE_AIRSPY)
      add_subdirectory(airspy)
  endif(ENABLE_AIRSPY)
-@@ -228,7 +228,7 @@ endif(ENABLE_AIRSPY)
+@@ -234,7 +234,7 @@ endif(ENABLE_AIRSPY)
  ########################################################################
  # Setup AIRSPYHF component
  ########################################################################
@@ -153,7 +153,7 @@ index f2b453a..60e649a 100644
  if(ENABLE_AIRSPYHF)
      add_subdirectory(airspyhf)
  endif(ENABLE_AIRSPYHF)
-@@ -236,7 +236,7 @@ endif(ENABLE_AIRSPYHF)
+@@ -242,7 +242,7 @@ endif(ENABLE_AIRSPYHF)
  ########################################################################
  # Setup SoapySDR component
  ########################################################################
@@ -162,7 +162,7 @@ index f2b453a..60e649a 100644
  if(ENABLE_SOAPY)
      add_subdirectory(soapy)
  endif(ENABLE_SOAPY)
-@@ -244,7 +244,7 @@ endif(ENABLE_SOAPY)
+@@ -250,7 +250,7 @@ endif(ENABLE_SOAPY)
  ########################################################################
  # Setup Red Pitaya component
  ########################################################################
@@ -171,7 +171,7 @@ index f2b453a..60e649a 100644
  if(ENABLE_REDPITAYA)
      add_subdirectory(redpitaya)
  endif(ENABLE_REDPITAYA)
-@@ -252,7 +252,7 @@ endif(ENABLE_REDPITAYA)
+@@ -258,7 +258,7 @@ endif(ENABLE_REDPITAYA)
  ########################################################################
  # Setup FreeSRP component
  ########################################################################
@@ -180,7 +180,7 @@ index f2b453a..60e649a 100644
  if(ENABLE_FREESRP)
      add_subdirectory(freesrp)
  endif(ENABLE_FREESRP)
-@@ -260,7 +260,7 @@ endif(ENABLE_FREESRP)
+@@ -266,7 +266,7 @@ endif(ENABLE_FREESRP)
  ########################################################################
  # Setup XTRX component
  ########################################################################
@@ -189,6 +189,3 @@ index f2b453a..60e649a 100644
  if(ENABLE_XTRX)
      add_subdirectory(xtrx)
  endif(ENABLE_XTRX)
--- 
-2.56.0
-

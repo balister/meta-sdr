@@ -1,5 +1,5 @@
 SUMMARY = "OsmocomSDR gnuradio block set"
-HOMEPAGE = "http://sdr.osmocom.org/trac/wiki/GrOsmoSDR"
+HOMEPAGE = "https://gitea.osmocom.org/sdr/gr-osmosdr"
 LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
@@ -24,11 +24,11 @@ inherit gnuradio-oot
 
 EXTRA_OECMAKE = "-DENABLE_DEFAULT=OFF -DENABLE_PYTHON=ON"
 
-PV = "0.2.4"
+PV = "0.2.6+git"
 
-SRC_URI = "git://git.osmocom.org/gr-osmosdr;branch=master \
+SRC_URI = "git://gitea.osmocom.org/sdr/gr-osmosdr.git;branch=master;protocol=https \
            file://0001-CMakeLists.txt-Don-t-require-the-Boost-system-compon.patch \
            file://0002-Use-the-keyword-form-of-GR_REGISTER_COMPONENT.patch \
            file://0003-lib-Install-the-library-without-GR_LIBRARY_FOO.patch \
           "
-SRCREV = "82d6b6db78c829ddf7511826bd2b64be2bc189d5"
+SRCREV = "2f230c42d2e7471769041430973776250b8f6d1d"
