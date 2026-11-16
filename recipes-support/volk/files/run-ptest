@@ -1,5 +1,28 @@
 #!/bin/sh
+# Run the volk kernel QA tests and report results in the PASS/FAIL format
+# ptest-runner expects.
+#
+# Upstream registers one ctest test per kernel, each a wrapper script that
+# sets a build-tree library path and runs "volk_test_all <kernel>". Run
+# volk_test_all directly instead, against the installed libvolk, for every
+# kernel listed in lib/kernels.
 
-export PATH=`pwd`:$PATH
-ctest CTestTestfile.cmake
+RET=0
 
+# volk_test_all prints a line per implementation and offset it checks; indent
+# its output so nothing in it can be mistaken for a result line.
+LOG=$(mktemp)
+trap 'rm -f "$LOG"' EXIT
+
+for k in $(cat lib/kernels); do
+    if ./lib/volk_test_all "$k" > "$LOG" 2>&1; then
+        result=PASS
+    else
+        result=FAIL
+        RET=1
+    fi
+    sed 's/^/    /' "$LOG"
+    echo "$result: qa_$k"
+done
+
+exit $RET

@@ -20,7 +20,6 @@ export STAGING_LIBDIR
 PV = "3.3.0+git"
 SRC_URI = "git://github.com/gnuradio/volk.git;branch=main;protocol=https;name=volk \
            git://github.com/google/cpu_features.git;branch=main;protocol=https;name=cpu-features;destsuffix=${BP}/cpu_features \
-           file://0001-Modify-ctest-so-we-can-package-the-testfiles-and-ins.patch \
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
            file://run-ptest \
           "
@@ -43,9 +42,6 @@ FILES:${PN}-modtool = "${bindir}/volk_modtool \
                        ${PYTHON_SITEPACKAGES_DIR}/volk_modtool"
 FILES:${PN}-dev += "${libdir}/cmake"
 
-# run-ptest uses ctest
-RDEPENDS:${PN}-ptest += "cmake"
-
 do_install:append() {
 	if [ -e ${UNPACKDIR}/volk_config ]; then
 		install -d ${D}/${ROOT_HOME}/.volk
@@ -58,15 +54,15 @@ do_install:append() {
     find ${D} -name "*.pyo" -exec rm {} \;
 }
 
+# Each upstream QA test is volk_test_all run with one kernel name, one test
+# per header in kernels/volk (see lib/CMakeLists.txt and VolkAddTest.cmake).
+# Install the binary and that list of kernels; run-ptest runs them directly
+# rather than through ctest.
 do_install_ptest() {
-    mkdir -p ${D}${PTEST_PATH}
-    cd ${B}
-    find . -path ./_deps -prune -o -name "CTestTestfile.cmake" -exec cp --parents {} ${D}${PTEST_PATH} \;
-    find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${B}||g" {} \;
-    find ${D}${PTEST_PATH} -name "CTestTestfile.cmake" -exec sed -i "s|${S}||g" {} \;
-
-
-    find . -name "volk*test.sh" -exec cp --parents {} ${D}${PTEST_PATH} \;
-    install -m 0755 lib/volk_test_all ${D}/${PTEST_PATH}
+    install -d ${D}${PTEST_PATH}/lib
+    install -m 0755 ${B}/lib/volk_test_all ${D}${PTEST_PATH}/lib/
+    for h in ${S}/kernels/volk/volk_*.h; do
+        basename ${h} .h
+    done | sort > ${D}${PTEST_PATH}/lib/kernels
 }
 
