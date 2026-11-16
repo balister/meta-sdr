@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=dca174369926f2d6038aaf9ee5698d26"
 # destsuffix ("blocks/", the subpath's basename) doesn't match the recipe's
 # default S (${UNPACKDIR}/${BP}), so S is set explicitly below.
 SRC_URI = "git://github.com/gnuradio/gnuradio4-studio.git;protocol=https;branch=main;subpath=blocks \
+           file://0001-blocks-Install-the-shared-plugin-into-gnuradio-4-plu.patch;striplevel=2 \
            file://run-ptest \
            "
 
@@ -45,14 +46,6 @@ EXTRA_OECMAKE = "-DENABLE_TESTING=ON"
 do_install_ptest() {
     install -d ${D}${PTEST_PATH}/studio/test
     install -m 0755 ${B}/studio/test/qa_* ${D}${PTEST_PATH}/studio/test/
-}
-
-# PluginHelpers.cmake installs Gr4StudioBlocksPlugin straight into
-# ${libdir}; move it next to gnuradio4-blocks' plugins, the directory
-# gr::PluginLoader scans by default.
-do_install:append() {
-    install -d ${D}${libdir}/gnuradio-4/plugins
-    mv ${D}${libdir}/libGr4StudioBlocksPlugin.so ${D}${libdir}/gnuradio-4/plugins/
 }
 
 # Gr4StudioBlocksPlugin is a runtime-loaded plugin module
