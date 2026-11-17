@@ -19,16 +19,6 @@ DEPENDS = "zlib boost gnuradio4-core cpp-httplib nlohmann-json googletest"
 
 inherit cmake pkgconfig ptest
 
-# gnuradio4's exported gnuradio4::gnuradio-options target used to carry
-# -Werror in its INTERFACE_COMPILE_OPTIONS, which propagated to any consumer
-# linking against it -- including this recipe's test binaries, turning GCC 16
-# false positives (-Warray-bounds/-Wnull-dereference) inside vendored
-# httplib.h and boost::beast headers into hard errors. Fixed at the source by
-# building gnuradio4-core with -DWARNINGS_AS_ERRORS=OFF (see that recipe);
-# this project's own GR4CP_SUPPRESS_IMPORTED_WERROR option doesn't apply here
-# since it only strips gnuradio-core/gnuradio-blocklib-core, not the actual
-# gnuradio-options target that carried the flag.
-#
 # gtest_discover_tests() runs each test binary at build time to list its
 # cases, which can't work for target binaries. PRE_TEST defers that to ctest,
 # which this recipe never runs (run-ptest runs the binaries directly).

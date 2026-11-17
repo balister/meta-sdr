@@ -16,17 +16,10 @@ SRCREV = "5dd7061879826e5ae27f5230138d22831cbb9c47"
 inherit cmake pkgconfig ptest
 DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 
-# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
-# WARNINGS_AS_ERRORS (default ON upstream) bakes -Werror plus a large
-# pedantic warning set into the INTERFACE_COMPILE_OPTIONS of the exported
-# gnuradio4::gnuradio-options target, which every downstream consumer
-# (gnuradio4-blocks, gnuradio4-incubator, gnuradio4-control-plane, ...)
-# transitively links against. That means -Werror applies not just to this
-# project's own code but to any header a consumer happens to include,
-# evaluated against whatever GCC version is in use -- e.g. it turned GCC 16
-# false positives inside vendored httplib.h/boost::beast headers into a hard
-# build failure for gnuradio4-control-plane. Disable it here so it never
-# leaks into consumers' builds.
+# WARNINGS_AS_ERRORS (default ON upstream) adds -Werror to this project's
+# own build only; upstream keeps its warning flags out of the installed
+# gnuradio4::gnuradio-options target. Turn it off so a new compiler's
+# warnings don't fail the build.
 EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DWARNINGS_AS_ERRORS=OFF"
 
 # gr::kCacheLine falls back to std::hardware_destructive_interference_size,
