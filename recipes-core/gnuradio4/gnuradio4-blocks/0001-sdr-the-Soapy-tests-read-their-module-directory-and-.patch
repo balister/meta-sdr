@@ -21,20 +21,20 @@ variable when one is unset. A hardware run of qa_SoapyIntegration
 variable is set. Run through ctest in the build tree, every test sees
 the directories it saw before.
 
-Upstream-Status: Pending
+Upstream-Status: Submitted [https://github.com/gnuradio/gnuradio4-blocks/pull/204]
 
 Signed-off-by: Philip Balister <philip@balister.org>
 ---
- blocks/sdr/test/CMakeLists.txt           | 19 ++++++++--------
- blocks/sdr/test/SoapyTestEnvironment.hpp | 29 ++++++++++++++++++++++++
- blocks/sdr/test/qa_SoapyIntegration.cpp  | 13 +++++++----
- blocks/sdr/test/qa_SoapyRaiiWrapper.cpp  |  8 ++++---
- blocks/sdr/test/qa_SoapySource.cpp       |  8 ++++---
- 5 files changed, 57 insertions(+), 20 deletions(-)
+ blocks/sdr/test/CMakeLists.txt           | 33 ++++++++----------------
+ blocks/sdr/test/SoapyTestEnvironment.hpp | 29 +++++++++++++++++++++
+ blocks/sdr/test/qa_SoapyIntegration.cpp  | 13 +++++++---
+ blocks/sdr/test/qa_SoapyRaiiWrapper.cpp  |  8 +++---
+ blocks/sdr/test/qa_SoapySource.cpp       |  8 +++---
+ 5 files changed, 59 insertions(+), 32 deletions(-)
  create mode 100644 blocks/sdr/test/SoapyTestEnvironment.hpp
 
 diff --git a/blocks/sdr/test/CMakeLists.txt b/blocks/sdr/test/CMakeLists.txt
-index 5fdcfd8..802fe6c 100644
+index 5fdcfd8..208f887 100644
 --- a/blocks/sdr/test/CMakeLists.txt
 +++ b/blocks/sdr/test/CMakeLists.txt
 @@ -64,12 +64,15 @@ if(TARGET SoapySDR)
@@ -43,8 +43,8 @@ index 5fdcfd8..802fe6c 100644
    # folders, and SOAPY_SDR_PLUGIN_PATH names the loopback module's directory. The program sets both itself unless
 -  # GR_SDR_TEST_HARDWARE=1 asks for the host's modules and radios.
 +  # GR_SDR_TEST_HARDWARE=1 asks for the host's modules and radios. It reads the two directories from
-+  # GR_SDR_TEST_SOAPY_MODULE_DIR and GR_SDR_TEST_SOAPY_EMPTY_ROOT in its environment, so the binary carries no build-tree
-+  # path and a test installed elsewhere runs with the directories its runner names.
++  # GR_SDR_TEST_SOAPY_MODULE_DIR and GR_SDR_TEST_SOAPY_EMPTY_ROOT in its environment, so the binary carries no
++  # build-tree path and a test installed elsewhere runs with the directories its runner names.
    set(SOAPY_MODULE_DIR ${CMAKE_CURRENT_BINARY_DIR}/soapy_modules)
    set(SOAPY_EMPTY_ROOT ${CMAKE_CURRENT_BINARY_DIR}/soapy_empty_root)
    file(MAKE_DIRECTORY ${SOAPY_EMPTY_ROOT})
@@ -56,42 +56,48 @@ index 5fdcfd8..802fe6c 100644
    if(SOAPY_CXX_ABI_COMPATIBLE)
      add_dependencies(qa_SoapySource gr-sdr-loopback)
      add_custom_command(
-@@ -86,7 +89,7 @@ if(TARGET SoapySDR)
-     qa_SoapySource
-     PROPERTIES
-       ENVIRONMENT
+@@ -82,11 +85,7 @@ if(TARGET SoapySDR)
+     message(STATUS "qa_SoapySource: the loopback module is absent (SoapySDR ABI mismatch). Its device cases skip.")
+   endif()
+   # skip LSAN: 168-byte leak inside SoapySDR's dynamically loaded driver modules (not our code)
+-  set_tests_properties(
+-    qa_SoapySource
+-    PROPERTIES
+-      ENVIRONMENT
 -      "SOAPY_SDR_ROOT=${SOAPY_EMPTY_ROOT};SOAPY_SDR_PLUGIN_PATH=${SOAPY_MODULE_DIR};ASAN_OPTIONS=detect_leaks=0")
-+      "${SOAPY_TEST_ENVIRONMENT};ASAN_OPTIONS=detect_leaks=0")
++  set_tests_properties(qa_SoapySource PROPERTIES ENVIRONMENT "${SOAPY_TEST_ENVIRONMENT};ASAN_OPTIONS=detect_leaks=0")
  
    # includes a filter block header before the sdr headers, so it compiles only while the sdr headers name every kernel
    # of gr::filter in full. No device is opened.
-@@ -163,13 +166,11 @@ if(TARGET SoapySDR)
+@@ -163,13 +162,8 @@ if(TARGET SoapySDR)
      add_test(NAME qa_SoapyRaiiWrapper COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR}
                                                ${CMAKE_CURRENT_BINARY_DIR}/qa_SoapyRaiiWrapper)
      # loads the loopback module alone, as qa_SoapySource does. It names no other driver.
 -    target_compile_definitions(qa_SoapyRaiiWrapper PRIVATE GR_SDR_TEST_SOAPY_MODULE_DIR="${SOAPY_MODULE_DIR}"
 -                                                           GR_SDR_TEST_SOAPY_EMPTY_ROOT="${SOAPY_EMPTY_ROOT}")
-     set_tests_properties(
-       qa_SoapyRaiiWrapper
-       PROPERTIES
-         ENVIRONMENT
+-    set_tests_properties(
+-      qa_SoapyRaiiWrapper
+-      PROPERTIES
+-        ENVIRONMENT
 -        "SOAPY_SDR_ROOT=${SOAPY_EMPTY_ROOT};SOAPY_SDR_PLUGIN_PATH=${SOAPY_MODULE_DIR};ASAN_OPTIONS=detect_leaks=0")
-+        "${SOAPY_TEST_ENVIRONMENT};ASAN_OPTIONS=detect_leaks=0")
++    set_tests_properties(qa_SoapyRaiiWrapper PROPERTIES ENVIRONMENT
++                                                        "${SOAPY_TEST_ENVIRONMENT};ASAN_OPTIONS=detect_leaks=0")
      # GR4 integration test: SoapySource + loopback through scheduler
      add_executable(qa_SoapyIntegration qa_SoapyIntegration.cpp)
      target_link_libraries(
-@@ -193,13 +194,11 @@ if(TARGET SoapySDR)
+@@ -193,13 +187,8 @@ if(TARGET SoapySDR)
                                                ${CMAKE_CURRENT_BINARY_DIR}/qa_SoapyIntegration)
      # The test loads the loopback module alone, as qa_SoapySource does. Its LimeSDR cases run only in a direct run with
      # GR_SDR_TEST_HARDWARE=1.
 -    target_compile_definitions(qa_SoapyIntegration PRIVATE GR_SDR_TEST_SOAPY_MODULE_DIR="${SOAPY_MODULE_DIR}"
 -                                                           GR_SDR_TEST_SOAPY_EMPTY_ROOT="${SOAPY_EMPTY_ROOT}")
-     set_tests_properties(
-       qa_SoapyIntegration
-       PROPERTIES
-         ENVIRONMENT
+-    set_tests_properties(
+-      qa_SoapyIntegration
+-      PROPERTIES
+-        ENVIRONMENT
 -        "SOAPY_SDR_ROOT=${SOAPY_EMPTY_ROOT};SOAPY_SDR_PLUGIN_PATH=${SOAPY_MODULE_DIR};ASAN_OPTIONS=detect_leaks=0")
-+        "${SOAPY_TEST_ENVIRONMENT};ASAN_OPTIONS=detect_leaks=0")
++    set_tests_properties(qa_SoapyIntegration PROPERTIES ENVIRONMENT
++                                                        "${SOAPY_TEST_ENVIRONMENT};ASAN_OPTIONS=detect_leaks=0")
      # SoapySink's transmit burst tags against the loopback module, which records the flags and time of every write.
      # Every case names the loopback driver alone.
      add_executable(qa_SoapySinkBurst qa_SoapySinkBurst.cpp)
@@ -238,3 +244,6 @@ index 6e059b9..e8cb69e 100644
              }
          }
      };
+-- 
+2.56.1
+
