@@ -227,7 +227,7 @@ GITHUB_USER = "gnuradio"
 SRC_URI = "git://github.com/${GITHUB_USER}/gnuradio.git;branch=${GIT_BRANCH};protocol=https \
            file://0001-Remove-paths-from-pc-files-that-contain-build-system.patch \
            file://0001-Don-t-use-the-value-of-PYTHON_EXECTUABLE-probed-at-b.patch \
-           file://0001-Add-a-sane-default-path-to-the-qa_wavfile-test.patch \
+           file://0001-gr-blocks-qa_wavfile-finds-its-test-files-without-sr.patch \
            file://0001-qa_type_conversions.py-This-test-fails-on-a-ZCU104-a.patch \
            file://0001-If-we-can-t-find-gr-newmod-in-the-test-directory-try.patch \
            file://0001-gr-qtgui-Don-t-build-the-fosphor-display-against-Ope.patch \
@@ -282,8 +282,8 @@ do_install_ptest() {
     # Helper modules and fixture files the Python QA tests load relative to
     # their own directory (run-ptest runs each test from its directory):
     # _qa_helper*.py and file_taps_loader.py are imported as local modules,
-    # qa_wavfile reads its .wav/.mp3 inputs from the current directory (see
-    # 0001-Add-a-sane-default-path-to-the-qa_wavfile-test.patch), and
+    # qa_wavfile reads its .wav/.mp3 inputs from its own directory (see
+    # 0001-gr-blocks-qa_wavfile-finds-its-test-files-without-sr.patch), and
     # qa_fecapi_ldpc reads ../../ldpc_alist/*.alist.
     cd ${S}
     for f in gr-fec/python/fec/_qa_helper*.py \
