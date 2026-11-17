@@ -8,7 +8,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=main \
-           file://0001-sdr-let-the-tests-find-their-soapy-directories-outsi.patch \
+           file://0001-sdr-the-Soapy-tests-read-their-module-directory-and-.patch \
            file://run-ptest \
            file://gen-graph-tests.py \
            "
@@ -55,13 +55,13 @@ TARGET_CXXFLAGS:append:riscv64 = " -Wno-error=cast-align -Wno-error=array-bounds
 # to match upstream and avoid silently growing every image's DEPENDS;
 # enable with PACKAGECONFIG:append:pn-gnuradio4-blocks = " soapysdr".
 #
-# qa_SoapyRaiiWrapper and qa_SoapyIntegration compile in the directory they
-# point SOAPY_SDR_PLUGIN_PATH/SOAPY_SDR_ROOT at (soapy_modules and
-# soapy_empty_root) and override the environment with it, so point
-# GR_SDR_TEST_RUNTIME_DIR (added by the 0001 patch) at where
-# do_install_ptest puts those directories rather than the build tree.
+# qa_SoapySource, qa_SoapyRaiiWrapper and qa_SoapyIntegration read the
+# loopback module's directory and an empty SoapySDR root from
+# GR_SDR_TEST_SOAPY_MODULE_DIR and GR_SDR_TEST_SOAPY_EMPTY_ROOT (the 0001
+# patch; upstream compiles in build-tree paths). run-ptest sets them to where
+# do_install_ptest puts soapy_modules and soapy_empty_root.
 PACKAGECONFIG ??= ""
-PACKAGECONFIG[soapysdr] = "-DGR4_ENABLE_SDR=ON -DGR_SDR_TEST_RUNTIME_DIR=${PTEST_PATH}/blocks/sdr/test,-DGR4_ENABLE_SDR=OFF,soapysdr"
+PACKAGECONFIG[soapysdr] = "-DGR4_ENABLE_SDR=ON,-DGR4_ENABLE_SDR=OFF,soapysdr"
 
 do_install_ptest() {
     for d in ${B}/blocks/*/test; do

@@ -19,6 +19,11 @@ export LD_LIBRARY_PATH="/usr/lib/gnuradio-4/plugins${LD_LIBRARY_PATH:+:$LD_LIBRA
 
 export GNURADIO4_PLUGIN_DIRECTORIES=/usr/lib/gnuradio-4/plugins/
 export SOAPY_SDR_PLUGIN_PATH=/usr/lib/gnuradio4-blocks/ptest/blocks/sdr/test/soapy_modules/
+# The qa_Soapy* tests confine SoapySDR to the loopback module, reading its
+# directory and an empty stand-in root from these (ctest sets them to the
+# build tree).
+export GR_SDR_TEST_SOAPY_MODULE_DIR=/usr/lib/gnuradio4-blocks/ptest/blocks/sdr/test/soapy_modules
+export GR_SDR_TEST_SOAPY_EMPTY_ROOT=/usr/lib/gnuradio4-blocks/ptest/blocks/sdr/test/soapy_empty_root
 export DISABLE_SENSITIVE_TESTS=1
 # qa_ExampleGraphs' install-layout case reads the installed example graphs
 # from the directory this names (ctest sets it to a build-tree prefix).
