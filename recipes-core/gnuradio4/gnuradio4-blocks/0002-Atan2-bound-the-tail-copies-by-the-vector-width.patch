@@ -14,7 +14,7 @@ GCC can now see the copies fit the arrays.
 
 Signed-off-by: Philip Balister <philip@balister.org>
 
-Upstream-Status: Pending
+Upstream-Status: Submitted [https://github.com/gnuradio/gnuradio4-blocks/pull/206]
 ---
  .../include/gnuradio-4.0/algorithm/math/Atan2.hpp   | 13 +++++++------
  1 file changed, 7 insertions(+), 6 deletions(-)
