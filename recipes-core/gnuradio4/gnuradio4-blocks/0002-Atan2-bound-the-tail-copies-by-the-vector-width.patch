@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 17 Nov 2026 13:52:50 -0500
+Subject: [PATCH] Atan2: bound the tail copies by the vector width
+
+scaledAtan2Lanes() copies the last n - i < W samples through
+std::array<T, W> buffers. GCC 16 can't see that bound once the call is
+inlined into a caller with a long span (bm_QuadratureDemod), warns that
+the memcpy into the W-element array may reach far past its end, and
+-Werror=array-bounds fails the build on aarch64.
+
+Take the copy length as std::min(n - i, W). It is always n - i, but
+GCC can now see the copies fit the arrays.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+
+Upstream-Status: Pending
+---
+ .../include/gnuradio-4.0/algorithm/math/Atan2.hpp   | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/library/algorithm/include/gnuradio-4.0/algorithm/math/Atan2.hpp b/library/algorithm/include/gnuradio-4.0/algorithm/math/Atan2.hpp
+index af90985..913bad5 100644
+--- a/library/algorithm/include/gnuradio-4.0/algorithm/math/Atan2.hpp
++++ b/library/algorithm/include/gnuradio-4.0/algorithm/math/Atan2.hpp
+@@ -37,14 +37,15 @@ void scaledAtan2Lanes(std::span<const T> y, std::span<const T> x, std::span<T> o
+         result.copy_to(&out[i], vir::stdx::element_aligned);
+     }
+     if (i < n) {
+-        std::array<T, W> tailY{};
+-        std::array<T, W> tailX{};
+-        std::array<T, W> tailOut;
+-        std::copy_n(&y[i], n - i, tailY.begin());
+-        std::copy_n(&x[i], n - i, tailX.begin());
++        const std::size_t tail = std::min(n - i, W); // always n - i; the bound lets GCC see the copies fit the arrays
++        std::array<T, W>  tailY{};
++        std::array<T, W>  tailX{};
++        std::array<T, W>  tailOut;
++        std::copy_n(&y[i], tail, tailY.begin());
++        std::copy_n(&x[i], tail, tailX.begin());
+         V result = factor * gr::meta::atan2(V(tailY.data(), vir::stdx::element_aligned), V(tailX.data(), vir::stdx::element_aligned));
+         result.copy_to(tailOut.data(), vir::stdx::element_aligned);
+-        std::copy_n(tailOut.begin(), n - i, &out[i]);
++        std::copy_n(tailOut.begin(), tail, &out[i]);
+     }
+ }
+ 
+-- 
+2.56.1
+

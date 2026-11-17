@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=ma
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "5dd7061879826e5ae27f5230138d22831cbb9c47"
+SRCREV = "b7a4ec5b3f93f926708a218858cf28d385caafab"
 
 # NOTE: unable to map the following CMake package dependencies: TBB ut httplib Python3
 inherit cmake pkgconfig ptest

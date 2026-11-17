@@ -9,13 +9,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=main \
            file://0001-sdr-the-Soapy-tests-read-their-module-directory-and-.patch \
+           file://0002-Atan2-bound-the-tail-copies-by-the-vector-width.patch \
            file://run-ptest \
            file://gen-graph-tests.py \
            "
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "4dd100c111bd7ec46fbd84117899fc8bde5a5fe9"
+SRCREV = "4d84d31cdc79669ac6f0aeaca682052097f21f7e"
 
 # NOTE: unable to map the following CMake package dependencies: ut SoapySDR httplib gnuradio4 GnuRadioBlockLib
 inherit cmake pkgconfig ptest
