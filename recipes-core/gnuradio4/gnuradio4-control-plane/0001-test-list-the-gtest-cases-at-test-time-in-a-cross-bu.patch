@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 17 Nov 2026 10:06:45 -0500
+Subject: [PATCH] test: list the gtest cases at test time in a cross build
+
+gtest_discover_tests() runs each test program after it is built to
+list its cases (DISCOVERY_MODE POST_BUILD). In a cross build without
+CMAKE_CROSSCOMPILING_EMULATOR the build machine can't run the target's
+programs, so building the tests fails.
+
+There, default CMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE to PRE_TEST,
+which leaves the listing to ctest on the machine that runs the tests.
+A build with an emulator, or one that sets the mode itself, is
+unchanged.
+
+Upstream-Status: Submitted [https://github.com/gnuradio/gnuradio4-control-plane/pull/58]
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ CMakeLists.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9ab8fd9..0b6e4e9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -374,6 +374,11 @@ if(NOT EMSCRIPTEN)
+     add_dependencies(gr4cp_smoke_test gr4cp_server)
+ 
+     include(GoogleTest)
++    # gtest_discover_tests() runs each test program after it is built to list its cases. A cross build can't run the
++    # target's programs unless it has an emulator, so leave the listing to ctest, which runs where the tests do.
++    if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR AND NOT DEFINED CMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE)
++        set(CMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE PRE_TEST)
++    endif()
+     gtest_discover_tests(gr4cp_smoke_test
+         PROPERTIES
+             ENVIRONMENT "GR4CP_SERVER_EXECUTABLE=$<TARGET_FILE:gr4cp_server>"
+-- 
+2.56.1
+

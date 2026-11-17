@@ -1,7 +1,8 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Philip Balister <philip@opensdr.com>
-Date: Mon, 16 Nov 2026 16:09:55 -0500
-Subject: [PATCH] blocks: Install the shared plugin into gnuradio-4/plugins
+From: Philip Balister <philip@balister.org>
+Date: Tue, 17 Nov 2026 10:06:21 -0500
+Subject: [PATCH] fix(blocks): install the shared plugin into
+ gnuradio-4/plugins
 
 gr4_studio_add_block_plugin() installs the static plugin library into
 ${CMAKE_INSTALL_LIBDIR}/gnuradio-4/plugins, but the shared plugin into
@@ -13,8 +14,9 @@ found without setting GNURADIO4_PLUGIN_DIRECTORIES.
 
 Install the shared plugin next to the static one.
 
-Upstream-Status: Pending
-Signed-off-by: Philip Balister <philip@opensdr.com>
+Upstream-Status: Submitted [https://github.com/gnuradio/gnuradio4-studio/pull/74]
+
+Signed-off-by: Philip Balister <philip@balister.org>
 ---
  blocks/cmake/PluginHelpers.cmake | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -31,3 +33,6 @@ index 18af4ce..2cea937 100644
 +    install(TARGETS ${_plugin_lib_name} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/gnuradio-4/plugins)
    endif()
  endfunction()
+-- 
+2.56.1
+

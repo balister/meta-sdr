@@ -2,11 +2,10 @@
 # Run the gnuradio4-control-plane gtest binaries and report results in the
 # PASS/FAIL format ptest-runner expects.
 #
-# These are run directly rather than through ctest: gtest_discover_tests()
-# is set to defer per-testcase discovery to ctest run time
-# (CMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST), which this recipe
-# never invokes,
-# and ctest's relative-path executable lookup doesn't resolve once ${B} is
+# These are run directly rather than through ctest: in a cross build,
+# gtest_discover_tests() defers per-testcase discovery to ctest run time
+# (PRE_TEST, see the 0001 patch), which this recipe never invokes, and
+# ctest's relative-path executable lookup doesn't resolve once ${B} is
 # stripped out of a copied CTestTestfile.cmake anyway (same reasoning as
 # gnuradio4-blocks).
 #

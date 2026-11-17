@@ -8,6 +8,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9547a0c375a0c21052f9ea55d9b4c604"
 
 SRC_URI = "git://github.com/gnuradio/gnuradio4-control-plane.git;protocol=https;branch=main \
+           file://0001-test-list-the-gtest-cases-at-test-time-in-a-cross-bu.patch \
            file://run-ptest \
            "
 
@@ -18,11 +19,6 @@ SRCREV = "d599f08013d0249d765cd43c7b945717ce2223bb"
 DEPENDS = "zlib boost gnuradio4-core cpp-httplib nlohmann-json googletest"
 
 inherit cmake pkgconfig ptest
-
-# gtest_discover_tests() runs each test binary at build time to list its
-# cases, which can't work for target binaries. PRE_TEST defers that to ctest,
-# which this recipe never runs (run-ptest runs the binaries directly).
-EXTRA_OECMAKE = "-DCMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST"
 
 # The gr4cp_*_test gtest binaries are already built by the ordinary
 # do_compile (not gated behind any CMake option), so no do_compile_ptest
