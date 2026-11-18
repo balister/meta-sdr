@@ -40,6 +40,18 @@ DEPENDS = "boost-ext-ut gnuradio4-core cpp-httplib"
 # run-ptest runs.
 EXTRA_OECMAKE += "-D_rungraph=${bindir}/rungraph"
 
+# Upstream caps ninja with its own job pools to bound peak memory, and
+# ignores PARALLEL_MAKE: compile_pool (GR_BUILD_PARALLEL_LEVEL, default 4)
+# for ordinary sources and gr4_heavy_compile (GR_HEAVY_COMPILE_JOBS,
+# default 1) for every qa_* test TU. With width 1 the ~200 test TUs
+# compile one after another and set the length of do_compile. Size both
+# pools from PARALLEL_MAKE instead. Total concurrency is still bounded by
+# ninja's -j (PARALLEL_MAKE).
+GR4_BLOCKS_JOBS = "${@oe.utils.parallel_make(d) or 1}"
+GR4_BLOCKS_HEAVY_JOBS = "${GR4_BLOCKS_JOBS}"
+EXTRA_OECMAKE += "-DGR_BUILD_PARALLEL_LEVEL=${GR4_BLOCKS_JOBS} \
+                  -DGR_HEAVY_COMPILE_JOBS=${GR4_BLOCKS_HEAVY_JOBS}"
+
 # Upstream builds with -Werror -Wcast-align. SimdFFT.hpp casts float*/double*
 # to simd<T, _Fixed<4>>*, which GCC only warns about on strict-alignment
 # targets such as riscv64, so the build breaks there but not on x86/arm.
