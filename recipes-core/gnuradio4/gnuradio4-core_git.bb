@@ -22,6 +22,11 @@ DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 # warnings don't fail the build.
 EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DWARNINGS_AS_ERRORS=OFF"
 
+# Upstream caps ninja with its own compile_pool (GR_BUILD_PARALLEL_LEVEL,
+# default 6) to bound peak memory, and ignores PARALLEL_MAKE. Size it from
+# PARALLEL_MAKE instead, as gnuradio4-blocks does.
+EXTRA_OECMAKE += "-DGR_BUILD_PARALLEL_LEVEL=${@oe.utils.parallel_make(d) or 1}"
+
 # gr::kCacheLine falls back to std::hardware_destructive_interference_size,
 # which GCC reports as 32 on riscv64. The default allocator then only gives
 # 32-byte alignment, but the FFT code and qa_MemoryAllocators/qa_buffer
