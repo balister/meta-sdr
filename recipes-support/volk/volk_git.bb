@@ -21,6 +21,8 @@ PV = "3.3.0+git"
 SRC_URI = "git://github.com/gnuradio/volk.git;branch=main;protocol=https;name=volk \
            git://github.com/google/cpu_features.git;branch=main;protocol=https;name=cpu-features;destsuffix=${BP}/cpu_features \
            file://0001-Do-not-compile-compiler-flags-into-volk.-This-leaks-.patch \
+           file://0002-neon-Return-Inf-from-_vsqrtq_f32-for-Inf-input.patch \
+           file://0003-magnitude_32f-Refine-the-NEON-square-root.patch \
            file://run-ptest \
           "
 SRC_URI:append:ettus-e300 = " file://volk_config"

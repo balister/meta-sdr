@@ -1,0 +1,46 @@
+From 30b02683a55bebe2d21e35d3570f7af75b8c5341 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Wed, 18 Nov 2026 15:07:14 -0500
+Subject: [PATCH] neon: Return +Inf from _vsqrtq_f32 for +Inf input
+
+_vsqrtq_f32 computes sqrt(x) as x * rsqrt(x). For x = +Inf,
+_vinvsqrtq_f32 correctly returns 0, and Inf * 0 gives NaN. The helper
+already special-cases x = 0 for the same reason; handle +Inf as well,
+returning x for both.
+
+Only volk_32f_acos_32f and volk_32f_asin_32f use the helper today, and
+their inputs are bounded, so their results don't change.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Upstream-Status: Submitted [https://github.com/gnuradio/volk/pull/886]
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ include/volk/volk_neon_intrinsics.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/include/volk/volk_neon_intrinsics.h b/include/volk/volk_neon_intrinsics.h
+index ffcc50d..0631e60 100644
+--- a/include/volk/volk_neon_intrinsics.h
++++ b/include/volk/volk_neon_intrinsics.h
+@@ -101,13 +101,14 @@ static inline float32x4_t _vinvsqrtq_f32(float32x4_t x)
+ 
+ /* Square root for ARMv7 NEON (no vsqrtq_f32)
+  * Uses sqrt(x) = x * rsqrt(x) with refined rsqrt
+- * Handles x=0 case to avoid NaN from 0 * inf */
++ * Handles x=0 and x=+Inf, where x * rsqrt(x) is 0 * Inf or Inf * 0 = NaN:
++ * sqrt(x) = x for both */
+ static inline float32x4_t _vsqrtq_f32(float32x4_t x)
+ {
+-    const float32x4_t zero = vdupq_n_f32(0.0f);
+-    uint32x4_t zero_mask = vceqq_f32(x, zero);
++    uint32x4_t zero_mask = vceqq_f32(x, vdupq_n_f32(0.0f));
++    uint32x4_t inf_mask = vceqq_u32(vreinterpretq_u32_f32(x), vdupq_n_u32(0x7F800000));
+     float32x4_t result = vmulq_f32(x, _vinvsqrtq_f32(x));
+-    return vbslq_f32(zero_mask, zero, result);
++    return vbslq_f32(vorrq_u32(zero_mask, inf_mask), x, result);
+ }
+ 
+ /* Inverse */
+-- 
+2.56.1
+

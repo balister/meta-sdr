@@ -1,0 +1,60 @@
+From bb3f1aee1420b69d471f3ef157e7a2dcf0a85705 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Wed, 18 Nov 2026 15:07:14 -0500
+Subject: [PATCH] magnitude_32f: Refine the NEON square root
+
+volk_32fc_magnitude_32f_neon computed sqrt as vrecpeq_f32(vrsqrteq_f32(x))
+with no refinement step. Both instructions are estimates accurate to
+about 8 bits, so the kernel's results are off by up to 0.5%: |2+1i| comes
+out as 2.2343750 instead of 2.2360680. This is the failure in GNU Radio's
+qa_type_conversions on a ZCU104, whose volk_config selects this kernel.
+The kernel test doesn't catch it, since its tolerance is 1e-1 to allow
+for neon_fancy_sweet's approximation (about 1%).
+
+Use _vsqrtq_f32, which refines the reciprocal square root estimate with
+two Newton-Raphson steps and works on ARMv7 NEON, which has no
+vsqrtq_f32.
+
+volk_test_all volk_32fc_magnitude_32f, max relative error of neon vs
+generic, aarch64 (cortex-a57) under qemu-user:
+  before: 5.3e-03
+  after:  2.4e-07 (neonv8: 1.2e-07)
+
++0, +Inf and inputs whose squared magnitude overflows to +Inf give the
+same results as generic.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Upstream-Status: Submitted [https://github.com/gnuradio/volk/pull/886]
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ kernels/volk/volk_32fc_magnitude_32f.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/kernels/volk/volk_32fc_magnitude_32f.h b/kernels/volk/volk_32fc_magnitude_32f.h
+index dadcc31..11ae24f 100644
+--- a/kernels/volk/volk_32fc_magnitude_32f.h
++++ b/kernels/volk/volk_32fc_magnitude_32f.h
+@@ -406,6 +406,7 @@ static inline void volk_32fc_magnitude_32f_a_sse(float* magnitudeVector,
+ 
+ #ifdef LV_HAVE_NEON
+ #include <arm_neon.h>
++#include <volk/volk_neon_intrinsics.h>
+ 
+ static inline void volk_32fc_magnitude_32f_neon(float* magnitudeVector,
+                                                 const lv_32fc_t* complexVector,
+@@ -423,8 +424,10 @@ static inline void volk_32fc_magnitude_32f_neon(float* magnitudeVector,
+         complex_vec.val[0] = vmulq_f32(complex_vec.val[0], complex_vec.val[0]);
+         magnitude_vec =
+             vmlaq_f32(complex_vec.val[0], complex_vec.val[1], complex_vec.val[1]);
+-        magnitude_vec = vrsqrteq_f32(magnitude_vec);
+-        magnitude_vec = vrecpeq_f32(magnitude_vec); // no plain ol' sqrt
++        // ARMv7 NEON has no vsqrtq_f32; _vsqrtq_f32 refines the reciprocal
++        // square root estimate with Newton-Raphson steps. The bare estimates
++        // are only accurate to about 8 bits.
++        magnitude_vec = _vsqrtq_f32(magnitude_vec);
+         vst1q_f32(magnitudeVectorPtr, magnitude_vec);
+ 
+         complexVectorPtr += 8;
+-- 
+2.56.1
+
