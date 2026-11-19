@@ -1,0 +1,38 @@
+From ceb415add4ff2be0315b45c1ee7af7d72cf92df2 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Thu, 19 Nov 2026 11:12:09 -0500
+Subject: [PATCH] Unary: bound the tail copy by the vector width
+
+overParts() stores the last, partly filled vector of a tile through a
+std::array<float, kWidth> and copies count - i < kWidth of its lanes to
+the output. Where the SIMD width is 1 (riscv64 without the V extension)
+that branch never runs, but GCC 16 can't see the bound, warns that the
+memcpy reaches past the one-element array, and -Werror=array-bounds
+fails the build of the Magnitude and Phase blocks and qa_Unary.
+
+Take the copy length as std::min(count - i, kWidth). It is always
+count - i, but GCC can now see the copy fits the array. This is the
+same change as the one for scaledAtan2Lanes() in Atan2.hpp.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+Upstream-Status: Submitted [https://github.com/gnuradio/gnuradio4-blocks/pull/213]
+---
+ blocks/math/include/gnuradio-4.0/math/Unary.hpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/blocks/math/include/gnuradio-4.0/math/Unary.hpp b/blocks/math/include/gnuradio-4.0/math/Unary.hpp
+index 6e1f0e6..aae37b0 100644
+--- a/blocks/math/include/gnuradio-4.0/math/Unary.hpp
++++ b/blocks/math/include/gnuradio-4.0/math/Unary.hpp
+@@ -165,7 +165,7 @@ void overParts(std::span<const std::complex<float>> input, std::span<float> outp
+             } else {
+                 std::array<float, kWidth> last;
+                 result.copy_to(last.data(), vir::stdx::element_aligned);
+-                std::copy_n(last.begin(), count - i, output.begin() + static_cast<std::ptrdiff_t>(base + i));
++                std::copy_n(last.begin(), std::min(count - i, kWidth), output.begin() + static_cast<std::ptrdiff_t>(base + i));
+             }
+         }
+     }
+-- 
+2.56.1
+

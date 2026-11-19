@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b2d3fb84bc5ba2e8e9f06a3100f1e458"
 SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=main \
            file://0001-sdr-the-Soapy-tests-read-their-module-directory-and-.patch \
            file://0002-Atan2-bound-the-tail-copies-by-the-vector-width.patch \
+           file://0003-Unary-bound-the-tail-copy-by-the-vector-width.patch \
            file://run-ptest \
            file://gen-graph-tests.py \
            "
@@ -52,13 +53,6 @@ GR4_BLOCKS_JOBS = "${@oe.utils.parallel_make(d) or 1}"
 GR4_BLOCKS_HEAVY_JOBS = "${GR4_BLOCKS_JOBS}"
 EXTRA_OECMAKE += "-DGR_BUILD_PARALLEL_LEVEL=${GR4_BLOCKS_JOBS} \
                   -DGR_HEAVY_COMPILE_JOBS=${GR4_BLOCKS_HEAVY_JOBS}"
-
-# Upstream builds with -Werror. Unary.hpp's overParts() trips a
-# -Warray-bounds false positive on riscv64: without the V extension the SIMD
-# width is 1, and GCC can't see that the tail copy out of the one-element
-# std::array never runs. (The -Wcast-align failures in SimdFFT.hpp are fixed
-# upstream, blocks#159.)
-TARGET_CXXFLAGS:append:riscv64 = " -Wno-error=array-bounds"
 
 # GR4_ENABLE_SDR (default OFF upstream) gates the find_package(SoapySDR)
 # call in CMakeLists.txt, which in turn gates blocks/sdr's `if(TARGET
