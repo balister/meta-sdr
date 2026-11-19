@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=
            file://0001-sdr-the-Soapy-tests-read-their-module-directory-and-.patch \
            file://0002-Atan2-bound-the-tail-copies-by-the-vector-width.patch \
            file://0003-Unary-bound-the-tail-copy-by-the-vector-width.patch \
+           file://0004-sdr-a-hardware-run-of-qa_SoapyIntegration-needs-the-.patch \
            file://run-ptest \
            file://gen-graph-tests.py \
            "

@@ -1,0 +1,120 @@
+From 2f94aeb406a593062e4c986bc219abb45ca6cd4e Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Thu, 19 Nov 2026 18:01:43 -0500
+Subject: [PATCH] sdr: a hardware run of qa_SoapyIntegration needs the loopback
+ module directory
+
+Without GR_SDR_TEST_SOAPY_MODULE_DIR, GR_SDR_TEST_HARDWARE=1
+qa_SoapyIntegration put no loopback module on the plugin path. The
+loopback cases then got no device, and "device handle survives after
+one user resets" dereferenced the empty result and crashed.
+
+Read the module directory in a hardware run too, so the run stops and
+names the variable when it is unset, as a confined run does. The two
+shared-handle cases stop when Device::make() fails, and the Readme names
+the two variables for a run outside ctest.
+
+Reported by willcode in the review of the change.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+Upstream-Status: Submitted [https://github.com/gnuradio/gnuradio4-blocks/pull/204]
+---
+ blocks/sdr/Readme.md                     | 18 ++++++++++++++++++
+ blocks/sdr/test/SoapyTestEnvironment.hpp |  6 +++---
+ blocks/sdr/test/qa_SoapyIntegration.cpp  | 16 +++++++---------
+ 3 files changed, 28 insertions(+), 12 deletions(-)
+
+diff --git a/blocks/sdr/Readme.md b/blocks/sdr/Readme.md
+index bcd4eb9..7bdcce7 100644
+--- a/blocks/sdr/Readme.md
++++ b/blocks/sdr/Readme.md
+@@ -61,3 +61,21 @@ driver (`rtlsdr` or `lime`). With `DISABLE_SENSITIVE_TESTS` in the environment,
+ none of them runs. The parameterized Basic API test always opens the loopback
+ device. It opens a listed hardware device only when the hardware cases run.
+ Under ctest the test loads only the loopback module, whatever the variable says.
++
++The test binaries carry no path of the build tree. ctest hands each test that
++loads the loopback module its two directories through the environment:
++
++- `GR_SDR_TEST_SOAPY_MODULE_DIR`, the loopback module's directory,
++  `<build-dir>/blocks/sdr/test/soapy_modules`
++- `GR_SDR_TEST_SOAPY_EMPTY_ROOT`, the empty directory that stands in for
++  SoapySDR's root, `<build-dir>/blocks/sdr/test/soapy_empty_root`
++
++A run outside ctest, or of tests installed elsewhere, sets them itself. A test
++that needs one stops and names it when it is unset. A hardware run of
++`qa_SoapyIntegration` needs the module directory for its loopback cases:
++
++```sh
++GR_SDR_TEST_HARDWARE=1 \
++GR_SDR_TEST_SOAPY_MODULE_DIR=<build-dir>/blocks/sdr/test/soapy_modules \
++<build-dir>/blocks/sdr/test/qa_SoapyIntegration
++```
+diff --git a/blocks/sdr/test/SoapyTestEnvironment.hpp b/blocks/sdr/test/SoapyTestEnvironment.hpp
+index cfc3f19..a457c5c 100644
+--- a/blocks/sdr/test/SoapyTestEnvironment.hpp
++++ b/blocks/sdr/test/SoapyTestEnvironment.hpp
+@@ -10,12 +10,12 @@
+ // GR_SDR_TEST_SOAPY_MODULE_DIR and GR_SDR_TEST_SOAPY_EMPTY_ROOT (see CMakeLists.txt), and a packaged test's runner sets
+ // them to where it installed the two directories. The test binary carries no path of the tree it was built in.
+ 
+-// A directory the run names through the test's environment. Without it the test cannot confine SoapySDR to the loopback
+-// module, so it stops and names the variable.
++// A directory the run names through the test's environment. Without it the test cannot find the loopback module or
++// confine SoapySDR to it, so it stops and names the variable. blocks/sdr/Readme.md shows a direct run that sets them.
+ [[nodiscard]] inline std::string soapyTestDirectory(const char* variable) {
+     const char* value = std::getenv(variable);
+     if (value == nullptr || *value == '\0') {
+-        throw std::runtime_error(std::format("the environment variable {} is not set or empty; run the test through ctest", variable));
++        throw std::runtime_error(std::format("the environment variable {} is not set or empty; run the test through ctest, or set it as blocks/sdr/Readme.md describes", variable));
+     }
+     return value;
+ }
+diff --git a/blocks/sdr/test/qa_SoapyIntegration.cpp b/blocks/sdr/test/qa_SoapyIntegration.cpp
+index 43dcfd4..238e2b5 100644
+--- a/blocks/sdr/test/qa_SoapyIntegration.cpp
++++ b/blocks/sdr/test/qa_SoapyIntegration.cpp
+@@ -87,16 +87,14 @@ bool hardwareRequested() {
+ 
+ /// Without GR_SDR_TEST_HARDWARE=1, SOAPY_SDR_ROOT names an empty directory and SOAPY_SDR_PLUGIN_PATH the loopback
+ /// module's directory. SoapySDR then loads the loopback module alone. With it, the loopback module's directory joins the
+-/// host's module folders unless SOAPY_SDR_PLUGIN_PATH is set, or GR_SDR_TEST_SOAPY_MODULE_DIR is not. The flag is
+-/// initialized ahead of the suites below.
++/// host's module folders unless SOAPY_SDR_PLUGIN_PATH is set. The loopback cases need the module in both runs, so either
++/// run stops and names GR_SDR_TEST_SOAPY_MODULE_DIR when it is unset. The flag is initialized ahead of the suites below.
+ const bool kHardwareRequested = [] {
+     const bool requested = hardwareRequested();
+     if (!requested) {
+         setenv("SOAPY_SDR_ROOT", soapyEmptyRoot().c_str(), 1);
+-        setenv("SOAPY_SDR_PLUGIN_PATH", soapyModuleDirectory().c_str(), 1);
+-    } else if (const char* moduleDirectory = std::getenv("GR_SDR_TEST_SOAPY_MODULE_DIR"); moduleDirectory != nullptr) {
+-        setenv("SOAPY_SDR_PLUGIN_PATH", moduleDirectory, 0);
+     }
++    setenv("SOAPY_SDR_PLUGIN_PATH", soapyModuleDirectory().c_str(), requested ? 0 : 1);
+     return requested;
+ }();
+ 
+@@ -1066,16 +1064,16 @@ const boost::ut::suite<"SoapySink + SoapySource shared device"> txRxTests = [] {
+     "shared device handle verified via Device::make()"_test = [] {
+         auto dev1 = soapy::Device::make({{"driver", "loopback"}});
+         auto dev2 = soapy::Device::make({{"driver", "loopback"}});
+-        expect(dev1.has_value());
+-        expect(dev2.has_value());
++        expect(fatal(dev1.has_value()));
++        expect(fatal(dev2.has_value()));
+         expect(eq(dev1->get(), dev2->get())) << "same kwargs should return same device handle";
+     };
+ 
+     "device handle survives after one user resets"_test = [] {
+         auto dev1 = soapy::Device::make({{"driver", "loopback"}});
+         auto dev2 = soapy::Device::make({{"driver", "loopback"}});
+-        expect(dev1.has_value());
+-        expect(dev2.has_value());
++        expect(fatal(dev1.has_value()));
++        expect(fatal(dev2.has_value()));
+         auto* rawPtr = dev1->get();
+         dev1->reset();
+         expect(eq(dev1->get(), static_cast<SoapySDRDevice*>(nullptr)));
+-- 
+2.56.1
+
