@@ -20,7 +20,8 @@ DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
 # own build only; upstream keeps its warning flags out of the installed
 # gnuradio4::gnuradio-options target. Turn it off so a new compiler's
 # warnings don't fail the build.
-EXTRA_OECMAKE = "-DENABLE_TESTING=ON -DWARNINGS_AS_ERRORS=OFF"
+# Build the qa_* tests only for ptest.
+EXTRA_OECMAKE = "-DENABLE_TESTING=${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'ON', 'OFF', d)} -DWARNINGS_AS_ERRORS=OFF"
 
 # Upstream caps ninja with its own compile_pool (GR_BUILD_PARALLEL_LEVEL,
 # default 6) to bound peak memory, and ignores PARALLEL_MAKE. Size it from
@@ -75,7 +76,7 @@ INSANE_SKIP:${PN}-src += "buildpaths"
 
 # EXTRA_OECMAKE above already builds the qa_* unit test binaries (part of the
 # default ninja "all" target under core/test and meta/test) as a side effect
-# of -DENABLE_TESTING=ON, so do_compile_ptest needs no override -- just stage
+# of ENABLE_TESTING, so do_compile_ptest needs no override -- just stage
 # the already-built binaries for run-ptest.
 do_install_ptest() {
     install -d ${D}${PTEST_PATH}/core/test ${D}${PTEST_PATH}/meta/test

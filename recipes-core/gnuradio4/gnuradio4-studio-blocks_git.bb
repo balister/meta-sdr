@@ -37,11 +37,12 @@ DEPENDS = "gnuradio4-core gnuradio4-blocks cpp-httplib openssl boost"
 # ENABLE_TESTING is this project's own (non-standard) gate for its test/
 # subdirectory; it defaults OFF (no CTest/BUILD_TESTING here), matching the
 # other gnuradio4-* recipes' EXTRA_OECMAKE convention. Turning it on builds
-# the qa_* binaries (blocks/studio/test) that do_install_ptest below stages.
-EXTRA_OECMAKE = "-DENABLE_TESTING=ON"
+# the qa_* binaries (blocks/studio/test) that do_install_ptest below stages,
+# so turn it on only for ptest.
+EXTRA_OECMAKE = "-DENABLE_TESTING=${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'ON', 'OFF', d)}"
 
 # EXTRA_OECMAKE above already builds the qa_* test binaries (part of the
-# default ninja "all" target as a side effect of -DENABLE_TESTING=ON), so
+# default ninja "all" target as a side effect of ENABLE_TESTING), so
 # do_compile_ptest needs no override -- just stage them for run-ptest.
 do_install_ptest() {
     install -d ${D}${PTEST_PATH}/studio/test

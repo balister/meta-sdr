@@ -27,10 +27,11 @@ inherit cmake pkgconfig ptest
 # from here.
 DEPENDS = "boost-ext-ut gnuradio4-core cpp-httplib"
 
-# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
-# ENABLE_TESTING defaults to ON upstream, so the blocks/*/test/qa_* and
-# library/algorithm/test/qa_* binaries below are already built by the
-# ordinary do_compile as a side effect -- nothing to add here.
+# ENABLE_TESTING (default ON upstream) builds the blocks/*/test/qa_* and
+# library/algorithm/test/qa_* binaries do_install_ptest stages, as part of the
+# ordinary do_compile. Build them only for ptest; the testing blocks and
+# headers other recipes' tests use are installed either way.
+EXTRA_OECMAKE += "-DENABLE_TESTING=${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'ON', 'OFF', d)}"
 
 # gr_add_graph_test() registers the graph-file tests only when it finds
 # rungraph under the core installation, and the recipe-sysroot holds no

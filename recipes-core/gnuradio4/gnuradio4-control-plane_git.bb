@@ -16,14 +16,18 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-control-plane.git;protocol=https;
 PV = "1.0+git"
 SRCREV = "4714e537eb7f51f5ef8eb497fa30d4393299c623"
 
-DEPENDS = "zlib boost gnuradio4-core cpp-httplib nlohmann-json googletest"
+DEPENDS = "zlib boost gnuradio4-core cpp-httplib nlohmann-json"
 
 inherit cmake pkgconfig ptest
 
-# The gr4cp_*_test gtest binaries are already built by the ordinary
-# do_compile (not gated behind any CMake option), so no do_compile_ptest
-# override is needed -- just stage them, and the plugin gr4cp_core_test
-# loads, for run-ptest.
+# ENABLE_TESTING (default ON upstream) builds the gr4cp_*_test gtest binaries
+# as part of the ordinary do_compile, and is the only user of googletest.
+# Build them only for ptest.
+EXTRA_OECMAKE += "-DENABLE_TESTING=${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'ON', 'OFF', d)}"
+DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'googletest', '', d)}"
+
+# No do_compile_ptest override is needed -- just stage the test binaries, and
+# the plugin gr4cp_core_test loads, for run-ptest.
 do_install_ptest() {
     install -d ${D}${PTEST_PATH}
     for t in gr4cp_smoke_test gr4cp_core_test gr4cp_http_test gr4cp_wasm_api_test gr4cp_cli_test; do

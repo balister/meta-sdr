@@ -246,12 +246,15 @@ EXTRA_OECMAKE = "\
                  -DENABLE_DOXYGEN=OFF \
                  -DENABLE_GR_VOCODER=OFF \
 "
+
+# Build the QA tests (testing-support, default ON upstream) only for ptest.
+EXTRA_OECMAKE += "-DENABLE_TESTING=${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'ON', 'OFF', d)}"
 do_install:append() {
     find ${D} -name "*.pyc" -exec rm {} \;
     find ${D} -name "*.pyo" -exec rm {} \;
 }
 
-# ENABLE_TESTING (default ON upstream) already builds the C++ QA binaries
+# ENABLE_TESTING (set above) already builds the C++ QA binaries
 # (<component>_qa_*, mostly named after their source file including its .cc,
 # and gr_fec_rstest) as part of the ordinary do_compile, and generates a
 # <test>_test.sh wrapper next to each Python QA test in the build tree. When cross compiling, GrTest.cmake

@@ -37,6 +37,9 @@ SRCREV_FORMAT = "volk"
 # Keep it inside ${S} so the debug prefix map covers its sources.
 EXTRA_OECMAKE += "-DFETCHCONTENT_SOURCE_DIR_CPU_FEATURES=${S}/cpu_features"
 
+# Build volk_test_all (ENABLE_TESTING, default ON upstream) only for ptest.
+EXTRA_OECMAKE += "-DENABLE_TESTING=${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'ON', 'OFF', d)}"
+
 PACKAGES += "${PN}-modtool"
 
 FILES:${PN} += "${ROOT_HOME}/.volk"

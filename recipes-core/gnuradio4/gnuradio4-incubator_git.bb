@@ -34,8 +34,9 @@ SRCREV = "db00f52b1bc9d193709113ac9d096377490051e2"
 # SoapySDR, rtaudio and CLI11 only when ENABLE_EXAMPLES is on -- and
 # ENABLE_EXAMPLES defaults ON upstream. SoapySDR and rtaudio have no recipe
 # anywhere in this build, so examples are disabled below rather than adding
-# them; only algorithm/blocks/schedulers libraries and the test suite
-# (ENABLE_TESTING, left at its upstream default of ON) are built.
+# them; only algorithm/blocks/schedulers libraries and, with the ptest
+# DISTRO_FEATURE, the test suite (ENABLE_TESTING) are built. This recipe has
+# no ptest package yet, so the tests are built but not installed.
 # blocks/zeromq/test/qa_ZmqBlocks.cpp includes
 # <gnuradio-4.0/testing/NullSources.hpp> straight off the default system
 # include path (no pkg-config/find_package for it), so gnuradio4-blocks-dev's
@@ -44,7 +45,7 @@ DEPENDS = "gnuradio4-core gnuradio4-blocks boost-ext-ut cpp-httplib cppzmq nlohm
 
 inherit cmake pkgconfig
 
-EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF"
+EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_TESTING=${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'ON', 'OFF', d)}"
 
 # algorithm/CMakeLists.txt builds pmt_converter as a SHARED library without
 # setting VERSION/SOVERSION, so it has no SONAME and no symlink chain -- just
