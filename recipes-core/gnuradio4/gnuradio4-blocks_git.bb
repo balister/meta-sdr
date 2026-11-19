@@ -53,13 +53,12 @@ GR4_BLOCKS_HEAVY_JOBS = "${GR4_BLOCKS_JOBS}"
 EXTRA_OECMAKE += "-DGR_BUILD_PARALLEL_LEVEL=${GR4_BLOCKS_JOBS} \
                   -DGR_HEAVY_COMPILE_JOBS=${GR4_BLOCKS_HEAVY_JOBS}"
 
-# Upstream builds with -Werror -Wcast-align. SimdFFT.hpp casts float*/double*
-# to simd<T, _Fixed<4>>*, which GCC only warns about on strict-alignment
-# targets such as riscv64, so the build breaks there but not on x86/arm.
-# QuadratureDemod.hpp also trips a -Warray-bounds false positive on riscv64:
-# without the V extension the SIMD width is 1, and GCC can't see that the
-# tail copy out of the one-element std::array never runs.
-TARGET_CXXFLAGS:append:riscv64 = " -Wno-error=cast-align -Wno-error=array-bounds"
+# Upstream builds with -Werror. Unary.hpp's overParts() trips a
+# -Warray-bounds false positive on riscv64: without the V extension the SIMD
+# width is 1, and GCC can't see that the tail copy out of the one-element
+# std::array never runs. (The -Wcast-align failures in SimdFFT.hpp are fixed
+# upstream, blocks#159.)
+TARGET_CXXFLAGS:append:riscv64 = " -Wno-error=array-bounds"
 
 # GR4_ENABLE_SDR (default OFF upstream) gates the find_package(SoapySDR)
 # call in CMakeLists.txt, which in turn gates blocks/sdr's `if(TARGET
