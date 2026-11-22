@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=ma
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "b7a4ec5b3f93f926708a218858cf28d385caafab"
+SRCREV = "46debd39b1edf6d22c3d2689ebc11e2df2995865"
 
 # NOTE: unable to map the following CMake package dependencies: TBB ut httplib Python3
 inherit cmake pkgconfig ptest
@@ -32,16 +32,10 @@ EXTRA_OECMAKE += "-DGR_BUILD_PARALLEL_LEVEL=${@oe.utils.parallel_make(d) or 1}"
 # which GCC reports as 32 on riscv64. The default allocator then only gives
 # 32-byte alignment, but the FFT code and qa_MemoryAllocators/qa_buffer
 # require 64 (and the U54 cores have 64-byte cache lines). The value is
-# exported as an INTERFACE define to consumers of the CMake package.
+# exported as an INTERFACE define to consumers of the CMake package, and in
+# gnuradio4.pc's Cflags for pkg-config consumers (gnuradio4-studio-blocks).
 EXTRA_OECMAKE:append:riscv64 = " -DGR_CACHE_LINE_SIZE=64"
 
-# The define is also needed by consumers that use gnuradio4.pc instead of the
-# CMake package (gnuradio4-studio-blocks), otherwise they get a different
-# layout for gr::Sequence and the buffers, and crash when loaded together.
-do_install:append:riscv64() {
-    sed -i 's|^Cflags:.*|& -DGR_CACHE_LINE_SIZE=64|' ${D}${libdir}/pkgconfig/gnuradio4.pc
-    grep -q '^Cflags:.*-DGR_CACHE_LINE_SIZE=64' ${D}${libdir}/pkgconfig/gnuradio4.pc
-}
 CXXFLAGS += " -Wno-psabi"
 
 RDEPENDS:${PN}-dev += "vir-simd-dev"
