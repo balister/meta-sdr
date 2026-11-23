@@ -38,6 +38,11 @@ EXTRA_OECMAKE:append:riscv64 = " -DGR_CACHE_LINE_SIZE=64"
 
 CXXFLAGS += " -Wno-psabi"
 
+# With full -g, qa_SchedulerLifecycle.cpp crashes the riscv64 assembler, or
+# fails to link with "dangerous relocation: Mismatched R_RISCV_SET_ULEB128"
+# in .debug_loclists (binutils 2.47, gcc 16.2). Use reduced debug info there.
+DEBUG_LEVELFLAG:riscv64 = "-g1"
+
 RDEPENDS:${PN}-dev += "vir-simd-dev"
 
 FILES:${PN}-dev += "${libdir}/GnuRadioBlockLib"
