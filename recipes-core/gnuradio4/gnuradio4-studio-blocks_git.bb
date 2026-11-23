@@ -10,12 +10,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=dca174369926f2d6038aaf9ee5698d26"
 # destsuffix ("blocks/", the subpath's basename) doesn't match the recipe's
 # default S (${UNPACKDIR}/${BP}), so S is set explicitly below.
 SRC_URI = "git://github.com/gnuradio/gnuradio4-studio.git;protocol=https;branch=main;subpath=blocks \
-           file://0001-fix-blocks-install-the-shared-plugin-into-gnuradio-4.patch;striplevel=2 \
            file://run-ptest \
            "
 
 PV = "0.1.0+git"
-SRCREV = "47acebdd8652d5f8962d0d564844eea89dd8f62a"
+SRCREV = "688ec3a23cad1d5e0f7ec4b5b6ac26229ae8c6f0"
 
 S = "${UNPACKDIR}/blocks"
 
