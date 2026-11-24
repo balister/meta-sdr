@@ -20,6 +20,8 @@ B, S, RUNGRAPH, DEST = (os.path.normpath(a) for a in sys.argv[1:5])
 # properties a case may carry, and those run-ptest ignores
 KNOWN = {"ENVIRONMENT_MODIFICATION", "PASS_REGULAR_EXPRESSION", "WILL_FAIL", "TIMEOUT"}
 IGNORED = {"LABELS", "_BACKTRACE_TRIPLES"}
+# CMake 4.5 writes this on every test; ignore it only while it is empty
+EMPTY_OK = {"_CMAKE_TEST_BUILD_DEPENDS"}
 ESCAPES = {"n": "\n", "t": "\t", "r": "\r", "0": "\0"}
 
 
@@ -154,6 +156,7 @@ for name in sorted(cases):
     case = cases[name]
     props = case["props"]
     unknown = set(props) - KNOWN - IGNORED
+    unknown -= {k for k in EMPTY_OK if not value(props[k])}
     if unknown:
         die("%s: unsupported properties %s" % (name, sorted(unknown)))
     for entry in as_list(props.get("ENVIRONMENT_MODIFICATION", ("q", ""))):
