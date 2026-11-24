@@ -25,8 +25,10 @@ EXTRA_OECMAKE = "-DENABLE_TESTING=${@bb.utils.contains('DISTRO_FEATURES', 'ptest
 
 # Upstream caps ninja with its own compile_pool (GR_BUILD_PARALLEL_LEVEL,
 # default 6) to bound peak memory, and ignores PARALLEL_MAKE. Size it from
-# PARALLEL_MAKE instead, as gnuradio4-blocks does.
-EXTRA_OECMAKE += "-DGR_BUILD_PARALLEL_LEVEL=${@oe.utils.parallel_make(d) or 1}"
+# PARALLEL_MAKE and the host's memory instead, allowing 8 GB per job
+# (qa_SchedulerLifecycle.cpp peaks at 7.4 GB). See gnuradio4-jobs.inc.
+require gnuradio4-jobs.inc
+EXTRA_OECMAKE += "-DGR_BUILD_PARALLEL_LEVEL=${@gr4_jobs(d, 8)}"
 
 # gr::kCacheLine falls back to std::hardware_destructive_interference_size,
 # which GCC reports as 32 on riscv64. The default allocator then only gives

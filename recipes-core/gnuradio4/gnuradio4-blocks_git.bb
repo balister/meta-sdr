@@ -47,11 +47,14 @@ EXTRA_OECMAKE += "-D_rungraph=${bindir}/rungraph"
 # ignores PARALLEL_MAKE: compile_pool (GR_BUILD_PARALLEL_LEVEL, default 4)
 # for ordinary sources and gr4_heavy_compile (GR_HEAVY_COMPILE_JOBS,
 # default 1) for every qa_* test TU. With width 1 the ~200 test TUs
-# compile one after another and set the length of do_compile. Size both
-# pools from PARALLEL_MAKE instead. Total concurrency is still bounded by
-# ninja's -j (PARALLEL_MAKE).
+# compile one after another and set the length of do_compile. Size
+# compile_pool from PARALLEL_MAKE, and the heavy pool from PARALLEL_MAKE
+# and the host's memory, allowing 6 GB per test TU (qa_SoapyIntegration.cpp
+# peaks at 5.0 GB). See gnuradio4-jobs.inc. Total concurrency is still
+# bounded by ninja's -j (PARALLEL_MAKE).
+require gnuradio4-jobs.inc
 GR4_BLOCKS_JOBS = "${@oe.utils.parallel_make(d) or 1}"
-GR4_BLOCKS_HEAVY_JOBS = "${GR4_BLOCKS_JOBS}"
+GR4_BLOCKS_HEAVY_JOBS = "${@gr4_jobs(d, 6)}"
 EXTRA_OECMAKE += "-DGR_BUILD_PARALLEL_LEVEL=${GR4_BLOCKS_JOBS} \
                   -DGR_HEAVY_COMPILE_JOBS=${GR4_BLOCKS_HEAVY_JOBS}"
 
