@@ -156,7 +156,7 @@ for name in sorted(cases):
     case = cases[name]
     props = case["props"]
     unknown = set(props) - KNOWN - IGNORED
-    unknown -= {k for k in EMPTY_OK if not value(props[k])}
+    unknown -= {k for k in EMPTY_OK & set(props) if not value(props[k])}
     if unknown:
         die("%s: unsupported properties %s" % (name, sorted(unknown)))
     for entry in as_list(props.get("ENVIRONMENT_MODIFICATION", ("q", ""))):
