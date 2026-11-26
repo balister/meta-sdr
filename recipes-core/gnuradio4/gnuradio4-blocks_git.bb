@@ -18,7 +18,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-blocks.git;protocol=https;branch=
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "39331177a10c0c5c6279a75cc408327334ebe3d7"
+SRCREV = "c229e06c1566e5ef1fe11857b1308dfb3b5c973e"
 
 # NOTE: unable to map the following CMake package dependencies: ut SoapySDR httplib gnuradio4 GnuRadioBlockLib
 inherit cmake pkgconfig ptest
@@ -27,7 +27,7 @@ inherit cmake pkgconfig ptest
 # gnuradio4Library package) used to be the separate gnuradio4-library
 # recipe; upstream now builds it in-tree under library/ and installs it
 # from here.
-DEPENDS = "boost-ext-ut gnuradio4-core cpp-httplib"
+DEPENDS = "boost-ext-ut gnuradio4-core magic-enum vir-simd cpp-httplib"
 
 # ENABLE_TESTING (default ON upstream) builds the blocks/*/test/qa_* and
 # library/algorithm/test/qa_* binaries do_install_ptest stages, as part of the
