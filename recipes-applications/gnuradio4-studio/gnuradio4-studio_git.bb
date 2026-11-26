@@ -20,9 +20,10 @@ HOMEPAGE = "https://github.com/gnuradio/gnuradio4-studio"
 #   node_modules/source-map-js/LICENSE          -> BSD-3-Clause
 #   node_modules/vite/LICENSE.md                -> MIT
 #   (plus several nested node_modules/*/LICENSE, see LICENSE:${PN}-* below)
-LICENSE = "0BSD AND Apache-2.0 AND BSD-3-Clause AND CC-BY-4.0 AND GPL-3.0-only AND ISC AND MIT"
+LICENSE = "0BSD AND Apache-2.0 AND BSD-3-Clause AND CC-BY-4.0 AND GPL-3.0-only AND ISC AND MIT AND OFL-1.1"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504 \
                     file://blocks/LICENSE;md5=dca174369926f2d6038aaf9ee5698d26 \
+                    file://public/fonts/LICENSE-Inter.txt;md5=082d8cc7db39783f598b7eda8c911f9d \
                     file://node_modules/@alloc/quick-lru/license;md5=915042b5df33c31a6db2b37eadaa00e3 \
                     file://node_modules/@babel/code-frame/LICENSE;md5=b1d0cd283a346e919abb3beeb018279d \
                     file://node_modules/@babel/compat-data/LICENSE;md5=b1d0cd283a346e919abb3beeb018279d \
@@ -113,6 +114,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504 \
                     file://node_modules/gensync/LICENSE;md5=4edef26a9728782f6e6a4ca612cfc1fb \
                     file://node_modules/glob-parent/LICENSE;md5=741e38024be3bd65f6d836f460f4445f \
                     file://node_modules/hasown/LICENSE;md5=19283ee92f78c91154834571c1f05a94 \
+                    file://node_modules/html-to-image/LICENSE;md5=3eeb2e7abce2370a4f5e29e4b46e28b0 \
                     file://node_modules/is-binary-path/license;md5=da0684b7c90dcea9333d6517f4fbda22 \
                     file://node_modules/is-core-module/LICENSE;md5=02b0fb5ff4014a08fd4193bc3e2349e2 \
                     file://node_modules/is-extglob/LICENSE;md5=97b255bb4707da164bfaf4e5c7b9f9ef \
@@ -203,7 +205,7 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-studio.git;protocol=https;branch=
            "
 
 PV = "0.1.0+git"
-SRCREV = "efb48708f7f5acfa9ad33e0a5ecf2056e9f70491"
+SRCREV = "688ec3a23cad1d5e0f7ec4b5b6ac26229ae8c6f0"
 
 inherit npm
 
@@ -301,6 +303,7 @@ LICENSE:${PN}-function-bind = "MIT"
 LICENSE:${PN}-gensync = "MIT"
 LICENSE:${PN}-glob-parent = "ISC"
 LICENSE:${PN}-hasown = "MIT"
+LICENSE:${PN}-html-to-image = "MIT"
 LICENSE:${PN}-is-binary-path = "MIT"
 LICENSE:${PN}-is-core-module = "MIT"
 LICENSE:${PN}-is-extglob = "MIT"
@@ -372,7 +375,7 @@ LICENSE:${PN}-vite-picomatch = "MIT"
 LICENSE:${PN}-yallist = "ISC"
 LICENSE:${PN}-zod = "MIT"
 LICENSE:${PN}-zustand = "MIT"
-LICENSE:${PN} = "GPL-3.0-only AND MIT"
+LICENSE:${PN} = "GPL-3.0-only AND MIT AND OFL-1.1"
 
 NPM_INSTALL_DEV = "1"
 

@@ -1,4 +1,4 @@
-From 6c2762e4a0b5055bd0bc38d09e109d9519a7c5a8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Philip Balister <philip@opensdr.com>
 Date: Tue, 22 Sep 2026 13:38:37 -0400
 Subject: [PATCH] package.json: trim devDependencies to what vite build needs
@@ -24,17 +24,17 @@ reconcile rather than falling back to package.json.
 
 Upstream-Status: Inappropriate [oe-specific]
 ---
- package-lock.json | 5701 ---------------------------------------------
+ package-lock.json | 5708 ---------------------------------------------
  package.json      |   13 +-
- 2 files changed, 1 insertion(+), 5713 deletions(-)
+ 2 files changed, 1 insertion(+), 5720 deletions(-)
  delete mode 100644 package-lock.json
 
 diff --git a/package-lock.json b/package-lock.json
 deleted file mode 100644
-index 478b2bc..0000000
+index b34f0da..0000000
 --- a/package-lock.json
 +++ /dev/null
-@@ -1,5701 +0,0 @@
+@@ -1,5708 +0,0 @@
 -{
 -  "name": "gr4-studio",
 -  "version": "0.1.0",
@@ -48,6 +48,7 @@ index 478b2bc..0000000
 -        "@dnd-kit/core": "^6.3.1",
 -        "@tanstack/react-query": "^5.67.0",
 -        "@xyflow/react": "^12.5.3",
+-        "html-to-image": "1.11.13",
 -        "react": "^18.3.1",
 -        "react-dom": "^18.3.1",
 -        "react-resizable-panels": "^4.7.4",
@@ -3789,6 +3790,12 @@ index 478b2bc..0000000
 -        "node": ">= 0.4"
 -      }
 -    },
+-    "node_modules/html-to-image": {
+-      "version": "1.11.13",
+-      "resolved": "https://registry.npmjs.org/html-to-image/-/html-to-image-1.11.13.tgz",
+-      "integrity": "sha512-cuOPoI7WApyhBElTTb9oqsawRvZ0rHhaHwghRLlTuffoD1B2aDemlCruLeZrUIIdvG7gs9xeELEPm6PhuASqrg==",
+-      "license": "MIT"
+-    },
 -    "node_modules/http-cache-semantics": {
 -      "version": "4.2.0",
 -      "resolved": "https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.2.0.tgz",
@@ -5737,10 +5744,10 @@ index 478b2bc..0000000
 -  }
 -}
 diff --git a/package.json b/package.json
-index 39e60ea..12aa020 100644
+index cd11847..99a5750 100644
 --- a/package.json
 +++ b/package.json
-@@ -35,21 +35,10 @@
+@@ -36,21 +36,10 @@
      "zustand": "^5.0.3"
    },
    "devDependencies": {
@@ -5764,5 +5771,5 @@ index 39e60ea..12aa020 100644
    }
  }
 -- 
-2.55.0
+2.56.1
 
