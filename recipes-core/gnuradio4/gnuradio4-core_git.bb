@@ -10,11 +10,11 @@ SRC_URI = "git://github.com/gnuradio/gnuradio4-core.git;protocol=https;branch=ma
 
 # Modify these as desired
 PV = "1.0+git"
-SRCREV = "46debd39b1edf6d22c3d2689ebc11e2df2995865"
+SRCREV = "601efcc86c474bc9a8782f1c52e9901ddeea83a6"
 
 # NOTE: unable to map the following CMake package dependencies: TBB ut httplib Python3
 inherit cmake pkgconfig ptest
-DEPENDS = "boost-ext-ut vir-simd cpp-httplib"
+DEPENDS = "boost-ext-ut magic-enum vir-simd cpp-httplib"
 
 # WARNINGS_AS_ERRORS (default ON upstream) adds -Werror to this project's
 # own build only; upstream keeps its warning flags out of the installed
@@ -40,7 +40,7 @@ EXTRA_OECMAKE:append:riscv64 = " -DGR_CACHE_LINE_SIZE=64"
 
 CXXFLAGS += " -Wno-psabi"
 
-RDEPENDS:${PN}-dev += "vir-simd-dev"
+RDEPENDS:${PN}-dev += "magic-enum-dev vir-simd-dev"
 
 FILES:${PN}-dev += "${libdir}/GnuRadioBlockLib"
 
